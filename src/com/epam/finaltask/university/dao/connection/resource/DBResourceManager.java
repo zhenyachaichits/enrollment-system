@@ -24,11 +24,13 @@ public class DBResourceManager {
         return instance;
     }
 
-    public String getParameter(String name) throws ResourceManagerException {
-        try {
+    public String getParameter(String name) /*throws ResourceManagerException*/ {
+        return bundle.getString(name);
+
+        /*try {
         return bundle.getString(name);
         } catch (MissingResourceException e) {
             throw new ResourceManagerException("Couldn't find parameter by name", e);
-        }
+        }*/
     }
 }

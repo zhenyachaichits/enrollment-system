@@ -75,28 +75,6 @@ public class UserService implements Service {
         }
     }
 
-    public boolean createNewAccount(User user) throws InvalidDataException, ServiceException {
-        if (UserValidator.validateUser(user) && !checkEmailExistence(user.getEmail())) {
-            Lock lock = new ReentrantLock();
-
-            lock.lock();
-            try {
-                UserDao dao = DaoFactory.getDaoFactory().getUserDao();
-                user.setPassword(DataEncrypter.encrypt(user.getPassword()));
-                user = dao.add(user);
-
-                return user != null;
-
-            } catch (DaoFactoryException | DaoException e) {
-                throw new ServiceException("Couldn't provide account creation service");
-            } finally {
-                lock.unlock();
-            }
-        } else {
-            throw new InvalidDataException("Invalid user data. Operation Stopped");
-        }
-    }
-
     public User getUserById(long id) throws ServiceException {
         try {
             UserDao dao = DaoFactory.getDaoFactory().getUserDao();

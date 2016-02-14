@@ -3,6 +3,7 @@ package com.epam.finaltask.university.bean;
 import com.epam.finaltask.university.bean.type.MedalType;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ public class Profile implements Serializable {
     private String firstName;
     private String middleName;
     private String lastName;
-    private Date birthDate; // calendar
+    private Calendar birthDate; // calendar
 
     private String phone;
     private String address;
@@ -29,7 +30,8 @@ public class Profile implements Serializable {
     private long facultyId;
     private long userId;
 
-    public Profile() { }
+    public Profile() {
+    }
 
     public long getId() {
         return id;
@@ -71,11 +73,11 @@ public class Profile implements Serializable {
         this.phone = phone;
     }
 
-    public Date getBirthDate() {
+    public Calendar getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(Calendar birthDate) {
         this.birthDate = birthDate;
     }
 

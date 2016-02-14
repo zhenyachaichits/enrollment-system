@@ -2,9 +2,7 @@ package com.epam.finaltask.university.listener;
 
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
-import com.epam.finaltask.university.dao.connection.exception.ResourceManagerException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -25,12 +23,8 @@ public class ServletListener implements ServletContextListener {
     }
 
     public void contextDestroyed(ServletContextEvent arg) {
-        try {
-            ConnectionPool connectionPool = ConnectionPool.getInstance();
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-            connectionPool.destroy();
-        } catch (ConnectionPoolException e) {
-            e.printStackTrace();
-        }
+        connectionPool.destroy();
     }
 }

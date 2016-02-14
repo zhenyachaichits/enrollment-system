@@ -36,27 +36,4 @@ public class ProfileService implements Service {
             throw new ServiceException("Couldn't provide Email checking service", e);
         }
     }
-
-    public boolean createNewProfile(Profile profile) throws ServiceException, InvalidDataException {
-        if (ProfileValidator.validateProfile(profile) && !checkPassportIdExistence(profile.getPassportId())) {
-            Lock lock = new ReentrantLock();
-
-            lock.lock();
-            try {
-                ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
-
-                profile = dao.add(profile);
-
-                return profile != null;
-
-            } catch (DaoFactoryException | DaoException e) {
-                throw new ServiceException("Couldn't provide profile creation service");
-            } finally {
-                lock.unlock();
-            }
-        } else {
-            throw new InvalidDataException("Invalid profile data. Operation Stopped");
-        }
-    }
-
 }

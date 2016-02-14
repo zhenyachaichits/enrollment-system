@@ -19,16 +19,18 @@ import java.util.List;
  */
 public class ProfileDaoImpl implements ProfileDao {
 
-    private static ProfileDaoImpl instance;
+    private final ConnectionPool connectionPool;
 
-    private ConnectionPool connectionPool;
-
-    private ProfileDaoImpl() throws DaoException {
-        try {
+    private ProfileDaoImpl() {
             connectionPool = ConnectionPool.getInstance();
-        } catch (ConnectionPoolException e) {
-            throw new DaoException("Couldn't initialize connection pool", e);
-        }
+    }
+
+    public static class ProfileDaoHolder {
+        public static final ProfileDaoImpl INSTANCE = new ProfileDaoImpl();
+    }
+
+    public static ProfileDaoImpl getInstance() {
+        return ProfileDaoHolder.INSTANCE;
     }
 
     private static final int MIN_PARAMETER_INDEX = 1;
@@ -53,12 +55,6 @@ public class ProfileDaoImpl implements ProfileDao {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String FIND_PROFILE_BY_PASSPORT_ID_QUERY = "SELECT * FROM profile WHERE passport_id = ?";
 
-    public static ProfileDaoImpl getInstance() throws DaoException {
-        if (instance == null) {
-            instance = new ProfileDaoImpl();
-        }
-        return instance;
-    }
 
     @Override
     public Profile add(Profile entity) throws DaoException {
@@ -126,7 +122,7 @@ public class ProfileDaoImpl implements ProfileDao {
                 profile.setFirstName(resultSet.getString(FIRST_NAME_KEY));
                 profile.setMiddleName(resultSet.getString(MIDDLE_NAME_KEY));
                 profile.setLastName(resultSet.getString(LAST_NAME_KEY));
-                profile.setBirthDate(resultSet.getDate(BIRTH_DATE_KEY));
+                profile.setBirthDate(SqlTypeConverter.convertToUtilDate(resultSet.getDate(BIRTH_DATE_KEY)));
                 profile.setPhone(resultSet.getString(PHONE_KEY));
                 profile.setAddress(resultSet.getString(ADDRESS_KEY));
                 profile.setPoints(resultSet.getInt(POINTS_KEY));

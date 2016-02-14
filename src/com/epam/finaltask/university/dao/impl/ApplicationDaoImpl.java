@@ -10,6 +10,18 @@ import java.util.List;
  * Created by Zheny Chaichits on 08.02.2016.
  */
 public class ApplicationDaoImpl implements ApplicationDao {
+
+    private ApplicationDaoImpl() {
+    }
+
+    public static class ApplicationDaoHolder {
+        public static final ApplicationDaoImpl INSTANCE = new ApplicationDaoImpl();
+    }
+
+    public static ApplicationDaoImpl getInstance() {
+        return ApplicationDaoHolder.INSTANCE;
+    }
+
     @Override
     public Application add(Application entity) throws DaoException {
         return null;

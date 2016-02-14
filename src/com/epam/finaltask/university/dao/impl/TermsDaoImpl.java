@@ -10,6 +10,18 @@ import java.util.List;
  * Created by Zheny Chaichits on 08.02.2016.
  */
 public class TermsDaoImpl implements TermsDao {
+
+    private TermsDaoImpl() {
+    }
+
+    public static class TermsDaoHolder {
+        public static final TermsDaoImpl INSTANCE = new TermsDaoImpl();
+    }
+
+    public static TermsDaoImpl getInstance() {
+        return TermsDaoHolder.INSTANCE;
+    }
+
     @Override
     public Terms add(Terms entity) throws DaoException {
         return null;

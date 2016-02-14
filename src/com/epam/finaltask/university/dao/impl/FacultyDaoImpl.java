@@ -10,6 +10,18 @@ import java.util.List;
  * Created by Zheny Chaichits on 08.02.2016.
  */
 public class FacultyDaoImpl implements FacultyDao {
+
+    private FacultyDaoImpl() {
+    }
+
+    public static class FacultyDaoHolder {
+        public static final FacultyDaoImpl INSTANCE = new FacultyDaoImpl();
+    }
+
+    public static FacultyDaoImpl getInstance() {
+        return FacultyDaoHolder.INSTANCE;
+    }
+
     @Override
     public Faculty add(Faculty entity) throws DaoException {
         return null;

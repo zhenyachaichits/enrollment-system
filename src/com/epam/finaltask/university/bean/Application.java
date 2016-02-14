@@ -10,13 +10,12 @@ import java.util.Date;
 public class Application implements Serializable {
     private long id;
     private boolean outOfCompetition;
-    private Date date;
+    private Calendar date;
     private long facultyId;
     private long profileId;
 
-
-    public Application() {}
-
+    public Application() {
+    }
 
     public long getId() {
         return id;
@@ -26,11 +25,11 @@ public class Application implements Serializable {
         this.id = id;
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 

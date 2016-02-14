@@ -35,6 +35,13 @@ $('body').on({
     }
 });
 
+
+$("#faculty").change(function() {
+    $("#subject1Group").show("fast");
+    $("#subject2Group").show("fast");
+    $("#subject3Group").show("fast");
+});
+
 var isEmailOk = true;
 
 $('#newEmail').focusout(function() {
@@ -57,6 +64,36 @@ $('#newEmail').focusout(function() {
                     isEmailOk = false;
                 } else {
                     isEmailOk = true;
+                }
+            })
+            .fail(function () {
+                alert("Request failed.");
+            });
+    }
+});
+
+var isPassportOk = true;
+
+$('#passportID').focusout(function() {
+    var passportID = $('#passportID').val();
+    var patt = new RegExp("[a-zA-Zа-яА-Я]{2}\d{7}");
+    var res = patt.test(passportID);
+
+    if (res) {
+        $.post(
+            '/action',
+            {
+                command: 'check-passport-id',
+                email: passportID,
+            },
+            function (resp) {
+                status = $.trim(resp.toLowerCase());
+                if (status === "positive") {
+                    $('#passportErrorMessage').snackbar('show');
+                    $('#passportID').focus();
+                    isPassportOk = false;
+                } else {
+                    isPassportOk = true;
                 }
             })
             .fail(function () {
@@ -99,9 +136,12 @@ $('#toEducation').click(function () {
     }
 });
 
-$('#toContact').click(function () {
+$('#toPrivileges').click(function () {
     if ($('#faculty').val() == "" ||
-        $('#privilegies').val() == "") {
+        $('#subject1').val() == "" ||
+        $('#subject2').val() == "" ||
+        $('#subject3').val() == "" ||
+        $('#gpa').val() == "") {
 
         $('#errorMessage').snackbar('show');
     }
@@ -110,6 +150,15 @@ $('#toContact').click(function () {
     }
 });
 
+$('#toContact').click(function () {
+    if ($('#privilegies').val() == "") {
+
+        $('#errorMessage').snackbar('show');
+    }
+    else {
+        $('.scroll').moveDown();
+    }
+});
 
 $('#confirm').click(function () {
     if ($('#phone').val() == "" ||
@@ -120,7 +169,11 @@ $('#confirm').click(function () {
         $('#lastName').val() == "" ||
         $('#dateBirth').val() == "" ||
         $('#faculty').val() == "" ||
-        $('#privilegies').val() == "") {
+        $('#privilegies').val() == "" ||
+        $('#subject1').val() == "" ||
+        $('#subject2').val() == "" ||
+        $('#subject3').val() == "" ||
+        $('#gpa').val() == "") {
 
         $('#errorMessage').snackbar('show');
     }

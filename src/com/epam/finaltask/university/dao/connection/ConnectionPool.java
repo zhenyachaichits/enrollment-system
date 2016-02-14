@@ -1,7 +1,6 @@
 package com.epam.finaltask.university.dao.connection;
 
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
-import com.epam.finaltask.university.dao.connection.exception.ResourceManagerException;
 import com.epam.finaltask.university.dao.connection.resource.ConnectionParameter;
 
 import java.sql.*;
@@ -24,19 +23,16 @@ public class ConnectionPool {
 
     private ConnectionParameter parameter;
 
-    private ConnectionPool() throws ResourceManagerException {
+    private ConnectionPool() {
         parameter = new ConnectionParameter();
     }
 
-    public static ConnectionPool getInstance() throws ConnectionPoolException {
-        try {
-            if (instance == null) {
-                instance = new ConnectionPool();
-            }
-            return instance;
-        } catch (ResourceManagerException e) {
-            throw new ConnectionPoolException("Couldn't get Connection Pool instance", e);
+    public static ConnectionPool getInstance() {
+
+        if (instance == null) {
+            instance = new ConnectionPool();
         }
+        return instance;
     }
 
     public void init() throws ConnectionPoolException {  // TODO: make it private

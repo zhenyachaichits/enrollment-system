@@ -4,6 +4,7 @@ package com.epam.finaltask.university.controller.command;
 import com.epam.finaltask.university.controller.command.impl.ajax.AuthenticateWithCookieCommand;
 import com.epam.finaltask.university.controller.command.impl.ajax.CheckAccountCommand;
 import com.epam.finaltask.university.controller.command.impl.ajax.CheckEmailExistenceCommand;
+import com.epam.finaltask.university.controller.command.impl.ajax.CheckPassportIdExistenceCommand;
 import com.epam.finaltask.university.controller.command.impl.error.NoSuchCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.AuthenticateCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.LogOutCommand;
@@ -33,6 +34,7 @@ public class CommandHelper {
         commandMap.put(CommandName.COOKIE_AUTHENTICATE, new AuthenticateWithCookieCommand());
         commandMap.put(CommandName.LOG_OUT, new LogOutCommand());
         commandMap.put(CommandName.CHECK_EMAIL, new CheckEmailExistenceCommand());
+        commandMap.put(CommandName.CHECK_PASSPORT_ID, new CheckPassportIdExistenceCommand());
         commandMap.put(CommandName.SIGN_UP, new SignUpCommand());
 
         commandMap.put(CommandName.GO_HOME, new GoHomeCommand());

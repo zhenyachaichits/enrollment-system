@@ -50,13 +50,16 @@ public final class Controller extends HttpServlet {
         String responseString;
         try {
             responseString = command.execute(request, response);
-        } catch (CommandException e) { //TODO: add exception handler
+        } catch (CommandException e) {
             LOG.error("Couldn't execute command", e);
             if (isAjax) {
                 responseString = ERROR_MESSAGE;
             } else {
                 responseString = JspPageName.ERROR_PAGE;
             }
+        } catch (Exception e) {
+            responseString = "";
+            //TODO: add exception handler
         }
         return responseString;
     }

@@ -16,16 +16,18 @@ import java.util.List;
  */
 public class UserDaoImpl implements UserDao {
 
-    private static UserDaoImpl instance;
-    ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
-    private UserDaoImpl() throws DaoException {
-        ConnectionPool connectionPool = null;
-        try {
-            connectionPool = ConnectionPool.getInstance();
-        } catch (ConnectionPoolException e) {
-            throw new DaoException("Couldn't get instance of connection pool", e);
-        }
+    private UserDaoImpl() {
+        connectionPool = ConnectionPool.getInstance();
+    }
+
+    public static class UserDaoHolder {
+        public static final UserDaoImpl INSTANCE = new UserDaoImpl();
+    }
+
+    public static UserDaoImpl getInstance() {
+        return UserDaoHolder.INSTANCE;
     }
 
     private static final int MIN_PARAMETER_INDEX = 1;
@@ -35,21 +37,13 @@ public class UserDaoImpl implements UserDao {
     private static final String PASSWORD_HASH_KEY = "password_hash";
     private static final String ROLE_KEY = "role";
 
-    private static final String GET_ROLE_QUERY = "SELECT * FROM user WHERE email = ? AND password_hash = ?";
-    private static final String GET_ALL_USERS_QUERY = "SELECT * FROM user";
+    private static final String GET_ROLE_QUERY = "SELECT * FROM user WHERE email = ? AND password_hash = ? AND status = 'ACTIVE'";
+    private static final String GET_ALL_USERS_QUERY = "SELECT * FROM user WHERE status = 'ACTIVE'";
     private static final String ADD_USER_QUERY = "INSERT INTO user (email, password_hash) values (?, ?)";
     private static final String ADD_USER_WITH_ROLE_QUERY = "INSERT INTO user (email, password_hash, role) values (?, ?, ?)";
     private static final String UPDATE_USER_QUERY = "UPDATE user SET email = ? AND password_hash = ? AND role = ?";
-    private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM user WHERE email = ?";
-    private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM user WHERE user_id = ?";
-
-
-    public static UserDaoImpl getInstance() throws DaoException {
-        if (instance == null) {
-            instance = new UserDaoImpl();
-        }
-        return instance;
-    }
+    private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM user WHERE email = ? AND status = 'ACTIVE'";
+    private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM user WHERE user_id = ? AND status = 'ACTIVE'";
 
     @Override
     public User findUserToLogIn(String email, String passwordHash) throws DaoException {

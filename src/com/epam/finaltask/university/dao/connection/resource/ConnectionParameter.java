@@ -5,7 +5,7 @@ import com.epam.finaltask.university.dao.connection.exception.ResourceManagerExc
 /**
  * Created by Zheny Chaichits on 01.02.16.
  */
-public final class ConnectionParameter {
+public class ConnectionParameter {
 
     private static final String DRIVER = "db.driver";
     private static final String URL = "db.url";
@@ -21,7 +21,7 @@ public final class ConnectionParameter {
     private String password;
     private String poolsize;
 
-    public ConnectionParameter() throws ResourceManagerException {
+    public ConnectionParameter() {
         DBResourceManager rm = DBResourceManager.getInstance();
         driver = rm.getParameter(DRIVER);
         url = rm.getParameter(URL);

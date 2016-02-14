@@ -4,7 +4,6 @@ import com.epam.finaltask.university.controller.RequestParameterName;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -32,9 +31,8 @@ public class ActionFilter implements Filter {
 
         if (!path.startsWith(contentPath) && commandName != null) {
             servletRequest.getRequestDispatcher(servletPattern).forward(servletRequest, servletResponse);
-            return;
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
         }
-
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 }
