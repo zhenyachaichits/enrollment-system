@@ -1,6 +1,7 @@
 package com.epam.finaltask.university.controller.command.impl.logic;
 
 import com.epam.finaltask.university.controller.RequestParameterName;
+import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 
@@ -13,20 +14,17 @@ import javax.servlet.http.HttpSession;
  */
 public class SetLocaleCommand implements Command {
 
-    private static final String LOCALE_ATTR = "locale";
+    private static final String EMPTY_QUERY = "";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        // TODO: fix bug on statistics page
 
         String locale = request.getParameter(RequestParameterName.LOCALE);
 
         HttpSession session = request.getSession(true);
-        session.setAttribute(LOCALE_ATTR, locale);
+        session.setAttribute(SessionParameterName.LOCALE, locale);
+        String currentQuery = (String) session.getAttribute(SessionParameterName.CURRENT_PAGE);
 
-        String toRedirect = (String) request.getAttribute(RequestParameterName.FORWARD_URI) +
-                (String) request.getAttribute(RequestParameterName.FORWARD_QUERY_STRING);
-
-        return toRedirect;
+        return currentQuery == null ? EMPTY_QUERY : currentQuery;
     }
 }

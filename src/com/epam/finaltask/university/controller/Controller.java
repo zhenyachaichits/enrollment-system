@@ -3,7 +3,7 @@ package com.epam.finaltask.university.controller;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.CommandHelper;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
-import com.epam.finaltask.university.controller.helper.ControllerHelper;
+import com.epam.finaltask.university.controller.util.AjaxIdentifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,10 +36,10 @@ public final class Controller extends HttpServlet {
         String commandName = request.getParameter(RequestParameterName.COMMAND_NAME);
         Command command = CommandHelper.getInstance().getCommand(commandName);
 
-        boolean isAjax = ControllerHelper.isRequestAjax(request);
+        boolean isAjax = AjaxIdentifier.isRequestAjax(request);
 
         String responseString = getResponseString(request, response, command, isAjax);
-        if (isAjax && !ControllerHelper.isResponseXml(response)) {
+        if (isAjax && !AjaxIdentifier.isResponseContextXml(response)) {
             writeToResponse(response, responseString);
         } else {
             forwardPage(request, response, responseString);

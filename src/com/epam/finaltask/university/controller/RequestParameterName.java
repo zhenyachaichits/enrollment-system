@@ -10,6 +10,8 @@ public final class RequestParameterName {
     public static final String FORWARD_URI = "javax.servlet.forward.request_uri";
     public static final String FORWARD_QUERY_STRING = "javax.servlet.forward.query_string";
 
+    public static final String FACULTIES = "faculties";
+
     public static final String COMMAND_NAME = "command";
 
     public static final String EMAIL = "email";

@@ -12,8 +12,6 @@ $(document).ready(function () {
         $('#ruLabel').addClass('text-success');
     }
 
-    $('#localeForm').attr('action', window.location.pathname);
-
     $('#enBtn').click(function () {
         $('#localeValue').val('en');
         $('form#localeForm').submit();

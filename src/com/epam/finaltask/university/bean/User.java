@@ -10,8 +10,8 @@ import java.io.Serializable;
  * Created by Zheny Chaichits on 31.01.16.
  */
 public class User implements Serializable {
-    private long id;  //TODO: id should be long
-    private String email;  //  read about jsr 303
+    private long id;
+    private String email;
     private String password;
     private UserType role;
 

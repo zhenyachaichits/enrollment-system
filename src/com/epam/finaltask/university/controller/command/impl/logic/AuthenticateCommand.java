@@ -3,6 +3,7 @@ package com.epam.finaltask.university.controller.command.impl.logic;
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.RequestParameterName;
+import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidUserDataException;
@@ -20,10 +21,6 @@ import javax.servlet.http.HttpSession;
 public class AuthenticateCommand implements Command {
 
     private static final String ID_COOKIE = "university_user_id";
-
-    private static final String EMAIL_SESSION = "userEmail";
-    private static final String ROLE_SESSION = "userRole";
-
     private static final int COOKIE_AGE = 2_592_000; // 30 days
     private static final String COOKIE_PATH = "/";
 
@@ -75,9 +72,9 @@ public class AuthenticateCommand implements Command {
     private void saveInSession(User user, HttpServletRequest request) {
         HttpSession session = request.getSession(true);
 
-        session.setAttribute(EMAIL_SESSION, user.getEmail());
+        session.setAttribute(SessionParameterName.EMAIL, user.getEmail());
 
-        session.setAttribute(ROLE_SESSION, user.getRole());
+        session.setAttribute(SessionParameterName.ROLE, user.getRole());
 
     }
 }

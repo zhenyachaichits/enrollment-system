@@ -1,6 +1,8 @@
 package com.epam.finaltask.university.controller.command.impl.logic;
 
+import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.RequestParameterName;
+import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 
@@ -14,17 +16,14 @@ import javax.servlet.http.HttpSession;
  */
 public class LogOutCommand implements Command {
 
-    private static final String EMAIL_SESSION = "userEmail";
-    private static final String ROLE_SESSION = "userRole";
-
     private static final String COOKIE_ID = "university_user_id";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession();
 
-        session.removeAttribute(EMAIL_SESSION);
-        session.removeAttribute(ROLE_SESSION);
+        session.removeAttribute(SessionParameterName.EMAIL);
+        session.removeAttribute(SessionParameterName.ROLE);
 
         Cookie[] cookies = request.getCookies();
         for (int i = 0; i < cookies.length; i++) {
@@ -37,6 +36,6 @@ public class LogOutCommand implements Command {
             }
         }
 
-        return (String) request.getAttribute(RequestParameterName.FORWARD_URI);
+        return JspPageName.INDEX;
     }
 }
