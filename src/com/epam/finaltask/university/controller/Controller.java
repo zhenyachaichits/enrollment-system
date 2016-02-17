@@ -39,7 +39,7 @@ public final class Controller extends HttpServlet {
         boolean isAjax = ControllerHelper.isRequestAjax(request);
 
         String responseString = getResponseString(request, response, command, isAjax);
-        if (isAjax) {
+        if (isAjax && !ControllerHelper.isResponseXml(response)) {
             writeToResponse(response, responseString);
         } else {
             forwardPage(request, response, responseString);

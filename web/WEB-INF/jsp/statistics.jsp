@@ -11,6 +11,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="tr" uri="http://epam.com/project/university/transliterate"%>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="resources.locale" var="loc"/>
@@ -19,7 +20,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Statistics</title>
+    <title>${title}</title>
 
     <%@include file="included/css_list.jsp" %>
 
@@ -44,13 +45,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                <c:forEach var="faculty" items="${faculties}">
+                    <tr>
+                        <td><tr:transl>${faculty.name}</tr:transl></td>
+                        <td>${faculty.freeQuota}</td>
+                        <td>${faculty.paidQuota}</td>
+                        <td>${faculty.freePoint}</td>
+                        <td>${faculty.paidPoint}</td>
+                    </tr>
+                </c:forEach>
+
                 </tbody>
             </table>
         </div>

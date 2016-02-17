@@ -35,7 +35,7 @@ public class ConnectionPool {
         return instance;
     }
 
-    public void init() throws ConnectionPoolException {  // TODO: make it private
+    public void init() throws ConnectionPoolException {
         try {
             Class.forName(parameter.getDriver());
 

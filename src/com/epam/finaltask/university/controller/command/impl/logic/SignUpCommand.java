@@ -38,7 +38,13 @@ public class SignUpCommand implements Command {
             LockingUserService userService = LockingUserService.getInstance();
             LockingProfileService profileService = LockingProfileService.getInstance();
 
-            if (!userService.createNewAccount(user) || !profileService.createNewProfile(profile)) {
+            user = userService.createNewAccount(user);
+            if (user != null) {
+                profile.setUserId(user.getId());
+                profile = profileService.createNewProfile(profile);
+            }
+
+            if (user == null || profile == null) {
                 throw new InvalidUserDataException("Invalid user data. Couldn't sign up");
             }
 
@@ -71,7 +77,8 @@ public class SignUpCommand implements Command {
             Calendar birthDate  = Calendar.getInstance();
             birthDate.setTime(formatter.parse(request.getParameter(RequestParameterName.BIRTH_DATE)));
             long facultyId = Long.parseLong(request.getParameter(RequestParameterName.FACULTY_ID));
-            MedalType medal = MedalType.valueOf(request.getParameter(RequestParameterName.MEDAL_TYPE));
+            int points = Integer.parseInt(request.getParameter(RequestParameterName.TOTAL_POINTS));
+            MedalType medal = MedalType.valueOf(request.getParameter(RequestParameterName.MEDAL_TYPE).toUpperCase());
             String privileges = request.getParameter(RequestParameterName.PRIVILEGES);
             String phone = request.getParameter(RequestParameterName.PHONE);
             String address = request.getParameter(RequestParameterName.ADDRESS);
@@ -84,6 +91,7 @@ public class SignUpCommand implements Command {
             profile.setLastName(lastName);
             profile.setBirthDate(birthDate);
             profile.setFacultyId(facultyId);
+            profile.setPoints(points);
             profile.setMedalType(medal);
             if (!"".equals(privileges)) {
                 profile.setPrivileges(privileges);
@@ -92,7 +100,7 @@ public class SignUpCommand implements Command {
             profile.setAddress(address);
 
             return profile;
-        } catch (ParseException e) {
+        } catch (ParseException | NumberFormatException e) {
             throw new CommandException("Couldn't construct profile bean", e);
         }
     }

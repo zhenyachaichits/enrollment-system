@@ -33,7 +33,7 @@ public class LockingUserService implements Service {
 
     private static final Lock lock = new ReentrantLock();
 
-    public boolean createNewAccount(User user) throws InvalidDataException, ServiceException {
+    public User createNewAccount(User user) throws InvalidDataException, ServiceException {
         UserService userService = UserService.getInstance(); // TODO: ask about it
 
         if (UserValidator.validateUser(user) && !userService.checkEmailExistence(user.getEmail())) {
@@ -43,7 +43,7 @@ public class LockingUserService implements Service {
                 user.setPassword(DataEncrypter.encrypt(user.getPassword()));
                 user = dao.add(user);
 
-                return user != null;
+                return user;
 
             } catch (DaoFactoryException | DaoException e) {
                 throw new ServiceException("Couldn't provide account creation service");

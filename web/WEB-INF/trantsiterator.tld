@@ -1,0 +1,11 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.1</jsp-version>
+    <short-name>Transliteration Tag</short-name>
+    <uri>http://epam.com/project/university/transliterate</uri>
+    <tag>
+        <name>transl</name>
+        <tag-class>com.epam.finaltask.university.tag.TransliterationTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+</taglib>

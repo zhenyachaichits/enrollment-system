@@ -11,7 +11,7 @@ public class ProfileValidator {
 
     private static final int MIN_POINTS = 0;
 
-    private static final String NAME_PATTERN = "[a-zA-Zа-яА-Я]{2,}";
+    private static final String NAME_PATTERN = ".{2,}";
     private static final String PASSPORT_ID_PATTERN = "[a-zA-Zа-яА-Я]{2}\\d{7}";
     private static final String PHONE_PATTERN = "\\+\\d{3}\\s?\\(?\\d{2}\\)?\\s?\\d{3}-?\\d{2}-?\\d{2}";
 

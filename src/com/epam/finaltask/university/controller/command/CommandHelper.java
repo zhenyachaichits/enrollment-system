@@ -1,10 +1,7 @@
 package com.epam.finaltask.university.controller.command;
 
 
-import com.epam.finaltask.university.controller.command.impl.ajax.AuthenticateWithCookieCommand;
-import com.epam.finaltask.university.controller.command.impl.ajax.CheckAccountCommand;
-import com.epam.finaltask.university.controller.command.impl.ajax.CheckEmailExistenceCommand;
-import com.epam.finaltask.university.controller.command.impl.ajax.CheckPassportIdExistenceCommand;
+import com.epam.finaltask.university.controller.command.impl.ajax.*;
 import com.epam.finaltask.university.controller.command.impl.error.NoSuchCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.AuthenticateCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.LogOutCommand;
@@ -40,6 +37,8 @@ public class CommandHelper {
         commandMap.put(CommandName.GO_HOME, new GoHomeCommand());
         commandMap.put(CommandName.GO_SIGNUP, new GoSignUpCommand());
         commandMap.put(CommandName.GO_STATISTICS, new GoStatisticsCommand());
+
+        commandMap.put(CommandName.GET_SUBJECTS, new GetFacultySubjectsCommand());
 
         commandMap.put(CommandName.SET_LOCALE, new SetLocaleCommand());
     }

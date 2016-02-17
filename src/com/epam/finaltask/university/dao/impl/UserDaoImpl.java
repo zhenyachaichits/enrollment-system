@@ -113,10 +113,11 @@ public class UserDaoImpl implements UserDao {
             query = ADD_USER_WITH_ROLE_QUERY;
         }
 
-        try (
-                Connection connection = connectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(query);
-        ) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = connectionPool.getConnection();
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             statement.setString(1, user.getEmail());
             statement.setString(2, user.getPassword());
@@ -126,14 +127,31 @@ public class UserDaoImpl implements UserDao {
 
             int result = statement.executeUpdate();
 
-            if (result == 0) {
+            if (result != 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    user.setId(generatedKeys.getLong(1));
+                }
+                connection.commit();
                 return user;
             } else {
+                connection.rollback();
                 return null;
             }
 
         } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                // TODO: 16.02.2016 logger?
+            }
             throw new DaoException("Couldn't process operation", e);
+        } finally {
+            if (connection != null && statement != null) {
+                connectionPool.closeConnection(connection, statement);
+            }
         }
     }
 
@@ -211,6 +229,7 @@ public class UserDaoImpl implements UserDao {
             ResultSet resultSet = statement.executeQuery(GET_ALL_USERS_QUERY);
             while (resultSet.next()) {
 
+                currentUser.setId(resultSet.getLong(ID_KEY));
                 currentUser.setEmail(resultSet.getString(EMAIL_KEY));
                 currentUser.setPassword(resultSet.getString(PASSWORD_HASH_KEY));
 

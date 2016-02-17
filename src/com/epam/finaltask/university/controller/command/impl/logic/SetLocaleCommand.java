@@ -24,6 +24,9 @@ public class SetLocaleCommand implements Command {
         HttpSession session = request.getSession(true);
         session.setAttribute(LOCALE_ATTR, locale);
 
-        return (String) request.getAttribute(RequestParameterName.FORWARD_URI);
+        String toRedirect = (String) request.getAttribute(RequestParameterName.FORWARD_URI) +
+                (String) request.getAttribute(RequestParameterName.FORWARD_QUERY_STRING);
+
+        return toRedirect;
     }
 }

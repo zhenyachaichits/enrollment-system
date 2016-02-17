@@ -35,16 +35,35 @@ $('body').on({
     }
 });
 
+$("#gpa").keyup( function () {
+    var total = 0;
+    $(".point").each(function() {
+        var element = $(this);
+        var value = parseInt(element.val());;
+        total += value;
+    });
+    $("#totalPoints").val(total);
+});
 
-$("#faculty").change(function() {
-    $("#subject1Group").show("fast");
-    $("#subject2Group").show("fast");
-    $("#subject3Group").show("fast");
+$("#faculty").change(function () {
+
+    $("#subject1Group").hide("fast");
+    $("#subject2Group").hide("fast");
+    $("#subject3Group").hide("fast");
+
+    var faculty = $('#faculty').val();
+
+    $.get("/action?command=get-subjects&facultyID=" + faculty, function(responseXml) {
+        $("#subjects").html($(responseXml).find("data").html());
+        $("#subject1Group").show("fast");
+        $("#subject2Group").show("fast");
+        $("#subject3Group").show("fast");
+    });
 });
 
 var isEmailOk = true;
 
-$('#newEmail').focusout(function() {
+$('#newEmail').focusout(function () {
     var userEmail = $('#newEmail').val();
     var patt = new RegExp(".*@.*");
     var res = patt.test(userEmail);
@@ -74,17 +93,17 @@ $('#newEmail').focusout(function() {
 
 var isPassportOk = true;
 
-$('#passportID').focusout(function() {
+$('#passportID').focusout(function () {
     var passportID = $('#passportID').val();
-    var patt = new RegExp("[a-zA-Zа-яА-Я]{2}\d{7}");
-    var res = patt.test(passportID);
+    var re = /[a-zA-Zа-яА-Я]{2}\d{7}/;
+    var m;
 
-    if (res) {
+    if ((m = re.exec(passportID)) !== null) {
         $.post(
             '/action',
             {
                 command: 'check-passport-id',
-                email: passportID,
+                passportID: passportID,
             },
             function (resp) {
                 status = $.trim(resp.toLowerCase());

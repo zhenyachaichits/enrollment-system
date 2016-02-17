@@ -39,7 +39,7 @@ public class ProfileDaoImpl implements ProfileDao {
     private static final String FIRST_NAME_KEY = "first_name";
     private static final String MIDDLE_NAME_KEY = "middle_name";
     private static final String LAST_NAME_KEY = "last_name";
-    private static final String BIRTH_DATE_KEY = "date_birth";
+    private static final String BIRTH_DATE_KEY = "birth_date";
     private static final String PHONE_KEY = "phone";
     private static final String ADDRESS_KEY = "address";
     private static final String POINTS_KEY = "points";
@@ -52,7 +52,7 @@ public class ProfileDaoImpl implements ProfileDao {
             "phone, address, points, medal, faculty_faculty_id, user_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String ADD_PRIVILEGED_PROFILE_QUERY = "INSERT INTO profile (passport_id, first_name, middle_name, last_name, " +
             "birth_date, phone, address, points, medal, privilegies, faculty_faculty_id, user_user_id) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String FIND_PROFILE_BY_PASSPORT_ID_QUERY = "SELECT * FROM profile WHERE passport_id = ?";
 
 
@@ -86,18 +86,27 @@ public class ProfileDaoImpl implements ProfileDao {
             }
             statement.setLong(i++, entity.getFacultyId());
             statement.setLong(i, entity.getUserId());
+            connection.commit();
 
             int result = statement.executeUpdate();
 
-            connection.commit();
+            connection.commit();  // TODO: 17.02.2016 fix transactions
 
-            if (result == 0) {
+            if (result != 0) {
                 return entity;
             } else {
+                connection.rollback();
                 return null;
             }
 
         } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                // TODO: 16.02.2016 logger?
+            }
             throw new DaoException("Couldn't process operation", e);
         } finally {
             if (connection != null && statement != null) {

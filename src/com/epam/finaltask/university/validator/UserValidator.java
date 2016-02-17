@@ -8,7 +8,7 @@ import com.epam.finaltask.university.bean.User;
 public class UserValidator {
 
     private static final int MIN_ID = 1;
-    private static final int MIN_PASSWORD_LENGTH = 6;
+    private static final int MIN_PASSWORD_LENGTH = 5;
 
     private static final String EMAIL_PATTERN = "[a-zA-Z0-9_\\.]+@[a-zA-Z]+(\\..*)?";
 

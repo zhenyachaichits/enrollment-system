@@ -79,7 +79,7 @@
                 </c:if>
 
                 <li class="dropdown">
-                    <form id="localeForm" hidden="hidden" action="locale" method="post">
+                    <form id="localeForm" hidden="hidden" action="locale" method="get">
                         <input type="hidden" name="command" value="set-locale">
                         <input id="currentLocale" type="hidden" value="${sessionScope.locale}">
                         <input id="localeValue" type="hidden" name="locale" value="">

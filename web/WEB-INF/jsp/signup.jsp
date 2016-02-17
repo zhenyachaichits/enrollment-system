@@ -5,9 +5,10 @@
   Time: 17:50
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="tr" uri="http://epam.com/project/university/transliterate"%>
 
 <html>
 <head>
@@ -22,7 +23,6 @@
 <div class="scroll">
     <form class="form-horizontal" action="../../index.jsp">
         <input type="hidden" name="command" value="sign-up">
-
         <section id="account">
             <div class="container">
                 <div class="row">
@@ -137,51 +137,24 @@
                                 <div class="col-md-8">
                                     <select name="facultyID" id="faculty" class="form-control">
                                         <option disabled selected>Choose faculty</option>
-                                        <option>1</option>
-                                        <option>2</option>
+                                        <c:forEach var="faculty" items="${faculties}">
+                                            <option value="${faculty.id}">
+                                                <tr:transl>${faculty.name}</tr:transl>
+                                            </option>
+                                        </c:forEach>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" id="subject1Group" style="display: none">
-                                <label for="subject1" class="col-md-5 control-label"></label>
 
-                                <div class="col-md-4">
-                                    <input type="number" min="10" max="100" class="form-control" id="subject1"
-                                           placeholder="Points"
-                                           pattern="\d{1,3}" required>
-                                    <p class="help-block">Password length should be between 6 and 20 characters </p>
-                                </div>
-                            </div>
-
-                            <div class="form-group" id="subject2Group" style="display: none">
-                                <label for="subject2" class="col-md-5 control-label"></label>
-
-                                <div class="col-md-4">
-                                    <input type="number" min="10" max="100" class="form-control" id="subject2"
-                                           placeholder="Points"
-                                           pattern="\d{1,3}" required>
-                                    <p class="help-block">Password length should be between 6 and 20 characters </p>
-                                </div>
-                            </div>
-
-                            <div class="form-group" id="subject3Group" style="display: none">
-                                <label for="subject3" class="col-md-5 control-label"></label>
-
-                                <div class="col-md-4">
-                                    <input type="number" min="10" max="100" class="form-control" id="subject3"
-                                           placeholder="Points"
-                                           pattern="\d{1,3}" required>
-                                    <p class="help-block">Password length should be between 6 and 20 characters </p>
-                                </div>
-                            </div>
+                            <div id="subjects"> </div>
 
                             <div class="form-group">
                                 <label for="gpa" class="col-md-5 control-label">GPA</label>
 
                                 <div class="col-md-4">
-                                    <input type="number" min="10" max="100" class="form-control" id="gpa"
+                                    <input type="number" min="30" max="100" class="form-control point" id="gpa"
                                            placeholder="Points"
-                                           pattern="\d{1,3}" required>
+                                           pattern="\d{1,3}" required> </input>
                                 </div>
                             </div>
 
@@ -193,7 +166,7 @@
                                     <div class="col-md-3">
                                         <input type="number" name="points" class="form-control" id="totalPoints"
                                                placeholder="0"
-                                               pattern="\d{1,3}" required disabled>
+                                               pattern="\d{1,3}" required readonly>
                                     </div>
                                     <a onclick="$('.scroll').moveUp();"
                                        class="btn btn-primary scroll-button">Previous</a>

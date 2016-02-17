@@ -31,7 +31,7 @@ public class LockingProfileService implements Service {
 
     private static final Lock lock = new ReentrantLock();
 
-    public boolean createNewProfile(Profile profile) throws ServiceException, InvalidDataException {
+    public Profile createNewProfile(Profile profile) throws ServiceException, InvalidDataException {
         ProfileService profileService = ProfileService.getInstance();
 
         if (ProfileValidator.validateProfile(profile) && !profileService.checkPassportIdExistence(profile.getPassportId())) {
@@ -41,7 +41,7 @@ public class LockingProfileService implements Service {
 
                 profile = dao.add(profile);
 
-                return profile != null;
+                return profile;
 
             } catch (DaoFactoryException | DaoException e) {
                 throw new ServiceException("Couldn't provide profile creation service");
