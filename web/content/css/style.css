@@ -1,5 +1,10 @@
 
-@media (max-width: 1000px) { .scroll-button { display: none; } }
+@media (max-width: 1000px) {
+    .scroll-button { display: none; }
+    .onepage-wrapper .section {
+        height: auto;
+    }
+}
 
 @media (min-width: 768px) {
     .modal-dialog {

@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * Created by Zheny Chaichits on 06.02.16.
  */
-public class ActionFilter implements Filter {
+public class ControllerRequestFilter implements Filter {
 
     private static final String PATH_PARAMETER = "contentPath";
     private static final String SERVLET_PATTERN_PARAMETER = "servletPattern";

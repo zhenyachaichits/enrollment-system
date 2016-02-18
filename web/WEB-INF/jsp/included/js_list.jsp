@@ -17,8 +17,11 @@
 <script src="content/js/moment.js"></script>
 <script src="content/js/bootstrap-material-datetimepicker.js"></script>
 <script src="content/js/maskedinput.min.js"></script>
-<script src="content/js/jquery.onepage-scroll.min.js"></script>
 <script src="content/js/snackbar.min.js"></script>
+
+
+<script src="content/js/ajax/authenticate.js"></script>
+<script src="content/js/locale.js"></script>
 
 <script>
     $.material.init();

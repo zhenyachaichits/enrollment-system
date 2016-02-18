@@ -22,5 +22,4 @@
 <link href="../../content/css/ripples.min.css" rel="stylesheet">
 <link href="../../content/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
 <link href="../../content/css/style.css" rel="stylesheet">
-<link href="../../content/css/onepage-scroll.css" rel="stylesheet">
 <link href="../../content/css/snackbar.min.css" rel="stylesheet">

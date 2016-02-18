@@ -41,8 +41,6 @@
 </div>
 
 <%@include file="WEB-INF/jsp/included/js_list.jsp" %>
-<script src="content/js/ajax/authenticate.js"></script>
-<script src="content/js/locale.js"></script>
 
 </body>
 </html>

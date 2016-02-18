@@ -55,7 +55,7 @@
 
     <filter>
         <filter-name>ContentFilter</filter-name>
-        <filter-class>com.epam.finaltask.university.filter.ActionFilter</filter-class>
+        <filter-class>com.epam.finaltask.university.filter.ControllerRequestFilter</filter-class>
         <init-param>
             <param-name>contentPath</param-name>
             <param-value>/content</param-value>

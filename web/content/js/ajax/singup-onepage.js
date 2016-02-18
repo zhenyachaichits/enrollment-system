@@ -12,6 +12,14 @@ $(function ($) {
     $("#passportID").mask("aa9999999", {placeholder: ""});
 });
 
+$(document).ready(function () {
+
+    $('body').bind('mousewheel', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+    });
+});
+
 $('.scroll').onepage_scroll({
     sectionContainer: "section",
     easing: "ease",                  // "ease", "linear", "ease-in"
@@ -28,12 +36,22 @@ $('.scroll').onepage_scroll({
     direction: "vertical"
 });
 
-$('body').on({
-    'mousewheel': function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+if (matchMedia) {
+    var mq = window.matchMedia("(min-width: 1000px)");
+    mq.addListener(switchScrollability);
+    switchScrollability(mq);
+}
+
+function switchScrollability(mq) {
+    if (mq.matches) {
+        $('body').bind('mousewheel', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    } else {
+        $('body').unbind('mousewheel');
     }
-});
+}
 
 $("#gpa").keyup( function () {
     var total = 0;

@@ -81,7 +81,6 @@
                 <li class="dropdown">
                     <form id="localeForm" hidden="hidden" action="" method="post">
                         <input type="hidden" name="command" value="set-locale">
-                        <input type="hidden" name="previous" value="${previous}">
                         <input id="currentLocale" type="hidden" value="${sessionScope.locale}">
                         <input id="localeValue" type="hidden" name="locale" value="">
                     </form>

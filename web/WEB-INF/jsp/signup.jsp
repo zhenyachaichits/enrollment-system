@@ -14,7 +14,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
+
+    <link href="../../content/css/onepage-scroll.css" rel="stylesheet">
     <%@include file="included/css_list.jsp" %>
+
 </head>
 <body>
 
@@ -283,11 +286,15 @@
           data-content="Account with such Passport ID already exists" data-timeout="4000"
           data-snackbar-id="snackbar1454251274097"></span>
 
+    <div class="progress progress-striped active">
+        <div class="progress-bar" style="width: 80%"></div>
+    </div>
 </div>
 
+
 <%@include file="included/js_list.jsp" %>
+<script src="content/js/jquery.onepage-scroll.min.js"></script>
 <script src="content/js/ajax/singup-onepage.js"></script>
-<script src="content/js/locale.js"></script>
 
 </body>
 </html>
