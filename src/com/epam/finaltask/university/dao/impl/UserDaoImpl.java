@@ -6,6 +6,7 @@ import com.epam.finaltask.university.dao.UserDao;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
+import com.epam.finaltask.university.dao.common.UserDaoService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -39,8 +40,7 @@ public class UserDaoImpl implements UserDao {
 
     private static final String GET_ROLE_QUERY = "SELECT * FROM user WHERE email = ? AND password_hash = ? AND status = 'ACTIVE'";
     private static final String GET_ALL_USERS_QUERY = "SELECT * FROM user WHERE status = 'ACTIVE'";
-    private static final String ADD_USER_QUERY = "INSERT INTO user (email, password_hash) values (?, ?)";
-    private static final String ADD_USER_WITH_ROLE_QUERY = "INSERT INTO user (email, password_hash, role) values (?, ?, ?)";
+
     private static final String UPDATE_USER_QUERY = "UPDATE user SET email = ? AND password_hash = ? AND role = ?";
     private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM user WHERE email = ? AND status = 'ACTIVE'";
     private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM user WHERE user_id = ? AND status = 'ACTIVE'";
@@ -106,52 +106,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User add(User user) throws DaoException {
-        String query;
-        if (user.getRole() == null) {
-            query = ADD_USER_QUERY;
-        } else {
-            query = ADD_USER_WITH_ROLE_QUERY;
-        }
+        try (
+                Connection connection = connectionPool.getConnection();
+        ) {
+            UserDaoService service = UserDaoService.getInstance();
+            user = service.createUser(user, connection);
 
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = connectionPool.getConnection();
-            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-
-            statement.setString(1, user.getEmail());
-            statement.setString(2, user.getPassword());
-            if (user.getRole() != null) {
-                statement.setString(3, user.getRole().toString());
-            }
-
-            int result = statement.executeUpdate();
-
-            if (result != 0) {
-                ResultSet generatedKeys = statement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    user.setId(generatedKeys.getLong(1));
-                }
-                connection.commit();
-                return user;
-            } else {
-                connection.rollback();
-                return null;
-            }
-
+            return user;
         } catch (ConnectionPoolException | SQLException e) {
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException e1) {
-                // TODO: 16.02.2016 logger?
-            }
             throw new DaoException("Couldn't process operation", e);
-        } finally {
-            if (connection != null && statement != null) {
-                connectionPool.closeConnection(connection, statement);
-            }
         }
     }
 
@@ -197,8 +160,6 @@ public class UserDaoImpl implements UserDao {
             statement.setString(3, user.getRole().toString());
 
             int result = statement.executeUpdate();
-
-            connection.commit();
 
             if (result == 0) {
                 return user;

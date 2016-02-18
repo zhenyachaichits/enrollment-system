@@ -24,7 +24,7 @@
 <jsp:include page="included/navbar.jsp"/>
 
 <div class="scroll">
-    <form class="form-horizontal" action="../../index.jsp">
+    <form class="form-horizontal" action="../../index.jsp" method="post">
         <input type="hidden" name="command" value="sign-up">
         <section id="account">
             <div class="container">

@@ -14,7 +14,7 @@ $(function ($) {
 
 $(document).ready(function () {
 
-    $('body').bind('mousewheel', function(e){
+    $('body').bind('mousewheel', function (e) {
         e.preventDefault();
         e.stopPropagation();
     });
@@ -36,6 +36,12 @@ $('.scroll').onepage_scroll({
     direction: "vertical"
 });
 
+$(document).keydown(function (objEvent) {
+    if (objEvent.keyCode == 9) {
+        objEvent.preventDefault();
+    }
+});
+
 if (matchMedia) {
     var mq = window.matchMedia("(min-width: 1000px)");
     mq.addListener(switchScrollability);
@@ -43,8 +49,9 @@ if (matchMedia) {
 }
 
 function switchScrollability(mq) {
+    $('.scroll').moveTo(1);
     if (mq.matches) {
-        $('body').bind('mousewheel', function(e){
+        $('body').bind('mousewheel', function (e) {
             e.preventDefault();
             e.stopPropagation();
         });
@@ -53,11 +60,12 @@ function switchScrollability(mq) {
     }
 }
 
-$("#gpa").keyup( function () {
+$("#gpa").keyup(function () {
     var total = 0;
-    $(".point").each(function() {
+    $(".point").each(function () {
         var element = $(this);
-        var value = parseInt(element.val());;
+        var value = parseInt(element.val());
+        ;
         total += value;
     });
     $("#totalPoints").val(total);
@@ -71,7 +79,7 @@ $("#faculty").change(function () {
 
     var faculty = $('#faculty').val();
 
-    $.get("/action?command=get-subjects&facultyID=" + faculty, function(responseXml) {
+    $.get("/action?command=get-subjects&facultyID=" + faculty, function (responseXml) {
         $("#subjects").html($(responseXml).find("data").html());
         $("#subject1Group").show("fast");
         $("#subject2Group").show("fast");

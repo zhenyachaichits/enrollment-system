@@ -5,7 +5,7 @@ import com.epam.finaltask.university.dao.ProfileDao;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
-import com.epam.finaltask.university.service.ProfileService;
+import com.epam.finaltask.university.service.impl.ProfileService;
 import com.epam.finaltask.university.service.Service;
 import com.epam.finaltask.university.service.exception.InvalidDataException;
 import com.epam.finaltask.university.service.exception.ServiceException;
@@ -31,7 +31,7 @@ public class LockingProfileService implements Service {
 
     private static final Lock lock = new ReentrantLock();
 
-    public Profile createNewProfile(Profile profile) throws ServiceException, InvalidDataException {
+    public Profile createNewStudent(Profile profile) throws ServiceException, InvalidDataException {
         ProfileService profileService = ProfileService.getInstance();
 
         if (ProfileValidator.validateProfile(profile) && !profileService.checkPassportIdExistence(profile.getPassportId())) {

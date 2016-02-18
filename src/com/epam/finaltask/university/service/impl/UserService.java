@@ -1,18 +1,13 @@
-package com.epam.finaltask.university.service;
+package com.epam.finaltask.university.service.impl;
 
 import com.epam.finaltask.university.bean.User;
-import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.dao.UserDao;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
-import com.epam.finaltask.university.service.exception.InvalidDataException;
+import com.epam.finaltask.university.service.Service;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.util.DataEncrypter;
-import com.epam.finaltask.university.validator.UserValidator;
-
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Zheny Chaichits on 10.02.2016.

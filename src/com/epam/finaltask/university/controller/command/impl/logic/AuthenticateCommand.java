@@ -7,7 +7,7 @@ import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidUserDataException;
-import com.epam.finaltask.university.service.UserService;
+import com.epam.finaltask.university.service.impl.UserService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
 import javax.servlet.http.Cookie;
@@ -73,8 +73,6 @@ public class AuthenticateCommand implements Command {
         HttpSession session = request.getSession(true);
 
         session.setAttribute(SessionParameterName.EMAIL, user.getEmail());
-
         session.setAttribute(SessionParameterName.ROLE, user.getRole());
-
     }
 }

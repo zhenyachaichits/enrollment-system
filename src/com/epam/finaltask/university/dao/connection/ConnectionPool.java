@@ -17,7 +17,7 @@ public class ConnectionPool {
     private BlockingQueue<Connection> freeConnectionQueue;
     private BlockingQueue<Connection> busyConnectionQueue;
 
-    private static final boolean AUTO_COMMIT = false;
+    private static final boolean AUTO_COMMIT = true;
 
     private static ConnectionPool instance;
 

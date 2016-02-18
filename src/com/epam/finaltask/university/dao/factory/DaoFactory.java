@@ -1,9 +1,6 @@
 package com.epam.finaltask.university.dao.factory;
 
-import com.epam.finaltask.university.dao.FacultyDao;
-import com.epam.finaltask.university.dao.ProfileDao;
-import com.epam.finaltask.university.dao.SubjectDao;
-import com.epam.finaltask.university.dao.UserDao;
+import com.epam.finaltask.university.dao.*;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.impl.SqlDaoFactory;
@@ -45,5 +42,7 @@ public abstract class DaoFactory {
     public abstract SubjectDao getSubjectDao() throws DaoException;
 
     public abstract FacultyDao getFacultyDao() throws DaoException;
+
+    public abstract StudentDao getStudentDao() throws DaoException;
 
 }
