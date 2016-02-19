@@ -16,6 +16,16 @@
     }
 }
 
+.clear {
+    opacity: 0.25;
+    transition:opacity 600ms;
+}
+
+.clear:hover {
+    opacity: 1;
+    transition:opacity 600ms;
+}
+
 *:focus {
     outline-style:none;
     box-shadow:none;

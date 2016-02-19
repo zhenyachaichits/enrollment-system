@@ -51,21 +51,14 @@ public class UserDaoImpl implements UserDao {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(GET_ROLE_QUERY);
         ) {
-            User user = new User();
-            user.setEmail(email);
-            user.setPassword(passwordHash);
-
             statement.setString(1, email);
             statement.setString(2, passwordHash);
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                user.setId(resultSet.getLong(ID_KEY));
+                UserDaoService service = UserDaoService.getInstance();
 
-                String role = resultSet.getString(ROLE_KEY);
-                user.setRole(UserType.valueOf(role));
-
-                return user;
+                return service.compileUser(resultSet);
             } else {
                 return null;
             }
@@ -80,20 +73,14 @@ public class UserDaoImpl implements UserDao {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_ID_QUERY);
         ) {
-            User user = new User();
-            user.setId(id);
-
             statement.setLong(1, id);
 
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user.setEmail(resultSet.getString(EMAIL_KEY));
+                UserDaoService service = UserDaoService.getInstance();
 
-                UserType userType = UserType.valueOf(resultSet.getString(ROLE_KEY));
-                user.setRole(userType);
-
-                return user;
+                return service.compileUser(resultSet);
             } else {
                 return null;
             }
@@ -124,20 +111,12 @@ public class UserDaoImpl implements UserDao {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_EMAIL_QUERY);
         ) {
-            User user = new User();
-
-            statement.setString(1, email);
-
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                user.setEmail(resultSet.getString(EMAIL_KEY));
-                user.setPassword(resultSet.getString(PASSWORD_HASH_KEY));
+                UserDaoService service = UserDaoService.getInstance();
 
-                UserType userType = UserType.valueOf(resultSet.getString(ROLE_KEY));
-                user.setRole(userType);
-
-                return user;
+                return service.compileUser(resultSet);
             } else {
                 return null;
             }
@@ -185,19 +164,11 @@ public class UserDaoImpl implements UserDao {
         ) {
             List<User> userList = new ArrayList<>();
 
-            User currentUser = new User();
-
             ResultSet resultSet = statement.executeQuery(GET_ALL_USERS_QUERY);
             while (resultSet.next()) {
+                UserDaoService service = UserDaoService.getInstance();
 
-                currentUser.setId(resultSet.getLong(ID_KEY));
-                currentUser.setEmail(resultSet.getString(EMAIL_KEY));
-                currentUser.setPassword(resultSet.getString(PASSWORD_HASH_KEY));
-
-                UserType userType = UserType.valueOf(resultSet.getString(ROLE_KEY));
-                currentUser.setRole(userType);
-
-                userList.add(currentUser);
+                userList.add(service.compileUser(resultSet));
             }
 
             return userList;

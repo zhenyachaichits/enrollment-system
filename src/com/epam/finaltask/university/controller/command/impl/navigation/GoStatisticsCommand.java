@@ -2,6 +2,7 @@ package com.epam.finaltask.university.controller.command.impl.navigation;
 
 import com.epam.finaltask.university.bean.Faculty;
 import com.epam.finaltask.university.controller.JspPageName;
+import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
@@ -19,15 +20,13 @@ import java.util.List;
  */
 public class GoStatisticsCommand implements Command {
 
-    private static final String FACULTIES_ATTR = "faculties";
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             FacultyService service = FacultyService.getInstance();
             List<Faculty> faculties = service.getAllFaculties();
 
-            request.setAttribute(FACULTIES_ATTR, faculties);
+            request.setAttribute(RequestParameterName.FACULTIES, faculties);
 
             HttpSession session = request.getSession(true);
             session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlCompiler.compile(request));

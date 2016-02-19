@@ -1,4 +1,4 @@
-package com.epam.finaltask.university.service.concurrent;
+package com.epam.finaltask.university.service.impl.concurrent;
 
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.dao.UserDao;

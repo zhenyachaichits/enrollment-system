@@ -1,7 +1,7 @@
 package com.epam.finaltask.university.controller.command.impl.logic;
 
 import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.Student;
+import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.bean.type.MedalType;
 import com.epam.finaltask.university.controller.JspPageName;
@@ -10,9 +10,7 @@ import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidUserDataException;
-import com.epam.finaltask.university.service.concurrent.LockingProfileService;
-import com.epam.finaltask.university.service.concurrent.LockingStudentService;
-import com.epam.finaltask.university.service.concurrent.LockingUserService;
+import com.epam.finaltask.university.service.impl.concurrent.LockingStudentService;
 import com.epam.finaltask.university.service.exception.InvalidDataException;
 import com.epam.finaltask.university.service.exception.ServiceException;
 

@@ -1,40 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="resources.locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
+
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${title}</title>
 
-    <!-- Material Design fonts -->
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Material Design -->
-    <link href="../../content/css/dropdown.css" rel="stylesheet">
-    <link href="../../content/css/bootstrap-material-design.css" rel="stylesheet">
-    <link href="../../content/css/ripples.min.css" rel="stylesheet">
-    <link href="../../content/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
-    <link href="../../content/css/style.css" rel="stylesheet">
+    <%@include file="included/css_list.jsp" %>
 
 </head>
 <body>
+
+<jsp:include page="included/navbar.jsp"/>
+
 
 <form class="form-horizontal" action="profile">
     <input type="hidden" name="command" value="update-profile">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default">
+                <div class="panel panel-default clear">
                     <div class="panel-heading">Account Data</div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="newEmail">Email</label>
                             <div class="col-md-8">
                                 <input type="email" name="email" id="newEmail" class="form-control"
-                                       placeholder="Email" required readonly>
+                                       placeholder="Email" value="${student.user.email}" required readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -56,7 +55,7 @@
                 </div>
 
 
-                <div class="panel panel-default">
+                <div class="panel panel-default  clear">
                     <div class="panel-heading">Privileges</div>
                     <div class="panel-body">
                         <div class="form-group">
@@ -66,7 +65,7 @@
                                 <div class="radio radio-primary">
                                     <label>
                                         <input type="radio" name="medal" id="none" value="none"
-                                               checked="checked">
+                                               checked="checked" readonly>
                                         None
                                     </label>
                                 </div>
@@ -90,14 +89,14 @@
 
                             <div class="col-md-8">
                                     <textarea name="privileges" class="form-control" rows="3"
-                                              id="privileges"></textarea>
+                                              id="privileges">${student.profile.privileges}</textarea>
                                 <span class="help-block">Lalalala.</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="panel panel-default">
+                <div class="panel panel-default clear">
                     <div class="panel-heading">Contact Info</div>
                     <div class="panel-body">
                         <div class="form-group">
@@ -106,7 +105,7 @@
                             <div class="col-md-8">
                                 <input name="phone" type="text" class="form-control phone" id="phone"
                                        placeholder="Phone Number"
-                                       required>
+                                       value="${student.profile.phone}" required>
                             </div>
                         </div>
 
@@ -115,7 +114,7 @@
 
                             <div class="col-md-8">
                                     <textarea name="address" class="form-control" rows="3" id="address"
-                                              required></textarea>
+                                              required>${student.profile.address}</textarea>
                                 <span class="help-block">Lalalala.</span>
                             </div>
                         </div>
@@ -126,7 +125,7 @@
             </div>
 
             <div class="col-md-6">
-                <div class="panel panel-default">
+                <div class="panel panel-default clear">
                     <div class="panel-heading">Personal Data</div>
                     <div class="panel-body">
                         <div class="form-group">
@@ -134,7 +133,7 @@
                             <div class="col-md-8">
                                 <input name="passportID" type="text" id="passportID" class="form-control"
                                        placeholder="Passport ID"
-                                       required>
+                                       value="${student.profile.passportId}" required>
                                 <p class="help-block">You can find ID on the last page of your Passport </p>
                             </div>
                         </div>
@@ -144,7 +143,7 @@
                             <div class="col-md-8">
                                 <input name="firstName" type="text" class="form-control" id="firstName"
                                        placeholder="First Name"
-                                       required>
+                                       value="${student.profile.firstName}"required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -153,7 +152,7 @@
                             <div class="col-md-8">
                                 <input name="middleName" type="text" class="form-control" id="middleName"
                                        placeholder="Middle Name"
-                                       required>
+                                       value="${student.profile.middleName}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -162,7 +161,7 @@
                             <div class="col-md-8">
                                 <input name="lastName" type="text" class="form-control" id="lastName"
                                        placeholder="Last Name"
-                                       required>
+                                       value="${student.profile.lastName}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -171,7 +170,7 @@
                             <div class="col-md-8">
                                 <input name="dateBirth" type="text" class="form-control date" id="dateBirth"
                                        placeholder="Birth Date"
-                                       required>
+                                       value="${student.profile.birthDate}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -183,7 +182,7 @@
                 </div>
 
 
-                <div class="panel panel-default">
+                <div class="panel panel-default clear">
                     <div class="panel-heading">Education</div>
                     <div class="panel-body">
                         <div class="form-group">
@@ -201,7 +200,7 @@
                             </div>
                         </div>
 
-                        <div id="subjects"> </div>
+                        <div id="subjects"></div>
 
                         <div class="form-group">
                             <label for="gpa" class="col-md-5 control-label">GPA</label>
@@ -221,7 +220,8 @@
                                 <div class="col-md-3">
                                     <input type="number" name="points" class="form-control" id="totalPoints"
                                            placeholder="0"
-                                           pattern="\d{1,3}" required readonly>
+                                           pattern="\d{1,3}"
+                                           value="${student.profile.points}" required readonly>
                                 </div>
                                 <a onclick="$('.scroll').moveUp();"
                                    class="btn btn-primary scroll-button">Previous</a>
@@ -236,31 +236,7 @@
     </div>
 </form>
 
-
-<script src="//code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<script src="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
-
-<script src="../../content/js/ripples.min.js"></script>
-<script src="../../content/js/dropdown.js"></script>
-<script src="../../content/js/material.min.js"></script>
-<script src="../../content/js/moment.js"></script>
-<script src="../../content/js/bootstrap-material-datetimepicker.js"></script>
-<script src="../../content/js/maskedinput.min.js"></script>
-
-<script>
-    $.material.init();
-    $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
-    $("select").dropdown({"autoinit": "select"});
-
-    $(function ($) {
-        $(".phone").mask("+999 (99) 999-99-99", {placeholder: "_"});
-        $(".score").mask("999", {placeholder: ""});
-        $("#passportID").mask("aa9999999", {placeholder: ""});
-    });
-</script>
+<%@include file="included/js_list.jsp" %>
 
 </body>
 </html>

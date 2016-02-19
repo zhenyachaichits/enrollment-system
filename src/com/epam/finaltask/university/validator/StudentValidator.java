@@ -1,7 +1,7 @@
 package com.epam.finaltask.university.validator;
 
 import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.Student;
+import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.User;
 
 /**

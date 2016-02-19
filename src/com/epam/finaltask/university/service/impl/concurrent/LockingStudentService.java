@@ -1,6 +1,6 @@
-package com.epam.finaltask.university.service.concurrent;
+package com.epam.finaltask.university.service.impl.concurrent;
 
-import com.epam.finaltask.university.bean.Student;
+import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.dao.StudentDao;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;

@@ -31,6 +31,8 @@ public final class RequestParameterName {
     public static final String PHONE = "phone";
     public static final String ADDRESS = "address";
 
+    public static final String STUDENT = "student";
+
     public static final String LOCALE = "locale";
 
 }

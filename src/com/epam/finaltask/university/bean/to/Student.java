@@ -1,5 +1,7 @@
-package com.epam.finaltask.university.bean;
+package com.epam.finaltask.university.bean.to;
 
+import com.epam.finaltask.university.bean.Profile;
+import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.bean.type.UserType;
 
 import java.io.Serializable;

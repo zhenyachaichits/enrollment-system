@@ -1,7 +1,7 @@
 package com.epam.finaltask.university.dao.impl;
 
 import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.Student;
+import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.dao.StudentDao;
 import com.epam.finaltask.university.dao.common.ProfileDaoService;
@@ -36,7 +36,11 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     private static final String CHECK_STUDENT_QUERY = "SELECT user.user_id FROM user INNER JOIN profile ON " +
-            "user.user_id = profile.user_user_id WHERE user.email = ? AND profile.passport_id = ?";
+            "user.user_id = profile.user_user_id WHERE user.email = ? AND profile.passport_id = ? AND " +
+            "user.status = 'ACTIVE' AND profile.status = 'ACTIVE'";
+    private static final String FIND_STUDENT_QUERY = "select user.*, profile.* from user inner join profile on " +
+            "user.user_id = profile.user_user_id where user.email = ? AND user.status = 'ACTIVE' " +
+            "AND profile.status = 'ACTIVE'";
 
     @Override
     public boolean checkStudentExistence(Student student) throws DaoException {
@@ -111,8 +115,28 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Student find(String domain) throws DaoException {
-        return null;
+    public Student find(String email) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(FIND_STUDENT_QUERY);
+        ) {
+            statement.setString(1, email);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                UserDaoService userService = UserDaoService.getInstance();
+                ProfileDaoService profileService = ProfileDaoService.getInstance();
+
+                User user = userService.compileUser(resultSet);
+                Profile profile = profileService.compileProfile(resultSet);
+
+                return new Student(user, profile);
+            } else {
+                return null;
+            }
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     @Override

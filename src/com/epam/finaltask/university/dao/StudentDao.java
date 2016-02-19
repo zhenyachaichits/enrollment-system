@@ -1,6 +1,6 @@
 package com.epam.finaltask.university.dao;
 
-import com.epam.finaltask.university.bean.Student;
+import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.dao.exception.DaoException;
 
 /**

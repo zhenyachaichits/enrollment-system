@@ -61,8 +61,10 @@
                            data-toggle="dropdown">${sessionScope.userEmail}
                             <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-
-                            <li><a href="javascript:void(0)">${profile}</a></li>
+                            <form hidden="hidden" name="goProfile" action="profile" method="post">
+                                <input type="hidden" name="command" value="go-profile">
+                            </form>
+                            <li><a href="javascript:goProfile.submit();">${profile}</a></li>
                             <li class="divider"></li>
                             <form hidden="hidden" name="logout" action="" method="post">
                                 <input type="hidden" name="command" value="log-out">

@@ -1,6 +1,7 @@
 package com.epam.finaltask.university.dao.common;
 
 import com.epam.finaltask.university.bean.User;
+import com.epam.finaltask.university.bean.type.UserType;
 
 import java.sql.*;
 
@@ -18,6 +19,11 @@ public class UserDaoService {
     public static UserDaoService getInstance() {
         return UserDaoServiceHolder.INSTANCE;
     }
+
+    private static final String ID_KEY = "user_id";
+    private static final String EMAIL_KEY = "email";
+    private static final String PASSWORD_HASH_KEY = "password_hash";
+    private static final String ROLE_KEY = "role";
 
     private static final String ADD_USER_QUERY = "INSERT INTO user (email, password_hash) values (?, ?)";
     private static final String ADD_USER_WITH_ROLE_QUERY = "INSERT INTO user (email, password_hash, role) values (?, ?, ?)";
@@ -60,6 +66,19 @@ public class UserDaoService {
                 statement.close();
             }
         }
+    }
+
+    public User compileUser(ResultSet resultSet) throws SQLException {
+        User user = new User();
+
+        user.setId(resultSet.getLong(ID_KEY));
+        user.setEmail(resultSet.getString(EMAIL_KEY));
+        user.setPassword(resultSet.getString(PASSWORD_HASH_KEY));
+
+        UserType userType = UserType.valueOf(resultSet.getString(ROLE_KEY));
+        user.setRole(userType);
+
+        return user;
     }
 
 }
