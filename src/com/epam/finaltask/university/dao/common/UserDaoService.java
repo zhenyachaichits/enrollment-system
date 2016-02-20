@@ -27,6 +27,7 @@ public class UserDaoService {
 
     private static final String ADD_USER_QUERY = "INSERT INTO user (email, password_hash) values (?, ?)";
     private static final String ADD_USER_WITH_ROLE_QUERY = "INSERT INTO user (email, password_hash, role) values (?, ?, ?)";
+    private static final String UPDATE_USER_QUERY = "UPDATE user SET email = ? AND password_hash = ? AND role = ?";
 
     public User createUser(User user, Connection connection) throws SQLException {
         PreparedStatement statement = null;
@@ -54,6 +55,39 @@ public class UserDaoService {
                 if (generatedKeys.next()) {
                     user.setId(generatedKeys.getLong(1));
                 }
+                connection.commit();
+                return user;
+            } else {
+                connection.rollback();
+                return null;
+            }
+
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+        }
+    }
+
+    public User updateUser(User user, Connection connection) throws SQLException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(UPDATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setString(1, user.getEmail());
+            statement.setString(2, user.getPassword());
+            if (user.getRole() != null) {
+                statement.setString(3, user.getRole().toString());
+            }
+
+            int result = statement.executeUpdate();
+
+            if (result != 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    user.setId(generatedKeys.getLong(1));
+                }
+
                 connection.commit();
                 return user;
             } else {

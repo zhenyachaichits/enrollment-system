@@ -41,7 +41,6 @@ public class UserDaoImpl implements UserDao {
     private static final String GET_ROLE_QUERY = "SELECT * FROM user WHERE email = ? AND password_hash = ? AND status = 'ACTIVE'";
     private static final String GET_ALL_USERS_QUERY = "SELECT * FROM user WHERE status = 'ACTIVE'";
 
-    private static final String UPDATE_USER_QUERY = "UPDATE user SET email = ? AND password_hash = ? AND role = ?";
     private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM user WHERE email = ? AND status = 'ACTIVE'";
     private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM user WHERE user_id = ? AND status = 'ACTIVE'";
 

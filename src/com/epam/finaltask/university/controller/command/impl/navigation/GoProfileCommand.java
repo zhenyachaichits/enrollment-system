@@ -7,7 +7,7 @@ import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidSessionException;
-import com.epam.finaltask.university.controller.command.exception.InvalidUserDataException;
+import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.UrlCompiler;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.impl.StudentService;
@@ -37,8 +37,7 @@ public class GoProfileCommand implements Command {
                 if (student != null) {
                     request.setAttribute(RequestParameterName.STUDENT, student);
                 } else {
-                    // TODO: 19.02.2016 exception or redirecting
-                    throw new InvalidUserDataException("Couldn't find student from session");
+                    throw new InvalidDataException("Couldn't find student from session");
                 }
 
             } else {

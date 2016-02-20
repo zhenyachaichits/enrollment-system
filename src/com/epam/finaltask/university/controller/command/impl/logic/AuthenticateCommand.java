@@ -6,7 +6,7 @@ import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
-import com.epam.finaltask.university.controller.command.exception.InvalidUserDataException;
+import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.service.impl.UserService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
@@ -48,7 +48,7 @@ public class AuthenticateCommand implements Command {
                 }
                 saveInSession(user, request);
             } else {
-                throw new InvalidUserDataException("Invalid user data. Couldn't sign in");
+                throw new InvalidDataException("Invalid user data. Couldn't sign in");
             }
 
             return JspPageName.INDEX;

@@ -9,9 +9,8 @@ import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
-import com.epam.finaltask.university.controller.command.exception.InvalidUserDataException;
+import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.service.impl.concurrent.LockingStudentService;
-import com.epam.finaltask.university.service.exception.InvalidDataException;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,12 +45,12 @@ public class SignUpCommand implements Command {
                 session.setAttribute(SessionParameterName.ROLE, student.getUser().getRole());
 
             } else {
-                throw new InvalidUserDataException("Invalid user data. Couldn't sign up");
+                throw new InvalidDataException("Invalid user data. Couldn't sign up");
             }
 
             return JspPageName.INDEX;
 
-        } catch (ServiceException | InvalidDataException e) {
+        } catch (ServiceException | com.epam.finaltask.university.service.exception.InvalidDataException e) {
             throw new CommandException("Couldn't execute authentication command", e);
         }
     }
