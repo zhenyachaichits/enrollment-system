@@ -56,7 +56,7 @@ public class ProfileValidator {
     }
 
     public static boolean validatePoints(int points) {
-        return points > MIN_POINTS;
+        return points >= MIN_POINTS;
     }
 
     public static boolean validateBirthDate(Calendar birthDate) {

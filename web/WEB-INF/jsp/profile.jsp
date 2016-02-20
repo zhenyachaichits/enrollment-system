@@ -20,11 +20,11 @@
 
 <jsp:include page="included/navbar.jsp"/>
 
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal" action="profile">
+            <input type="hidden" name="command" value="update-profile">
 
-<form class="form-horizontal" action="profile">
-    <input type="hidden" name="command" value="update-profile">
-    <div class="container">
-        <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-default clear">
                     <div class="panel-heading">Account Data</div>
@@ -65,19 +65,24 @@
                                 <div class="radio radio-primary">
                                     <label>
                                         <input type="radio" name="medal" id="none" value="none"
-                                               checked="checked" readonly>
+                                        <c:if test="${student.profile.medalType eq 'NONE'}">
+                                               checked="checked" </c:if> readonly>
                                         None
                                     </label>
                                 </div>
                                 <div class="radio radio-primary">
                                     <label>
-                                        <input type="radio" name="medal" id="silver" value="silver">
+                                        <input type="radio" name="medal" id="silver" value="silver"
+                                        <c:if test="${student.profile.medalType eq 'SILVER'}">
+                                               checked="checked" </c:if> readonly>
                                         Silver
                                     </label>
                                 </div>
                                 <div class="radio radio-primary">
                                     <label>
-                                        <input type="radio" name="medal" id="golden" value="golden">
+                                        <input type="radio" name="medal" id="golden" value="golden"
+                                        <c:if test="${student.profile.medalType eq 'GOLDEN'}">
+                                               checked="checked" </c:if> readonly>
                                         Golden
                                     </label>
                                 </div>
@@ -143,7 +148,7 @@
                             <div class="col-md-8">
                                 <input name="firstName" type="text" class="form-control" id="firstName"
                                        placeholder="First Name"
-                                       value="${student.profile.firstName}"required>
+                                       value="${student.profile.firstName}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -170,7 +175,8 @@
                             <div class="col-md-8">
                                 <input name="dateBirth" type="text" class="form-control date" id="dateBirth"
                                        placeholder="Birth Date"
-                                       value="${student.profile.birthDate}" required>
+                                       value="<fmt:formatDate pattern="dd-MM-yyyy"
+                                       value="${student.profile.birthDate.time}" />" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -180,7 +186,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div class="panel panel-default clear">
                     <div class="panel-heading">Education</div>
@@ -232,9 +237,9 @@
                 </div>
 
             </div>
-        </div>
+        </form>
     </div>
-</form>
+</div>
 
 <%@include file="included/js_list.jsp" %>
 

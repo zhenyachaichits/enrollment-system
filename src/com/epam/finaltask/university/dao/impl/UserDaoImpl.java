@@ -110,8 +110,10 @@ public class UserDaoImpl implements UserDao {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_EMAIL_QUERY);
         ) {
-            ResultSet resultSet = statement.executeQuery();
+            statement.setString(1, email);
 
+            ResultSet resultSet = statement.executeQuery();
+            
             if (resultSet.next()) {
                 UserDaoService service = UserDaoService.getInstance();
 
@@ -130,21 +132,11 @@ public class UserDaoImpl implements UserDao {
     public User update(User user) throws DaoException {
         try (
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(UPDATE_USER_QUERY);
         ) {
+            UserDaoService service = UserDaoService.getInstance();
+            user = service.updateUser(user, connection);
 
-            statement.setString(1, user.getEmail());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getRole().toString());
-
-            int result = statement.executeUpdate();
-
-            if (result == 0) {
-                return user;
-            } else {
-                return null;
-            }
-
+            return user;
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }

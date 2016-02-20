@@ -22,6 +22,7 @@ public class Profile implements Serializable {
     private String address;
 
     private int points;
+    private boolean isFreeForm;
     private MedalType medalType;
     private String privileges;
 
@@ -145,6 +146,14 @@ public class Profile implements Serializable {
         this.passportId = passportId;
     }
 
+    public boolean isFreeForm() {
+        return isFreeForm;
+    }
+
+    public void setFreeForm(boolean freeForm) {
+        isFreeForm = freeForm;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -160,6 +169,9 @@ public class Profile implements Serializable {
             return false;
         }
         if (points != profile.points) {
+            return false;
+        }
+        if (isFreeForm != profile.isFreeForm) {
             return false;
         }
         if (isApplied != profile.isApplied) {
@@ -210,6 +222,7 @@ public class Profile implements Serializable {
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + points;
+        result = 31 * result + (isFreeForm ? 1 : 0);
         result = 31 * result + (medalType != null ? medalType.hashCode() : 0);
         result = 31 * result + (privileges != null ? privileges.hashCode() : 0);
         result = 31 * result + (isApplied ? 1 : 0);
@@ -230,6 +243,7 @@ public class Profile implements Serializable {
         sb.append(", phone='").append(phone).append('\'');
         sb.append(", address='").append(address).append('\'');
         sb.append(", points=").append(points);
+        sb.append(", isFreeForm=").append(isFreeForm);
         sb.append(", medalType=").append(medalType);
         sb.append(", privileges='").append(privileges).append('\'');
         sb.append(", isApplied=").append(isApplied);

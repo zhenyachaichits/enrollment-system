@@ -26,6 +26,7 @@ public final class RequestParameterName {
     public static final String BIRTH_DATE = "dateBirth";
     public static final String FACULTY_ID = "facultyID";
     public static final String TOTAL_POINTS = "points";
+    public static final String FREE_FORM = "freeForm";
     public static final String MEDAL_TYPE = "medal";
     public static final String PRIVILEGES = "privileges";
     public static final String PHONE = "phone";

@@ -8,7 +8,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@taglib prefix="tr" uri="http://epam.com/project/university/transliterate"%>
+<%@taglib prefix="tr" uri="http://epam.com/project/university/transliterate" %>
 
 <html>
 <head>
@@ -133,33 +133,33 @@
                     <div class="col-md-6 col-md-offset-3">
                         <div class="well bs-component">
                             <legend>Education</legend>
-
                             <div class="form-group">
-                                <label for="faculty" class="col-md-3 control-label">Faculty</label>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <label for="faculty" class="col-md-3 control-label">Faculty</label>
+                                        <div class="col-md-8">
+                                            <select name="facultyID" id="faculty" class="form-control">
+                                                <option disabled selected>Choose faculty</option>
+                                                <c:forEach var="faculty" items="${faculties}">
+                                                    <option value="${faculty.id}">
+                                                        <tr:transl>${faculty.name}</tr:transl>
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                                <div class="col-md-8">
-                                    <select name="facultyID" id="faculty" class="form-control">
-                                        <option disabled selected>Choose faculty</option>
-                                        <c:forEach var="faculty" items="${faculties}">
-                                            <option value="${faculty.id}">
-                                                <tr:transl>${faculty.name}</tr:transl>
-                                            </option>
-                                        </c:forEach>
-                                    </select>
+                                    <div class="col-md-4">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input name="freeForm" type="checkbox" checked="checked"> Free Form
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div id="subjects"> </div>
-
-                            <div class="form-group">
-                                <label for="gpa" class="col-md-5 control-label">GPA</label>
-
-                                <div class="col-md-4">
-                                    <input type="number" min="30" max="100" class="form-control point" id="gpa"
-                                           placeholder="Points"
-                                           pattern="\d{1,3}" required> </input>
-                                </div>
-                            </div>
+                            <div id="subjects"></div>
 
                             <div class="form-group">
                                 <div class="col-md-12">
@@ -169,7 +169,7 @@
                                     <div class="col-md-3">
                                         <input type="number" name="points" class="form-control" id="totalPoints"
                                                placeholder="0"
-                                               pattern="\d{1,3}" required readonly>
+                                               pattern="\d{1,3}" value="0" required readonly>
                                     </div>
                                     <a onclick="$('.scroll').moveUp();"
                                        class="btn btn-primary scroll-button">Previous</a>

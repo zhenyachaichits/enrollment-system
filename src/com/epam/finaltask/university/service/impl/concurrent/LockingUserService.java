@@ -7,7 +7,7 @@ import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
 import com.epam.finaltask.university.service.Service;
 import com.epam.finaltask.university.service.impl.UserService;
-import com.epam.finaltask.university.service.exception.InvalidDataException;
+import com.epam.finaltask.university.service.exception.InvalidServiceDataException;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.util.DataEncrypter;
 import com.epam.finaltask.university.validator.UserValidator;
@@ -33,7 +33,7 @@ public class LockingUserService implements Service {
 
     private static final Lock lock = new ReentrantLock();
 
-    public User createNewAccount(User user) throws InvalidDataException, ServiceException {
+    public User createNewAccount(User user) throws InvalidServiceDataException, ServiceException {
         UserService userService = UserService.getInstance(); // TODO: ask about it
 
         if (UserValidator.validateUser(user) && !userService.checkEmailExistence(user.getEmail())) {
@@ -51,7 +51,7 @@ public class LockingUserService implements Service {
                 lock.unlock();
             }
         } else {
-            throw new InvalidDataException("Invalid user data. Operation Stopped");
+            throw new InvalidServiceDataException("Invalid user data. Operation Stopped");
         }
     }
 }

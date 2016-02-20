@@ -4,14 +4,18 @@ import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.type.MedalType;
 import com.epam.finaltask.university.dao.util.DateTypeConverter;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by Zheny Chaichits on 18.02.2016.
  */
 public class ProfileDaoService {
 
-    private ProfileDaoService() { }
+    private ProfileDaoService() {
+    }
 
     public static class ProfileDaoServiceHolder {
         public static final ProfileDaoService INSTANCE = new ProfileDaoService();
@@ -30,6 +34,7 @@ public class ProfileDaoService {
     private static final String PHONE_KEY = "phone";
     private static final String ADDRESS_KEY = "address";
     private static final String POINTS_KEY = "points";
+    private static final String FORM_KEY = "free_form";
     private static final String MEDAL_TYPE_KEY = "medal";
     private static final String PRIVILEGES_KEY = "privilegies";
     private static final String FACULTY_ID_KEY = "faculty_faculty_id";
@@ -38,40 +43,42 @@ public class ProfileDaoService {
     private static final int MIN_PARAMETER_INDEX = 1;
 
     private static final String ADD_PROFILE_QUERY = "INSERT INTO profile (passport_id, first_name, middle_name, last_name, birth_date," +
-            "phone, address, points, medal, faculty_faculty_id, user_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String ADD_PRIVILEGED_PROFILE_QUERY = "INSERT INTO profile (passport_id, first_name, middle_name, last_name, " +
-            "birth_date, phone, address, points, medal, privilegies, faculty_faculty_id, user_user_id) " +
+            "phone, address, points, medal, free_form, faculty_faculty_id, user_user_id) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String ADD_PRIVILEGED_PROFILE_QUERY = "INSERT INTO profile (passport_id, first_name, middle_name, last_name, " +
+            "birth_date, phone, address, points, medal, free_form, privilegies, faculty_faculty_id, user_user_id) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_PROFILE_QUERY = "UPDATE profile SET passport_id = ?, first_name = ?, " +
+            "middle_name = ?, last_name = ?, birth_date = ?, phone = ?, address = ?, points = ?, " +
+            "medal = ?, free_form = ?, faculty_faculty_id = ? WHEN user_user_id = ?";
 
     public Profile createProfile(Profile profile, Connection connection) throws SQLException {
-        PreparedStatement statement = null;
-        try {
-            String query;
+        String query;
 
-            if (profile.getPrivileges() == null) {
-                query = ADD_PROFILE_QUERY;
+        if (profile.getPrivileges() == null) {
+            query = ADD_PROFILE_QUERY;
+        } else {
+            query = ADD_PRIVILEGED_PROFILE_QUERY;
+        }
+        try (
+                PreparedStatement statement = connection.prepareStatement(query);
+        ) {
+            fillInStatement(statement, profile);
+            int result = statement.executeUpdate();;
+
+            if (result != 0) {
+                return profile;
             } else {
-                query = ADD_PRIVILEGED_PROFILE_QUERY;
+                return null;
             }
+        }
+    }
 
-            statement = connection.prepareStatement(query);
-
-            int i = MIN_PARAMETER_INDEX;
-            statement.setString(i++, profile.getPassportId());
-            statement.setString(i++, profile.getFirstName());
-            statement.setString(i++, profile.getMiddleName());
-            statement.setString(i++, profile.getLastName());
-            statement.setDate(i++, DateTypeConverter.convertToSqlDate(profile.getBirthDate()));
-            statement.setString(i++, profile.getPhone());
-            statement.setString(i++, profile.getAddress());
-            statement.setInt(i++, profile.getPoints());
-            statement.setString(i++, profile.getMedalType().toString());
-            if (profile.getPrivileges() != null) {
-                statement.setString(i++, profile.getPrivileges());
-            }
-            statement.setLong(i++, profile.getFacultyId());
-            statement.setLong(i, profile.getUserId());
-
+    public Profile updateProfile(Profile profile, Connection connection) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(UPDATE_PROFILE_QUERY);
+        ) {
+            fillInStatement(statement, profile);
             int result = statement.executeUpdate();
 
             if (result != 0) {
@@ -79,11 +86,27 @@ public class ProfileDaoService {
             } else {
                 return null;
             }
-        } finally {
-            if (statement != null) {
-                statement.close();
-            }
         }
+    }
+
+    private void fillInStatement(PreparedStatement statement, Profile profile) throws SQLException {
+        int i = MIN_PARAMETER_INDEX;
+
+        statement.setString(i++, profile.getPassportId());
+        statement.setString(i++, profile.getFirstName());
+        statement.setString(i++, profile.getMiddleName());
+        statement.setString(i++, profile.getLastName());
+        statement.setDate(i++, DateTypeConverter.convertToSqlDate(profile.getBirthDate()));
+        statement.setString(i++, profile.getPhone());
+        statement.setString(i++, profile.getAddress());
+        statement.setInt(i++, profile.getPoints());
+        statement.setString(i++, profile.getMedalType().toString());
+        statement.setBoolean(i++, profile.isFreeForm());
+        if (profile.getPrivileges() != null) {
+            statement.setString(i++, profile.getPrivileges());
+        }
+        statement.setLong(i++, profile.getFacultyId());
+        statement.setLong(i, profile.getUserId());
     }
 
     public Profile compileProfile(ResultSet resultSet) throws SQLException {
@@ -99,6 +122,7 @@ public class ProfileDaoService {
         profile.setAddress(resultSet.getString(ADDRESS_KEY));
         profile.setPoints(resultSet.getInt(POINTS_KEY));
         profile.setMedalType(MedalType.valueOf(resultSet.getString(MEDAL_TYPE_KEY)));
+        profile.setFreeForm(resultSet.getBoolean(FORM_KEY));
         String privileges = resultSet.getString(PRIVILEGES_KEY);
         if (!resultSet.wasNull()) {
             profile.setPrivileges(privileges);

@@ -6,6 +6,7 @@ package com.epam.finaltask.university.controller.command;
 public enum CommandName {
     GO_HOME, GO_SIGNUP, GO_STATISTICS, GO_PROFILE,
     CHECK_ACCOUNT, AUTHENTICATE, COOKIE_AUTHENTICATE, LOG_OUT, SIGN_UP, CHECK_EMAIL, CHECK_PASSPORT_ID,
+    UPDATE_PROFILE,
     GET_SUBJECTS,
     SET_LOCALE,
 

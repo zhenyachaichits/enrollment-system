@@ -6,7 +6,7 @@ import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
 import com.epam.finaltask.university.service.Service;
-import com.epam.finaltask.university.service.exception.InvalidDataException;
+import com.epam.finaltask.university.service.exception.InvalidServiceDataException;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.impl.StudentService;
 import com.epam.finaltask.university.service.util.DataEncrypter;
@@ -32,7 +32,7 @@ public class LockingStudentService implements Service {
 
     private static final Lock lock = new ReentrantLock();
 
-    public Student createNewAccount(Student student) throws InvalidDataException, ServiceException {
+    public Student createNewAccount(Student student) throws InvalidServiceDataException, ServiceException {
         StudentService studentService = StudentService.getInstance();
 
         if (StudentValidator.validateStudent(student) && !studentService.checkStudentExistence(student)) {
@@ -50,7 +50,29 @@ public class LockingStudentService implements Service {
                 lock.unlock();
             }
         } else {
-            throw new InvalidDataException("Invalid student data. Operation Stopped");
+            throw new InvalidServiceDataException("Invalid student data. Operation Stopped");
+        }
+    }
+
+    public Student updateStudentProfile(Student student) throws ServiceException, InvalidServiceDataException {
+        StudentService studentService = StudentService.getInstance();
+
+        if (StudentValidator.validateStudent(student) && !studentService.checkStudentExistence(student)) {
+            lock.lock();
+            try {
+                StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();
+                String password = student.getUser().getPassword();
+                student.getUser().setPassword(DataEncrypter.encrypt(password));
+                student = dao.update(student);
+
+                return student;
+            } catch (DaoFactoryException | DaoException e) {
+                throw new ServiceException("Couldn't provide account creation service");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new InvalidServiceDataException("Invalid student data. Operation Stopped");
         }
     }
 }

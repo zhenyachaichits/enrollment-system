@@ -140,8 +140,55 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Student update(Student entity) throws DaoException {
-        return null;
+    public Student update(Student student) throws DaoException {
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+
+            User user = student.getUser();
+            Profile profile = student.getProfile();
+
+            UserDaoService userDaoService = UserDaoService.getInstance();
+            user = userDaoService.updateUser(user, connection);
+
+            if (user != null) {
+                profile.setUserId(user.getId());
+
+                ProfileDaoService profileDaoService = ProfileDaoService.getInstance();
+                profile = profileDaoService.updateProfile(profile, connection);
+            }
+
+            if (user != null && profile != null) {
+                connection.commit();
+
+                student.setUser(user);
+                student.setProfile(profile);;
+                return student;
+            } else {
+                connection.rollback();
+                return null;
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                // TODO: 16.02.2016 logger?
+            }
+            throw new DaoException("Couldn't process operation", e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    // TODO: 19.02.2016 logger
+                }
+                connectionPool.closeConnection(connection);
+            }
+        }
     }
 
     @Override

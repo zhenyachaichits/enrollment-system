@@ -60,7 +60,7 @@ function switchScrollability(mq) {
     }
 }
 
-$("#gpa").keyup(function () {
+function refreshTotal() {
     var total = 0;
     $(".point").each(function () {
         var element = $(this);
@@ -69,7 +69,7 @@ $("#gpa").keyup(function () {
         total += value;
     });
     $("#totalPoints").val(total);
-});
+};
 
 $("#faculty").change(function () {
 

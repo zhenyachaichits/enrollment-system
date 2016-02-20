@@ -15,10 +15,19 @@
 
             <div class="col-md-4">
                 <input type="number" min="${subject.minPoint}" max="100" class="form-control point" id="subject${loopCounter.count}"
-                       placeholder="Points"
+                       placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
                        pattern="\d{1,3}"> </input>
                 <p class="help-block">Minimal point for this subjest is: ${subject.minPoint} </p>
             </div>
         </div>
     </c:forEach>
+    <div class="form-group">
+        <label for="gpa" class="col-md-5 control-label">GPA</label>
+
+        <div class="col-md-4">
+            <input type="number" min="30" max="100" class="form-control point" id="gpa"
+                   placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
+                   pattern="\d{1,3}"> </input>
+        </div>
+    </div>
 </data>
