@@ -1,4 +1,4 @@
-package com.epam.finaltask.university.controller.command.impl.logic;
+package com.epam.finaltask.university.controller.command.impl.logic.search;
 
 import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.type.UserType;
