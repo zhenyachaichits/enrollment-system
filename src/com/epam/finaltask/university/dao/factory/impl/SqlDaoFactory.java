@@ -1,7 +1,5 @@
 package com.epam.finaltask.university.dao.factory.impl;
 
-import com.epam.finaltask.university.bean.Faculty;
-import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.dao.*;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
@@ -21,27 +19,27 @@ public class SqlDaoFactory extends DaoFactory {
 
     @Override
     public UserDao getUserDao() throws DaoException {
-        return UserDaoImpl.getInstance();
+        return SqlUserDaoImpl.getInstance();
     }
 
     @Override
     public ProfileDao getProfileDao() throws DaoException {
-        return ProfileDaoImpl.getInstance();
+        return SqlProfileDaoImpl.getInstance();
     }
 
     @Override
     public SubjectDao getSubjectDao() throws DaoException {
-        return SubjectDaoImpl.getInstance();
+        return SqlSubjectDaoImpl.getInstance();
     }
 
     @Override
     public FacultyDao getFacultyDao() throws DaoException {
-        return FacultyDaoImpl.getInstance();
+        return SqlFacultyDaoImpl.getInstance();
     }
 
     @Override
     public StudentDao getStudentDao() throws DaoException {
-        return StudentDaoImpl.getInstance();
+        return SqlStudentDaoImpl.getInstance();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.epam.finaltask.university.service.impl.concurrent;
 
+import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.dao.StudentDao;
 import com.epam.finaltask.university.dao.exception.DaoException;
@@ -57,7 +58,7 @@ public class LockingStudentService implements Service {
     public Student updateStudentProfile(Student student) throws ServiceException, InvalidServiceDataException {
         StudentService studentService = StudentService.getInstance();
 
-        if (StudentValidator.validateStudent(student) && !studentService.checkStudentExistence(student)) {
+        if (StudentValidator.validateStudentForUpdate(student) && !studentService.checkStudentExistence(student)) {
             lock.lock();
             try {
                 StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();

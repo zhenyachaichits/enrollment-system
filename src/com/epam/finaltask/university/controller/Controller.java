@@ -2,8 +2,12 @@ package com.epam.finaltask.university.controller;
 
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.CommandHelper;
+import com.epam.finaltask.university.controller.command.exception.AccessDeniedException;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
+import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
+import com.epam.finaltask.university.controller.command.exception.InvalidSessionException;
 import com.epam.finaltask.university.controller.util.AjaxIdentifier;
+import com.epam.finaltask.university.controller.util.ExceptionHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,17 +53,19 @@ public final class Controller extends HttpServlet {
     private String getResponseString(HttpServletRequest request, HttpServletResponse response, Command command, boolean isAjax) {
         String responseString;
         try {
+
             responseString = command.execute(request, response);
+
+        } catch (AccessDeniedException e){
+            responseString = ExceptionHandler.handleAccessException(e);
+        } catch (InvalidSessionException e) {
+            responseString = ExceptionHandler.handleSessionException(e);
+        } catch (InvalidDataException e) {
+            responseString = ExceptionHandler.handleDataException(e);
         } catch (CommandException e) {
-            LOG.error("Couldn't execute command", e);
-            if (isAjax) {
-                responseString = ERROR_MESSAGE;
-            } else {
-                responseString = JspPageName.ERROR_PAGE;
-            }
+            responseString = ExceptionHandler.handleCommandException(e, isAjax);
         } catch (Exception e) {
-            responseString = "";
-            //TODO: add exception handler
+            responseString = JspPageName.ERROR_PAGE;
         }
         return responseString;
     }

@@ -12,4 +12,5 @@ public final class SessionParameterName {
 
     public static final String EMAIL = "userEmail";
     public static final String ROLE = "userRole";
+    public static final String UID = "userId";
 }

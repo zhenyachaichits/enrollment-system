@@ -33,6 +33,7 @@ public final class RequestParameterName {
     public static final String ADDRESS = "address";
 
     public static final String STUDENT = "student";
+    public static final String PROFILES = "profiles";
 
     public static final String LOCALE = "locale";
 

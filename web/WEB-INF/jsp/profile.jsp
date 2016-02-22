@@ -1,8 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="tr" uri="http://epam.com/project/university/transliterate" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="resources.locale" var="loc"/>
@@ -10,7 +11,6 @@
 
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>${title}</title>
 
     <%@include file="included/css_list.jsp" %>
@@ -21,10 +21,20 @@
 <jsp:include page="included/navbar.jsp"/>
 
 <div class="container">
-    <div class="row">
-        <form class="form-horizontal" action="profile">
-            <input type="hidden" name="command" value="update-profile">
+    <form class="form-horizontal" name="update" accept-charset="utf-8" action="profile" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="javascript:update.submit()" id="saveBtn" class="btn btn-primary btn-lg btn-block btn-raised">SAVE</a>
+            </div>
+            <div class="col-md-6">
+                <a href="javascript:void(0)" id="cancelBtn"
+                   class="btn btn-default btn-lg btn-block btn-raised">CANCEL</a>
+            </div>
+        </div>
 
+        <input type="hidden" name="command" value="update-profile">
+
+        <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-default clear">
                     <div class="panel-heading">Account Data</div>
@@ -33,10 +43,10 @@
                             <label class="col-md-3 control-label" for="newEmail">Email</label>
                             <div class="col-md-8">
                                 <input type="email" name="email" id="newEmail" class="form-control"
-                                       placeholder="Email" value="${student.user.email}" required readonly>
+                                       placeholder="Email" value="${student.user.email}" required>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="passwordGroup">
                             <label for="newPassword" class="col-md-3 control-label">Password</label>
 
                             <div class="col-md-8">
@@ -48,7 +58,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-12 col-md-offset-9">
-                                <a id="updAccount" class="btn btn-primary scroll-button">Update</a>
+                                <a id="updAccount" class="btn btn-primary">Update</a>
                             </div>
                         </div>
                     </div>
@@ -62,7 +72,7 @@
                             <label class="col-md-3 control-label">Medal</label>
 
                             <div class="col-md-8">
-                                <div class="radio radio-primary">
+                                <div class="radio radio-primary" id="medalType">
                                     <label>
                                         <input type="radio" name="medal" id="none" value="none"
                                         <c:if test="${student.profile.medalType eq 'NONE'}">
@@ -94,10 +104,19 @@
 
                             <div class="col-md-8">
                                     <textarea name="privileges" class="form-control" rows="3"
-                                              id="privileges">${student.profile.privileges}</textarea>
-                                <span class="help-block">Lalalala.</span>
+                                              id="privileges">
+                                        ${student.profile.privileges}
+                                    </textarea>
+                                <span class="help-block">Not required</span>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 col-md-offset-9">
+                                <a id="updPrivileges" class="btn btn-primary">Update</a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -119,8 +138,16 @@
 
                             <div class="col-md-8">
                                     <textarea name="address" class="form-control" rows="3" id="address"
-                                              required>${student.profile.address}</textarea>
+                                              required>
+                                        ${student.profile.address}
+                                    </textarea>
                                 <span class="help-block">Lalalala.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 col-md-offset-9">
+                                <a id="updContact" class="btn btn-primary">Update</a>
                             </div>
                         </div>
 
@@ -175,13 +202,13 @@
                             <div class="col-md-8">
                                 <input name="dateBirth" type="text" class="form-control date" id="dateBirth"
                                        placeholder="Birth Date"
-                                       value="<fmt:formatDate pattern="dd-MM-yyyy"
+                                       value="<fmt:formatDate pattern="dd.MM.yyyy"
                                        value="${student.profile.birthDate.time}" />" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12 col-md-offset-9">
-                                <a id="updPersonal" class="btn btn-primary scroll-button">Update</a>
+                                <a id="updPersonal" class="btn btn-primary">Update</a>
                             </div>
                         </div>
                     </div>
@@ -195,9 +222,10 @@
 
                             <div class="col-md-8">
                                 <select name="facultyID" id="faculty" class="form-control">
-                                    <option disabled selected>Choose faculty</option>
+                                    <option disabled>Choose faculty</option>
                                     <c:forEach var="faculty" items="${faculties}">
-                                        <option value="${faculty.id}">
+                                        <option value="${faculty.id}"
+                                                <c:if test="${faculty.id eq student.profile.facultyId}">selected</c:if> >
                                             <tr:transl>${faculty.name}</tr:transl>
                                         </option>
                                     </c:forEach>
@@ -208,40 +236,42 @@
                         <div id="subjects"></div>
 
                         <div class="form-group">
-                            <label for="gpa" class="col-md-5 control-label">GPA</label>
+                            <label for="totalPoints" class="col-md-5 control-label">Total:</label>
 
                             <div class="col-md-4">
-                                <input type="number" min="30" max="100" class="form-control point" id="gpa"
-                                       placeholder="Points"
-                                       pattern="\d{1,3}" required> </input>
+                                <input type="number" name="points" class="form-control" id="totalPoints"
+                                       placeholder="0"
+                                       pattern="\d{1,3}"
+                                       value="${student.profile.points}" required readonly>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-12">
-                                <div class="col-md-3">
-                                    <label for="totalPoints" class=" control-label">Total:</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="number" name="points" class="form-control" id="totalPoints"
-                                           placeholder="0"
-                                           pattern="\d{1,3}"
-                                           value="${student.profile.points}" required readonly>
-                                </div>
-                                <a onclick="$('.scroll').moveUp();"
-                                   class="btn btn-primary scroll-button">Previous</a>
-                                <a id="toPrivileges" class="btn btn-primary scroll-button">Next</a>
+                            <div class="col-md-12 col-md-offset-9">
+                                <a id="updEducation" class="btn btn-primary">Update</a>
                             </div>
                         </div>
+
                     </div>
                 </div>
-
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
+<span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+      data-content="One or more records are incorrect" data-timeout="4000"
+      data-snackbar-id="snackbar1454251274095"></span>
+    <span id="emailErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+          data-content="Account with such Email already exists" data-timeout="4000"
+          data-snackbar-id="snackbar1454251274096"></span>
+    <span id="passportErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+          data-content="Account with such Passport ID already exists" data-timeout="4000"
+          data-snackbar-id="snackbar1454251274097"></span>
+
 <%@include file="included/js_list.jsp" %>
+<script src="content/js/profile-update.js"></script>
+<script src="content/js/ajax/singup.js"></script>
 
 </body>
 </html>

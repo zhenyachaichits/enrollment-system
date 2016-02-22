@@ -25,4 +25,15 @@
 
 <script>
     $.material.init();
+
+
+    $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
+    $("select").dropdown({"autoinit": "select"});
+
+    $(function ($) {
+        $(".phone").mask("+999 (99) 999-99-99", {placeholder: "_"});
+        $(".score").mask("999", {placeholder: ""});
+        $("#passportID").mask("aa9999999", {placeholder: ""});
+    });
+
 </script>

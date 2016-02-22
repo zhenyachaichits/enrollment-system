@@ -5,7 +5,7 @@
   Time: 17:50
   To change this template use File | Settings | File Templates.
 --%>
-<%@page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="tr" uri="http://epam.com/project/university/transliterate" %>
@@ -294,7 +294,9 @@
 
 <%@include file="included/js_list.jsp" %>
 <script src="content/js/jquery.onepage-scroll.min.js"></script>
-<script src="content/js/ajax/singup-onepage.js"></script>
+<script src="content/js/ajax/singup.js"></script>
+<script src="content/js/onepage-config.js"></script>
+<script src="content/js/onepage-navigation.js"></script>
 
 </body>
 </html>

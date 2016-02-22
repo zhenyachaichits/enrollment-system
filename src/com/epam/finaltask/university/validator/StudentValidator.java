@@ -18,4 +18,21 @@ public class StudentValidator {
 
         return isUserValid && isProfileValid;
     }
+
+    public static boolean validateStudentForUpdate(Student student) {
+        User user = student.getUser();
+        Profile profile = student.getProfile();
+
+        if (!ProfileValidator.validateProfile(profile)) {
+            return false;
+        }
+        if (!UserValidator.validateEmail(user.getEmail())) {
+            return false;
+        }
+        if (!"".equals(user.getPassword()) && !UserValidator.validatePassword(user.getPassword())) {
+            return false;
+        }
+
+        return true;
+    }
 }

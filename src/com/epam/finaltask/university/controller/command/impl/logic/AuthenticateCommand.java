@@ -74,5 +74,6 @@ public class AuthenticateCommand implements Command {
 
         session.setAttribute(SessionParameterName.EMAIL, user.getEmail());
         session.setAttribute(SessionParameterName.ROLE, user.getRole());
+        session.setAttribute(SessionParameterName.UID, user.getId());
     }
 }

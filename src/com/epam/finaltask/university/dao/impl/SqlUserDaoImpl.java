@@ -1,7 +1,6 @@
 package com.epam.finaltask.university.dao.impl;
 
 import com.epam.finaltask.university.bean.User;
-import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.dao.UserDao;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
@@ -15,19 +14,19 @@ import java.util.List;
 /**
  * Created by Zheny Chaichits on 05.02.16.
  */
-public class UserDaoImpl implements UserDao {
+public class SqlUserDaoImpl implements UserDao {
 
     private final ConnectionPool connectionPool;
 
-    private UserDaoImpl() {
+    private SqlUserDaoImpl() {
         connectionPool = ConnectionPool.getInstance();
     }
 
     public static class UserDaoHolder {
-        public static final UserDaoImpl INSTANCE = new UserDaoImpl();
+        public static final SqlUserDaoImpl INSTANCE = new SqlUserDaoImpl();
     }
 
-    public static UserDaoImpl getInstance() {
+    public static SqlUserDaoImpl getInstance() {
         return UserDaoHolder.INSTANCE;
     }
 

@@ -5,7 +5,6 @@ import com.epam.finaltask.university.dao.SubjectDao;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,19 +13,19 @@ import java.util.List;
 /**
  * Created by Zheny Chaichits on 08.02.2016.
  */
-public class SubjectDaoImpl implements SubjectDao {
+public class SqlSubjectDaoImpl implements SubjectDao {
 
     private final ConnectionPool connectionPool;
 
-    private SubjectDaoImpl() {
+    private SqlSubjectDaoImpl() {
         connectionPool = ConnectionPool.getInstance();
     }
 
     public static class SubjectDaoHolder {
-        public static final SubjectDaoImpl INSTANCE = new SubjectDaoImpl();
+        public static final SqlSubjectDaoImpl INSTANCE = new SqlSubjectDaoImpl();
     }
 
-    public static SubjectDaoImpl getInstance() {
+    public static SqlSubjectDaoImpl getInstance() {
         return SubjectDaoHolder.INSTANCE;
     }
 

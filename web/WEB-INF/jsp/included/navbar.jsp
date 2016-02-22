@@ -5,7 +5,7 @@
   Time: 18:25
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -61,11 +61,23 @@
                            data-toggle="dropdown">${sessionScope.userEmail}
                             <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <form hidden="hidden" name="goProfile" action="profile" method="post">
-                                <input type="hidden" name="command" value="go-profile">
-                            </form>
-                            <li><a href="javascript:goProfile.submit();">${profile}</a></li>
-                            <li class="divider"></li>
+
+                            <c:if test="${sessionScope.userRole eq 'STUDENT'}">
+                                <form hidden="hidden" name="goProfile" action="profile" method="post">
+                                    <input type="hidden" name="command" value="go-profile">
+                                </form>
+                                <li><a href="javascript:goProfile.submit();">${profile}</a></li>
+                                <li class="divider"></li>
+                            </c:if>
+
+                            <c:if test="${sessionScope.userRole eq 'SUPPORT'}">
+                                <form hidden="hidden" name="goProfile" action="search" method="post">
+                                    <input type="hidden" name="command" value="go-support-search">
+                                </form>
+                                <li><a href="javascript:goProfile.submit();">Search</a></li>
+                                <li class="divider"></li>
+                            </c:if>
+
                             <form hidden="hidden" name="logout" action="" method="post">
                                 <input type="hidden" name="command" value="log-out">
                             </form>
@@ -77,7 +89,8 @@
                 </c:if>
 
                 <c:if test="${sessionScope.userEmail == null}">
-                    <li><a href="javascript:void(0)" id="signInLink" data-toggle="modal" data-target="#signIn">${signIn}</a></li>
+                    <li><a href="javascript:void(0)" id="signInLink" data-toggle="modal"
+                           data-target="#signIn">${signIn}</a></li>
                 </c:if>
 
                 <li class="dropdown">
@@ -132,13 +145,16 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <c:if test="${sessionScope.locale eq 'en'}"><div class="col-md-offset-4"></c:if>
-                                <c:if test="${sessionScope.locale ne 'en'}"><div class="col-md-offset-3"></c:if>
-                                    <a href="javascript:signup.submit();" class="btn btn-primary">${signUpButton}</a>
-                                    <a href="javascript:void(0)" id="submit"
-                                       class="btn btn-raised btn-primary">${signInButton}</a>
+                                <c:if test="${sessionScope.locale eq 'en'}">
+                                <div class="col-md-offset-4"></c:if>
+                                    <c:if test="${sessionScope.locale ne 'en'}">
+                                    <div class="col-md-offset-3"></c:if>
+                                        <a href="javascript:signup.submit();"
+                                           class="btn btn-primary">${signUpButton}</a>
+                                        <a href="javascript:void(0)" id="submit"
+                                           class="btn btn-raised btn-primary">${signInButton}</a>
+                                    </div>
                                 </div>
-                            </div>
                         </fieldset>
                     </form>
 

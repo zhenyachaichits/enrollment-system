@@ -9,16 +9,16 @@ import java.util.List;
 /**
  * Created by Zheny Chaichits on 08.02.2016.
  */
-public class ApplicationDaoImpl implements ApplicationDao {
+public class SqlApplicationDaoImpl implements ApplicationDao {
 
-    private ApplicationDaoImpl() {
+    private SqlApplicationDaoImpl() {
     }
 
     public static class ApplicationDaoHolder {
-        public static final ApplicationDaoImpl INSTANCE = new ApplicationDaoImpl();
+        public static final SqlApplicationDaoImpl INSTANCE = new SqlApplicationDaoImpl();
     }
 
-    public static ApplicationDaoImpl getInstance() {
+    public static SqlApplicationDaoImpl getInstance() {
         return ApplicationDaoHolder.INSTANCE;
     }
 

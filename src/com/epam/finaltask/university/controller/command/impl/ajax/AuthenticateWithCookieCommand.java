@@ -1,6 +1,7 @@
 package com.epam.finaltask.university.controller.command.impl.ajax;
 
 import com.epam.finaltask.university.bean.User;
+import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.impl.ajax.response.AjaxResponseValue;
@@ -18,9 +19,6 @@ import javax.servlet.http.HttpSession;
 public class AuthenticateWithCookieCommand implements Command {
 
     private static final String COOKIE_ID_NAME = "university_user_id";
-
-    private static final String SESSION_EMAIL_NAME = "userEmail";
-    private static final String SESSION_ROLE_NAME = "userRole";
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -47,8 +45,9 @@ public class AuthenticateWithCookieCommand implements Command {
 
             User user = service.getUserById(Long.parseLong(id));
             if (user != null) {
-                session.setAttribute(SESSION_EMAIL_NAME, user.getEmail());
-                session.setAttribute(SESSION_ROLE_NAME, user.getRole());
+                session.setAttribute(SessionParameterName.EMAIL, user.getEmail());
+                session.setAttribute(SessionParameterName.ROLE, user.getRole());
+                session.setAttribute(SessionParameterName.UID, user.getId());
             } else {
                 // TODO: 11.02.2016 maybe add logging
             }

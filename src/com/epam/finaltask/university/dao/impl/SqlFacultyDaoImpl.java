@@ -16,19 +16,19 @@ import java.util.List;
 /**
  * Created by Zheny Chaichits on 08.02.2016.
  */
-public class FacultyDaoImpl implements FacultyDao {
+public class SqlFacultyDaoImpl implements FacultyDao {
 
     private final ConnectionPool connectionPool;
 
-    private FacultyDaoImpl() {
+    private SqlFacultyDaoImpl() {
         connectionPool = ConnectionPool.getInstance();
     }
 
     public static class FacultyDaoHolder {
-        public static final FacultyDaoImpl INSTANCE = new FacultyDaoImpl();
+        public static final SqlFacultyDaoImpl INSTANCE = new SqlFacultyDaoImpl();
     }
 
-    public static FacultyDaoImpl getInstance() {
+    public static SqlFacultyDaoImpl getInstance() {
         return FacultyDaoHolder.INSTANCE;
     }
 

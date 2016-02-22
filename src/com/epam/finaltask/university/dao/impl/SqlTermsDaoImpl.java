@@ -9,16 +9,16 @@ import java.util.List;
 /**
  * Created by Zheny Chaichits on 08.02.2016.
  */
-public class TermsDaoImpl implements TermsDao {
+public class SqlTermsDaoImpl implements TermsDao {
 
-    private TermsDaoImpl() {
+    private SqlTermsDaoImpl() {
     }
 
     public static class TermsDaoHolder {
-        public static final TermsDaoImpl INSTANCE = new TermsDaoImpl();
+        public static final SqlTermsDaoImpl INSTANCE = new SqlTermsDaoImpl();
     }
 
-    public static TermsDaoImpl getInstance() {
+    public static SqlTermsDaoImpl getInstance() {
         return TermsDaoHolder.INSTANCE;
     }
 

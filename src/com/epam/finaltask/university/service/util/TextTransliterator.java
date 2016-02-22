@@ -17,10 +17,10 @@ public class TextTransliterator {
         charTable['Д' - START_CHAR] = "D";
         charTable['Е' - START_CHAR] = "E";
         charTable['Ё' - START_CHAR] = "E";
-        charTable['Ж' - START_CHAR] = "ZH";
+        charTable['Ж' - START_CHAR] = "Zh";
         charTable['З' - START_CHAR] = "Z";
         charTable['И' - START_CHAR] = "I";
-        charTable['Й' - START_CHAR] = "I";
+        charTable['Й' - START_CHAR] = "Y";
         charTable['К' - START_CHAR] = "K";
         charTable['Л' - START_CHAR] = "L";
         charTable['М' - START_CHAR] = "M";
@@ -33,16 +33,16 @@ public class TextTransliterator {
         charTable['У' - START_CHAR] = "U";
         charTable['Ф' - START_CHAR] = "F";
         charTable['Х' - START_CHAR] = "H";
-        charTable['Ц' - START_CHAR] = "C";
-        charTable['Ч' - START_CHAR] = "CH";
-        charTable['Ш' - START_CHAR] = "SH";
-        charTable['Щ' - START_CHAR] = "SH";
+        charTable['Ц' - START_CHAR] = "Ts";
+        charTable['Ч' - START_CHAR] = "Ch";
+        charTable['Ш' - START_CHAR] = "Sh";
+        charTable['Щ' - START_CHAR] = "Sch";
         charTable['Ъ' - START_CHAR] = "";
         charTable['Ы' - START_CHAR] = "Y";
         charTable['Ь' - START_CHAR] = "";
         charTable['Э' - START_CHAR] = "E";
         charTable['Ю' - START_CHAR] = "U";
-        charTable['Я' - START_CHAR] = "YA";
+        charTable['Я' - START_CHAR] = "Ya";
 
         for (int i = 0; i < charTable.length; i++) {
             char idx = (char) ((char) i + START_CHAR);

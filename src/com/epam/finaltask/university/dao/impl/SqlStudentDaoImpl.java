@@ -19,19 +19,19 @@ import java.util.List;
 /**
  * Created by Zheny Chaichits on 18.02.2016.
  */
-public class StudentDaoImpl implements StudentDao {
+public class SqlStudentDaoImpl implements StudentDao {
 
     private final ConnectionPool connectionPool;
 
-    private StudentDaoImpl() {
+    private SqlStudentDaoImpl() {
         connectionPool = ConnectionPool.getInstance();
     }
 
     public static class RegisterTransactionDaoHolder {
-        public static final StudentDaoImpl INSTANCE = new StudentDaoImpl();
+        public static final SqlStudentDaoImpl INSTANCE = new SqlStudentDaoImpl();
     }
 
-    public static StudentDaoImpl getInstance() {
+    public static SqlStudentDaoImpl getInstance() {
         return RegisterTransactionDaoHolder.INSTANCE;
     }
 
