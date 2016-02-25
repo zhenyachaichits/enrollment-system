@@ -35,19 +35,19 @@ public class BeanConstructor {
         try {
             DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 
-            String passportId = request.getParameter(RequestParameterName.PASSPORT_ID);
-            String firstName = request.getParameter(RequestParameterName.FIRST_NAME);
-            String middleName = request.getParameter(RequestParameterName.MIDDLE_NAME);
-            String lastName = request.getParameter(RequestParameterName.LAST_NAME);
+            String passportId = request.getParameter(RequestParameterName.PASSPORT_ID).trim();
+            String firstName = request.getParameter(RequestParameterName.FIRST_NAME).trim();
+            String middleName = request.getParameter(RequestParameterName.MIDDLE_NAME).trim();
+            String lastName = request.getParameter(RequestParameterName.LAST_NAME).trim();
             Calendar birthDate  = Calendar.getInstance();
             birthDate.setTime(formatter.parse(request.getParameter(RequestParameterName.BIRTH_DATE)));
             long facultyId = Long.parseLong(request.getParameter(RequestParameterName.FACULTY_ID));
             boolean isFree = CHECKED.equals(request.getParameter(RequestParameterName.FREE_FORM));
             int points = Integer.parseInt(request.getParameter(RequestParameterName.TOTAL_POINTS));
             MedalType medal = MedalType.valueOf(request.getParameter(RequestParameterName.MEDAL_TYPE).toUpperCase());
-            String privileges = request.getParameter(RequestParameterName.PRIVILEGES);
-            String phone = request.getParameter(RequestParameterName.PHONE);
-            String address = request.getParameter(RequestParameterName.ADDRESS);
+            String privileges = request.getParameter(RequestParameterName.PRIVILEGES).trim();
+            String phone = request.getParameter(RequestParameterName.PHONE).trim();
+            String address = request.getParameter(RequestParameterName.ADDRESS).trim();
 
             Profile profile = new Profile();
 

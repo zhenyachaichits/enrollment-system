@@ -29,6 +29,7 @@ $("#cancelBtn").click(function () {
     $("#saveBtn").hide(500);
     $("#cancelBtn").hide(500);
 
+    $("#submitForm").show(500);
     $("#updAccount").show(500);
     $("#updPrivileges").show(500);
     $("#updContact").show(500);
@@ -46,6 +47,7 @@ $("#updAccount").click(function () {
     
     $("#saveBtn").show(500);
     $("#cancelBtn").show(500);
+    $("#submitForm").hide(500);
 });
 
 $("#updPrivileges").click(function () {
@@ -55,6 +57,7 @@ $("#updPrivileges").click(function () {
     $("#updPrivileges").hide(500);
     $("#saveBtn").show(500);
     $("#cancelBtn").show(500);
+    $("#submitForm").hide(500);
 });
 
 $("#updContact").click(function () {
@@ -64,6 +67,7 @@ $("#updContact").click(function () {
     $("#updContact").hide(500);
     $("#saveBtn").show(500);
     $("#cancelBtn").show(500);
+    $("#submitForm").hide(500);
 });
 
 $("#updPersonal").click(function () {
@@ -76,6 +80,7 @@ $("#updPersonal").click(function () {
     $("#updPersonal").hide(500);
     $("#saveBtn").show(500);
     $("#cancelBtn").show(500);
+    $("#submitForm").hide(500);
 });
 
 $("#updEducation").click(function () {
@@ -85,4 +90,5 @@ $("#updEducation").click(function () {
     $("#updEducation").hide(500);
     $("#saveBtn").show(500);
     $("#cancelBtn").show(500);
+    $("#submitForm").hide(500);
 });

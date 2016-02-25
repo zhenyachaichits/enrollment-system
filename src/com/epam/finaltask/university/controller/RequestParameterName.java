@@ -35,6 +35,10 @@ public final class RequestParameterName {
     public static final String STUDENT = "student";
     public static final String PROFILES = "profiles";
 
+    public static final String PROFILE_ID = "profileID";
+    public static final String OUT_OF_COMPETITION = "outCompetition";
+    public static final String PROFILE = "profile";
+
     public static final String LOCALE = "locale";
 
 }

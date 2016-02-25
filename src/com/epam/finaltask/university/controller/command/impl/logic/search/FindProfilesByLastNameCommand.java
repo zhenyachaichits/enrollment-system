@@ -13,16 +13,13 @@ import com.epam.finaltask.university.service.impl.ProfileService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
  * Created by Zheny Chaichits on 22.02.2016.
  */
 public class FindProfilesByLastNameCommand implements Command {
-
-    private static final int LIST_SIZE = 1;
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

@@ -50,7 +50,10 @@ public class ProfileDaoService {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_PROFILE_QUERY = "UPDATE profile SET passport_id = ?, first_name = ?, " +
             "middle_name = ?, last_name = ?, birth_date = ?, phone = ?, address = ?, points = ?, " +
-            "medal = ?, free_form = ?, faculty_faculty_id = ? WHEN user_user_id = ?";
+            "medal = ?, free_form = ?, faculty_faculty_id = ? WHERE user_user_id = ?";
+    private static final String UPDATE_PRIVILEGED_PROFILE_QUERY = "UPDATE profile SET passport_id = ?, first_name = ?, " +
+            "middle_name = ?, last_name = ?, birth_date = ?, phone = ?, address = ?, points = ?, " +
+            "medal = ?, free_form = ?, privilegies = ?, faculty_faculty_id = ? WHERE user_user_id = ?";
 
     public Profile createProfile(Profile profile, Connection connection) throws SQLException {
         String query;
@@ -75,8 +78,15 @@ public class ProfileDaoService {
     }
 
     public Profile updateProfile(Profile profile, Connection connection) throws SQLException {
+        String query;
+
+        if (profile.getPrivileges() == null) {
+            query = UPDATE_PROFILE_QUERY;
+        } else {
+            query = UPDATE_PRIVILEGED_PROFILE_QUERY;
+        }
         try (
-                PreparedStatement statement = connection.prepareStatement(UPDATE_PROFILE_QUERY);
+                PreparedStatement statement = connection.prepareStatement(query);
         ) {
             fillInStatement(statement, profile);
             int result = statement.executeUpdate();

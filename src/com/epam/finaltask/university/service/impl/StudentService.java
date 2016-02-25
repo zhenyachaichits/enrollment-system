@@ -33,6 +33,16 @@ public class StudentService implements Service {
         }
     }
 
+    public boolean checkUpdateAvailability(Student student) throws ServiceException {
+        try {
+            StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();
+
+            return dao.checkUpdateAvailability(student);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide student existence checking service");
+        }
+    }
+
     public Student getStudentByEmail(String email) throws ServiceException {
         try {
             StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();

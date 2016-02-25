@@ -40,7 +40,7 @@ public class AuthenticateCommand implements Command {
             user.setPassword(password);
 
             UserService service = UserService.getInstance();
-            user = service.authentificateUser(user);
+            user = service.authenticateUser(user);
 
             if (user != null) {
                 if (isRemembered) {

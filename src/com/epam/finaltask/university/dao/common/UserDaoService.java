@@ -31,10 +31,9 @@ public class UserDaoService {
     private static final String ADD_USER_QUERY = "INSERT INTO user (email, password_hash) values (?, ?)";
     private static final String ADD_USER_WITH_ROLE_QUERY = "INSERT INTO user (email, password_hash, role) values (?, ?, ?)";
 
-    private static final String UPDATE_USER_QUERY = "UPDATE user SET email = ? AND password_hash = ? AND role = ?" +
-            " WHERE user_id = ?";
-    private static final String UPDATE_USER_AND_PASSWORD_QUERY = "UPDATE user SET email = ? AND password_hash = ?" +
-            "AND role = ? WHERE user_id = ?";
+    private static final String UPDATE_USER_QUERY = "UPDATE user SET email = ?, role = ? WHERE user_id = ?";
+    private static final String UPDATE_USER_AND_PASSWORD_QUERY = "UPDATE user SET email = ?, password_hash = ?," +
+            "role = ? WHERE user_id = ?";
 
     public User createUser(User user, Connection connection) throws SQLException {
         String query;
@@ -82,10 +81,13 @@ public class UserDaoService {
                 PreparedStatement statement = connection.prepareStatement(query,
                         Statement.RETURN_GENERATED_KEYS);
         ) {
-            statement.setString(1, user.getEmail());
+            int i = 1;
+            statement.setString(i++, user.getEmail());
             if (!"".equals(password)) {
-                statement.setString(2, user.getPassword());
+                statement.setString(i++, user.getPassword());
             }
+            statement.setString(i++, user.getRole().toString());
+            statement.setLong(i, user.getId());
 
             int result = statement.executeUpdate();
 

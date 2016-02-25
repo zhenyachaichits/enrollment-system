@@ -19,7 +19,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
     private final ConnectionPool connectionPool;
 
     private SqlProfileDaoImpl() {
-            connectionPool = ConnectionPool.getInstance();
+        connectionPool = ConnectionPool.getInstance();
     }
 
     public static class ProfileDaoHolder {
@@ -30,8 +30,14 @@ public class SqlProfileDaoImpl implements ProfileDao {
         return ProfileDaoHolder.INSTANCE;
     }
 
-    private static final String FIND_PROFILE_BY_PASSPORT_ID_QUERY = "SELECT * FROM profile WHERE passport_id = ?";
-    private static final String GET_ALL_PROFILES_QUERY = "SELECT * FROM profile";
+    private static final String FIND_PROFILE_BY_PASSPORT_ID_QUERY = "SELECT * FROM profile WHERE passport_id = ? " +
+            "AND status = 'ACTIVE'";
+    private static final String FIND_PROFILE_BY_LAST_NAME_QUERY = "SELECT * FROM profile WHERE last_name = ? " +
+            "AND status = 'ACTIVE'";
+    private static final String FIND_PROFILE_BY_ID_QUERY = "SELECT * FROM profile WHERE profile_id = ? " +
+            "AND status = 'ACTIVE'";
+
+    private static final String GET_ALL_PROFILES_QUERY = "SELECT * FROM profile WHERE status = 'ACTIVE'";
 
     @Override
     public Profile add(Profile profile) throws DaoException {
@@ -54,6 +60,48 @@ public class SqlProfileDaoImpl implements ProfileDao {
                 PreparedStatement statement = connection.prepareStatement(FIND_PROFILE_BY_PASSPORT_ID_QUERY);
         ) {
             statement.setString(1, passportId);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                ProfileDaoService service = ProfileDaoService.getInstance();
+                return service.compileProfile(resultSet);
+            } else {
+                return null;
+            }
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public List<Profile> findByLastName(String lastName) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(FIND_PROFILE_BY_LAST_NAME_QUERY);
+        ) {
+            List<Profile> profiles = new ArrayList<>();
+            statement.setString(1, lastName);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ProfileDaoService service = ProfileDaoService.getInstance();
+                Profile profile = service.compileProfile(resultSet);
+                profiles.add(profile);
+            }
+
+            return profiles;
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public Profile findById(long profileId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(FIND_PROFILE_BY_ID_QUERY);
+        ) {
+            statement.setLong(1, profileId);
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {

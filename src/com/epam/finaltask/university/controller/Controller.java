@@ -8,8 +8,6 @@ import com.epam.finaltask.university.controller.command.exception.InvalidDataExc
 import com.epam.finaltask.university.controller.command.exception.InvalidSessionException;
 import com.epam.finaltask.university.controller.util.AjaxIdentifier;
 import com.epam.finaltask.university.controller.util.ExceptionHandler;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,38 +23,50 @@ public final class Controller extends HttpServlet {
 
     private static final String CONTENT_TYPE = "text/html";
     private static final String ERROR_MESSAGE = "ERROR";
-
-    private static final Logger LOG = LogManager.getLogger(Controller.class.getClass());
+    private static final String COMMAND_QUERY = "command=";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        doPost(request, response);
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String commandName = request.getParameter(RequestParameterName.COMMAND_NAME);
-        Command command = CommandHelper.getInstance().getCommand(commandName);
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String responseString;
 
         boolean isAjax = AjaxIdentifier.isRequestAjax(request);
+        String commandName = request.getParameter(RequestParameterName.COMMAND_NAME);
 
-        String responseString = getResponseString(request, response, command, isAjax);
-        if (isAjax && !AjaxIdentifier.isResponseContextXml(response)) {
+        if (commandName != null) {
+            Command command = CommandHelper.getInstance().getCommand(commandName);
+            responseString = getResponseString(request, response, command, isAjax);
+        } else {
+            responseString = JspPageName.ERROR_PAGE;
+        }
+
+        boolean isXml = AjaxIdentifier.isResponseContextXml(response);
+        if (isAjax && !isXml) {
             writeToResponse(response, responseString);
+        } else if (responseString.contains(COMMAND_QUERY)) {
+            response.addHeader("Location", "");
+            response.sendRedirect(responseString);
         } else {
             forwardPage(request, response, responseString);
         }
+
     }
 
-    private String getResponseString(HttpServletRequest request, HttpServletResponse response, Command command, boolean isAjax) {
+    private String getResponseString(HttpServletRequest request, HttpServletResponse response,
+                                     Command command, boolean isAjax) {
         String responseString;
         try {
-
             responseString = command.execute(request, response);
 
-        } catch (AccessDeniedException e){
+        } catch (AccessDeniedException e) {
             responseString = ExceptionHandler.handleAccessException(e);
         } catch (InvalidSessionException e) {
             responseString = ExceptionHandler.handleSessionException(e);

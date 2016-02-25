@@ -5,7 +5,7 @@
   Time: 2:13
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page  pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -23,7 +23,6 @@
 
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>${title}</title>
 
     <%@include file="included/css_list.jsp" %>
@@ -38,35 +37,80 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default clear">
-                <div class="panel-heading">Searching parameters</div>
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs searchtab">
+                        <li class="active"><a href="#byPassport" data-toggle="tab">
+                            <div class="text-muted">By Passport ID</div>
+                        </a></li>
+                        <li><a href="#byLastName" data-toggle="tab">
+                            <div class="text-muted">By Last Name</div>
+                        </a></li>
+                    </ul>
+                </div>
                 <div class="panel-body">
-                    <form action="search" name="search" method="post">
-                        <input type="hidden" name="command" value="search-profile-by-passport">
-                        <div class="row">
-                            <div class="col-md-7 col-md-offset-2">
-                                <div class="form-group">
-                                    <input type="search" name="passportID" class="form-control"
-                                           placeholder="Passport ID">
-                                </div>
-                            </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <div class="btn-group">
-                                        <a href="bootstrap-elements.html" data-target="#"
-                                           class="btn btn-raised dropdown-toggle" data-toggle="dropdown">
-                                            Find In
-                                            <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="javascript:search.submit()">Profiles</a></li>
-                                            <li><a href="javascript:void(0)">Applications</a></li>
-                                        </ul>
+
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active in" id="byPassport">
+                            <form action="search" name="searchByPassport" method="post" accept-charset="utf-8">
+                                <input class="passport" type="hidden" name="command" value="search-profile-by-passport">
+                                <div class="row">
+                                    <div class="col-md-7 col-md-offset-2">
+                                        <div class="form-group">
+                                            <input type="search" id="passportID" name="passportID" class="form-control"
+                                                   placeholder="Passport ID">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="btn-group">
+                                                <a href="bootstrap-elements.html" data-target="#"
+                                                   class="btn btn-raised dropdown-toggle" data-toggle="dropdown">
+                                                    Find In
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="javascript:searchByPassport.submit()">Profiles</a></li>
+                                                    <li><a href="javascript:void(0)">Applications</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                    </form>
+                        <div class="tab-pane fade" id="byLastName">
+                            <form action="search" name="searchByLastName" method="post" accept-charset="utf-8">
+                                <input class="passport" type="hidden" name="command" value="search-profiles-by-last-name">
+                                <div class="row">
+                                    <div class="col-md-7 col-md-offset-2">
+                                        <div class="form-group">
+                                            <input type="search" id="lastName" name="lastName" class="form-control"
+                                                   placeholder="Last Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="btn-group">
+                                                <a href="bootstrap-elements.html" data-target="#"
+                                                   class="btn btn-raised dropdown-toggle" data-toggle="dropdown">
+                                                    Find In
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="javascript:searchByLastName.submit()">Profiles</a></li>
+                                                    <li><a href="javascript:void(0)">Applications</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -93,14 +137,29 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach var="profile" items="${profiles}">
-                                    <tr>
-                                        <td>${profile.passportId}</td>
-                                        <td><tr:transl><p>${profile.firstName}</p></tr:transl></td>
-                                        <td><tr:transl><p>${profile.middleName}</p></tr:transl></td>
-                                        <td><tr:transl><p>${profile.lastName}</p></tr:transl></td>
-                                        <td><tr:transl><p>${profile.points}</p></tr:transl></td>
-                                        <td><a href="javascript:void(0)" class="btn btn-primary">Find</a></td>
-                                    </tr>
+                                    <form action="apply_form" name="goApplyForm" method="post">
+                                        <input type="hidden" name="command" value="go-apply-form">
+                                        <tr>
+                                            <td>
+                                                <p class="centred">${profile.passportId}</p>
+                                            </td>
+                                            <td><tr:transl>
+                                                <p class="centred">${profile.firstName}</p>
+                                            </tr:transl></td>
+                                            <td><tr:transl>
+                                                <p class="centred">${profile.middleName}</p>
+                                            </tr:transl></td>
+                                            <td><tr:transl>
+                                                <p class="centred">${profile.lastName}</p>
+                                            </tr:transl></td>
+                                            <td><tr:transl>
+                                                <p class="centred">${profile.points}</p>
+                                            </tr:transl></td>
+                                            <td><button name="profileID" value="${profile.id}" class="btn btn-primary">
+                                                Apply
+                                            </button></td>
+                                        </tr>
+                                    </form>
                                 </c:forEach>
                                 </tbody>
                             </table>

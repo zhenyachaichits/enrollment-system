@@ -1,4 +1,4 @@
-package com.epam.finaltask.university.controller.command.impl.logic;
+package com.epam.finaltask.university.controller.command.impl.logic.update;
 
 import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.User;
@@ -8,6 +8,7 @@ import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
+import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
@@ -47,7 +48,10 @@ public class UpdateProfileCommand implements Command {
                 throw new InvalidDataException("Couldn't find student from session");
             }
 
-            return JspPageName.PROFILE_PAGE;
+            String currentQuery = (String) session.getAttribute(SessionParameterName.CURRENT_PAGE);
+
+            return currentQuery == null ? CommandName.GO_HOME.getQueryString() : currentQuery;
+
         } catch (NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't process profile update command");
         }

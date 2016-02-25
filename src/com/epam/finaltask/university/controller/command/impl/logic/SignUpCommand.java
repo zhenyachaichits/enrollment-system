@@ -6,6 +6,7 @@ import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
+import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.BeanConstructor;
@@ -42,7 +43,7 @@ public class SignUpCommand implements Command {
                 throw new InvalidDataException("Invalid user data. Couldn't sign up");
             }
 
-            return JspPageName.INDEX;
+            return CommandName.GO_HOME.getQueryString();
 
         } catch (ServiceException e) {
             throw new CommandException("Couldn't execute authentication command", e);

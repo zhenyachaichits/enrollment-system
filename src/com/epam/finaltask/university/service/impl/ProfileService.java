@@ -45,6 +45,26 @@ public class ProfileService implements Service {
         }
     }
 
+    public Profile findProfileById(long profileId) throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.findById(profileId);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide profile finding service", e);
+        }
+    }
+
+    public List<Profile> findProfilesByLastName(String lastName) throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.findByLastName(lastName);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide profile finding service", e);
+        }
+    }
+
     public List<Profile> getAllProfiles() throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();

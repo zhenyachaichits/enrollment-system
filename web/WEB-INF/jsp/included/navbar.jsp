@@ -30,6 +30,10 @@
 <fmt:message bundle="${loc}" key="locale.modal.signin.button.signin" var="signInButton"/>
 <fmt:message bundle="${loc}" key="locale.modal.signin.button.signup" var="signUpButton"/>
 
+<c:set var="req" value="${pageContext.request}"/>
+<c:set var="url">${req.requestURL}</c:set>
+<c:set var="uri" value="${req.requestURI}"/>
+
 <div class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -39,7 +43,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <form name="home" action="../../../index.jsp" method="post">
+            <form name="home" action="home" method="post">
                 <input type="hidden" name="command" value="go-home">
                 <a href="javascript:home.submit()" class="navbar-brand">${brand}</a>
             </form>
@@ -78,7 +82,7 @@
                                 <li class="divider"></li>
                             </c:if>
 
-                            <form hidden="hidden" name="logout" action="" method="post">
+                            <form hidden="hidden" name="logout" action="home" method="post">
                                 <input type="hidden" name="command" value="log-out">
                             </form>
                             <li>
@@ -94,7 +98,8 @@
                 </c:if>
 
                 <li class="dropdown">
-                    <form id="localeForm" hidden="hidden" action="" method="post">
+                    <form id="localeForm" hidden="hidden" action="locale"
+                          method="post">
                         <input type="hidden" name="command" value="set-locale">
                         <input id="currentLocale" type="hidden" value="${sessionScope.locale}">
                         <input id="localeValue" type="hidden" name="locale" value="">
@@ -120,7 +125,7 @@
                     <h2 class="modal-title">${legend}</h2>
                 </div>
                 <div class="modal-body">
-                    <form id="signInForm" action="" class="form-horizontal" method="post">
+                    <form id="signInForm" action="home" class="form-horizontal" method="post">
                         <input type="hidden" name="command" value="authenticate">
                         <fieldset>
                             <div class="form-group label-floating">
@@ -155,6 +160,7 @@
                                            class="btn btn-raised btn-primary">${signInButton}</a>
                                     </div>
                                 </div>
+                            </div>
                         </fieldset>
                     </form>
 

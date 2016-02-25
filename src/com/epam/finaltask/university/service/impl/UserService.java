@@ -42,7 +42,7 @@ public class UserService implements Service {
         }
     }
 
-    public User authentificateUser(User user) throws ServiceException {
+    public User authenticateUser(User user) throws ServiceException {
         try {
             UserDao dao = DaoFactory.getDaoFactory().getUserDao();
 

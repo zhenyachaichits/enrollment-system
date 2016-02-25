@@ -18,7 +18,8 @@ public class UrlCompiler {
     private static final String PARAM_VALUE_DELIMITER = "=";
 
     public static String compile(HttpServletRequest request) {
-        String uri = (String) request.getAttribute(RequestParameterName.FORWARD_URI);
+        String uri = request.getRequestURI();
+
         uri = uri.split(URI_DELIMITER_PATTERN)[0];
         Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
 

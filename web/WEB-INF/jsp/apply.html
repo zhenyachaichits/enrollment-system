@@ -1,19 +1,24 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="tr" uri="http://epam.com/project/university/transliterate" %>
-
-<fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
-
 <html>
 <head>
     <title>${title}</title>
 
-    <%@include file="included/css_list.jsp" %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Material Design -->
+    <link href="../../content/css/dropdown.css" rel="stylesheet">
+    <link href="../../content/css/bootstrap-material-design.css" rel="stylesheet">
+    <link href="../../content/css/ripples.min.css" rel="stylesheet">
+    <link href="../../content/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <link href="../../content/css/style.css" rel="stylesheet">
+    <link href="../../content/css/snackbar.min.css" rel="stylesheet">
+
 
 </head>
 <body>
@@ -21,6 +26,58 @@
 <jsp:include page="included/navbar.jsp"/>
 
 <div class="container">
+
+    <form action="search" name="confirmApplication" method="post">
+        <input type="hidden" name="command" value="confirm-application">
+        <div class="well clear col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i style="font-size:46px" class="material-icons">mood</i>
+                        </div>
+                        <div class="row-content">
+                            <h4 class="list-group-item-heading">Name</h4>
+
+                            <p class="list-group-item-text">${profile.firstName} ${profile.middleName}
+                                ${profile.lastName}</p>
+                        </div>
+                    </div>
+                    <div class="list-group-separator"></div>
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i style="font-size:36px" class="material-icons">filter_9_plus</i>
+                        </div>
+                        <div class="row-content">
+                            <h4 class="list-group-item-heading">Faculty</h4>
+
+                            <p class="list-group-item-text">Fuckulty</p>
+                        </div>
+                    </div>
+                    <div class="list-group-separator"></div>
+                    <div class="list-group-item">
+                        <div class="row-action-primary checkbox">
+                            <label><input type="checkbox" name="outCompetition">
+                                <span class="checkbox-material"><span class="check"></span></span>
+                            </label>
+                        </div>
+                        <div class="row-content">
+                            <h4 class="list-group-item-heading">Out of competition</h4>
+
+                            <p class="list-group-item-text"></p>
+                        </div>
+                    </div>
+                    <div class="list-group-separator"></div>
+                </div>
+            </div>
+            <div class="col-md-3 col-md-offset-9">
+                <a href="javascript:confirmApplication.submit();"
+                   class="btn btn-raised btn-primary">Confirm</a>
+            </div>
+        </div>
+
+    </form>
+
     <form class="form-horizontal" name="update" accept-charset="utf-8" action="profile" method="post">
         <div class="row">
             <div class="col-md-6">
@@ -36,34 +93,6 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default clear">
-                    <div class="panel-heading">Account Data</div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="newEmail">Email</label>
-                            <div class="col-md-8">
-                                <input type="email" name="email" id="newEmail" class="form-control"
-                                       placeholder="Email" value="${student.user.email}" required>
-                            </div>
-                        </div>
-                        <div class="form-group" id="passwordGroup">
-                            <label for="newPassword" class="col-md-3 control-label">Password</label>
-
-                            <div class="col-md-8">
-                                <input type="password" name="password" class="form-control" id="newPassword"
-                                       placeholder="Password"
-                                       pattern=".{5,20}" required>
-                                <p class="help-block">Password length should be between 6 and 20 characters </p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12 col-md-offset-9">
-                                <a id="updAccount" class="btn btn-primary">Update</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
 
                 <div class="panel panel-default  clear">
                     <div class="panel-heading">Privileges</div>
@@ -76,7 +105,9 @@
                                     <label>
                                         <input type="radio" name="medal" id="none" value="none"
                                         <c:if test="${student.profile.medalType eq 'NONE'}">
-                                               checked="checked" </c:if> readonly>
+                                            checked="checked"
+                                        </c:if>
+                                        readonly>
                                         None
                                     </label>
                                 </div>
@@ -84,7 +115,9 @@
                                     <label>
                                         <input type="radio" name="medal" id="silver" value="silver"
                                         <c:if test="${student.profile.medalType eq 'SILVER'}">
-                                               checked="checked" </c:if> readonly>
+                                            checked="checked"
+                                        </c:if>
+                                        readonly>
                                         Silver
                                     </label>
                                 </div>
@@ -92,7 +125,9 @@
                                     <label>
                                         <input type="radio" name="medal" id="golden" value="golden"
                                         <c:if test="${student.profile.medalType eq 'GOLDEN'}">
-                                               checked="checked" </c:if> readonly>
+                                            checked="checked"
+                                        </c:if>
+                                        readonly>
                                         Golden
                                     </label>
                                 </div>
@@ -202,8 +237,8 @@
                             <div class="col-md-8">
                                 <input name="dateBirth" type="text" class="form-control date" id="dateBirth"
                                        placeholder="Birth Date"
-                                       value="<fmt:formatDate pattern="dd.MM.yyyy"
-                                       value="${student.profile.birthDate.time}" />" required>
+                                       value="<fmt:formatDate pattern=" dd.MM.yyyy"
+                                value="${student.profile.birthDate.time}" />" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -227,8 +262,9 @@
                                             <option disabled selected>Choose faculty</option>
                                             <c:forEach var="faculty" items="${faculties}">
                                                 <option value="${faculty.id}"
-                                                        <c:if test="${faculty.id eq student.profile.facultyId}">selected</c:if> >
-                                                    <tr:transl>${faculty.name}</tr:transl>
+                                                <c:if test="${faculty.id eq student.profile.facultyId}">selected</c:if>
+                                                >
+                                                <tr:transl>${faculty.name}</tr:transl>
                                                 </option>
                                             </c:forEach>
                                         </select>
@@ -282,7 +318,38 @@
           data-content="Account with such Passport ID already exists" data-timeout="4000"
           data-snackbar-id="snackbar1454251274097"></span>
 
-<%@include file="included/js_list.jsp" %>
+
+<script src="//code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script src="content/js/ripples.min.js"></script>
+<script src="content/js/dropdown.js"></script>
+<script src="content/js/material.min.js"></script>
+<script src="content/js/moment.js"></script>
+<script src="content/js/bootstrap-material-datetimepicker.js"></script>
+<script src="content/js/maskedinput.min.js"></script>
+<script src="content/js/snackbar.min.js"></script>
+
+
+<script src="content/js/ajax/authenticate.js"></script>
+<script src="content/js/locale.js"></script>
+
+<script>
+    $.material.init();
+
+
+    $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
+    $("select").dropdown({"autoinit": "select"});
+
+    $(function ($) {
+        $(".phone").mask("+999 (99) 999-99-99", {placeholder: "_"});
+        $(".score").mask("999", {placeholder: ""});
+        $("#passportID").mask("aa9999999", {placeholder: ""});
+    });
+
+</script>
+
+
 <script src="content/js/profile-update.js"></script>
 <script src="content/js/ajax/singup.js"></script>
 

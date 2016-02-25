@@ -38,8 +38,11 @@ public class SqlStudentDaoImpl implements StudentDao {
     private static final String CHECK_STUDENT_QUERY = "SELECT user.user_id FROM user INNER JOIN profile ON " +
             "user.user_id = profile.user_user_id WHERE user.email = ? AND profile.passport_id = ? AND " +
             "user.status = 'ACTIVE' AND profile.status = 'ACTIVE'";
-    private static final String FIND_STUDENT_QUERY = "select user.*, profile.* from user inner join profile on " +
-            "user.user_id = profile.user_user_id where user.email = ? AND user.status = 'ACTIVE' " +
+    private static final String CHECK_UPDATE_AVAILABILITY = "SELECT user.user_id FROM user INNER JOIN profile ON " +
+            "user.user_id = profile.user_user_id WHERE user.user_id <> ? AND user.email = ?" +
+            "AND profile.passport_id = ? AND user.status = 'ACTIVE' AND profile.status = 'ACTIVE'";
+    private static final String FIND_STUDENT_QUERY = "SELECT user.*, profile.* FROM user INNER JOIN profile ON " +
+            "user.user_id = profile.user_user_id WHERE user.email = ? AND user.status = 'ACTIVE' " +
             "AND profile.status = 'ACTIVE'";
 
     @Override
@@ -50,13 +53,25 @@ public class SqlStudentDaoImpl implements StudentDao {
         ) {
             statement.setString(1, student.getUser().getEmail());
             statement.setString(2, student.getProfile().getPassportId());
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean checkUpdateAvailability(Student student) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVAILABILITY);
+        ) {
+            statement.setLong(1, student.getUser().getId());
+            statement.setString(2, student.getUser().getEmail());
+            statement.setString(3, student.getProfile().getPassportId());
 
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-               return true;
-            } else {
-                return false;
-            }
+            return !resultSet.next();
         } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }

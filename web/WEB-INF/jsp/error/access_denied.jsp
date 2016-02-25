@@ -26,7 +26,7 @@
 
         <p>This account can not see this page.</p>
 
-        <form action="../../../index.jsp" method="post">
+        <form action="home" method="post">
             <input type="hidden" name="command" value="go-home">
             <p>
                 <button type="submit" class="btn btn-primary btn-lg">Back to Home Page</button>

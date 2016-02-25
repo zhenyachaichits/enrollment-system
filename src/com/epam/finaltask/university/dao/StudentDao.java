@@ -8,4 +8,6 @@ import com.epam.finaltask.university.dao.exception.DaoException;
  */
 public interface StudentDao extends EntityDao<String, Student> {
     boolean checkStudentExistence(Student student) throws DaoException;
+
+    boolean checkUpdateAvailability(Student student) throws DaoException;
 }

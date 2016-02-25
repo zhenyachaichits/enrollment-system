@@ -58,12 +58,14 @@ public class LockingStudentService implements Service {
     public Student updateStudentProfile(Student student) throws ServiceException, InvalidServiceDataException {
         StudentService studentService = StudentService.getInstance();
 
-        if (StudentValidator.validateStudentForUpdate(student) && !studentService.checkStudentExistence(student)) {
+        if (StudentValidator.validateStudentForUpdate(student) && studentService.checkUpdateAvailability(student)) {
             lock.lock();
             try {
                 StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();
                 String password = student.getUser().getPassword();
-                student.getUser().setPassword(DataEncrypter.encrypt(password));
+                if (!"".equals(password)) {
+                    student.getUser().setPassword(DataEncrypter.encrypt(password));
+                }
                 student = dao.update(student);
 
                 return student;
