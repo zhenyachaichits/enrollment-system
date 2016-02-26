@@ -42,4 +42,10 @@ public class SqlDaoFactory extends DaoFactory {
         return SqlStudentDaoImpl.getInstance();
     }
 
+    @Override
+    public ApplicationDao getApplicationDao() throws DaoException {
+        return SqlApplicationDaoImpl.getInstance();
+    }
+
+
 }

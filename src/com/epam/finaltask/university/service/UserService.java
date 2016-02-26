@@ -1,18 +1,17 @@
-package com.epam.finaltask.university.service.impl;
+package com.epam.finaltask.university.service;
 
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.dao.UserDao;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
-import com.epam.finaltask.university.service.Service;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.util.DataEncrypter;
 
 /**
  * Created by Zheny Chaichits on 10.02.2016.
  */
-public class UserService implements Service {
+public class UserService {
 
     private UserService() { }
 

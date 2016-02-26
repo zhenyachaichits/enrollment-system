@@ -2,15 +2,15 @@ package com.epam.finaltask.university.bean;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Zheny Chaichits on 08.02.2016.
  */
 public class Application implements Serializable {
     private long id;
-    private boolean outOfCompetition;
+    private boolean isOutOfCompetition;
     private Calendar date;
+    private boolean isConfirmed;
     private long facultyId;
     private long profileId;
 
@@ -34,11 +34,11 @@ public class Application implements Serializable {
     }
 
     public boolean isOutOfCompetition() {
-        return outOfCompetition;
+        return isOutOfCompetition;
     }
 
     public void setOutOfCompetition(boolean outOfCompetition) {
-        this.outOfCompetition = outOfCompetition;
+        this.isOutOfCompetition = outOfCompetition;
     }
 
     public long getFacultyId() {
@@ -57,6 +57,14 @@ public class Application implements Serializable {
         this.profileId = profileId;
     }
 
+    public boolean isConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        isConfirmed = confirmed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -71,7 +79,10 @@ public class Application implements Serializable {
         if (id != that.id) {
             return false;
         }
-        if (outOfCompetition != that.outOfCompetition) {
+        if (isOutOfCompetition != that.isOutOfCompetition) {
+            return false;
+        }
+        if (isConfirmed != that.isConfirmed) {
             return false;
         }
         if (facultyId != that.facultyId) {
@@ -87,8 +98,9 @@ public class Application implements Serializable {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (outOfCompetition ? 1 : 0);
+        result = 31 * result + (isOutOfCompetition ? 1 : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (isConfirmed ? 1 : 0);
         result = 31 * result + (int) (facultyId ^ (facultyId >>> 32));
         result = 31 * result + (int) (profileId ^ (profileId >>> 32));
         return result;
@@ -98,8 +110,9 @@ public class Application implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Application{");
         sb.append("id=").append(id);
-        sb.append(", outOfCompetition=").append(outOfCompetition);
+        sb.append(", isOutOfCompetition=").append(isOutOfCompetition);
         sb.append(", date=").append(date);
+        sb.append(", isConfirmed=").append(isConfirmed);
         sb.append(", facultyId=").append(facultyId);
         sb.append(", profileId=").append(profileId);
         sb.append('}');

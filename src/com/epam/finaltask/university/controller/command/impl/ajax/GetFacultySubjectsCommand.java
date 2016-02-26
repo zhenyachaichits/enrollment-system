@@ -5,7 +5,7 @@ import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
-import com.epam.finaltask.university.service.impl.SubjectService;
+import com.epam.finaltask.university.service.SubjectService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;

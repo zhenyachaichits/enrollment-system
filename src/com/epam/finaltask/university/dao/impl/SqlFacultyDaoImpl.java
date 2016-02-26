@@ -40,7 +40,7 @@ public class SqlFacultyDaoImpl implements FacultyDao {
     private static final String PAID_POINT_KEY = "paid_point";
     private static final String TERMS_KEY = "terms_terms_id";
 
-    private static final String FIND_ALL_FACULTIES = "SELECT * FROM faculty";
+    private static final String FIND_ALL_FACULTIES = "SELECT * FROM faculty WHERE status = 'ACTIVE'";
 
     @Override
     public Faculty add(Faculty entity) throws DaoException {

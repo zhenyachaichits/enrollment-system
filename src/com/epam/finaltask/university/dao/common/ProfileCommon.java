@@ -1,44 +1,27 @@
 package com.epam.finaltask.university.dao.common;
 
 import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.type.MedalType;
 import com.epam.finaltask.university.dao.util.DateTypeConverter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
  * Created by Zheny Chaichits on 18.02.2016.
  */
-public class ProfileDaoService {
+public class ProfileCommon {
 
-    private ProfileDaoService() {
+    private ProfileCommon() {
     }
 
-    public static class ProfileDaoServiceHolder {
-        public static final ProfileDaoService INSTANCE = new ProfileDaoService();
+    public static class ProfileCommonHolder {
+        public static final ProfileCommon INSTANCE = new ProfileCommon();
     }
 
-    public static ProfileDaoService getInstance() {
-        return ProfileDaoServiceHolder.INSTANCE;
+    public static ProfileCommon getInstance() {
+        return ProfileCommonHolder.INSTANCE;
     }
-
-    private static final String PROFILE_ID_KEY = "profile_id";
-    private static final String PASSPORT_ID_KEY = "passport_id";
-    private static final String FIRST_NAME_KEY = "first_name";
-    private static final String MIDDLE_NAME_KEY = "middle_name";
-    private static final String LAST_NAME_KEY = "last_name";
-    private static final String BIRTH_DATE_KEY = "birth_date";
-    private static final String PHONE_KEY = "phone";
-    private static final String ADDRESS_KEY = "address";
-    private static final String POINTS_KEY = "points";
-    private static final String FORM_KEY = "free_form";
-    private static final String MEDAL_TYPE_KEY = "medal";
-    private static final String PRIVILEGES_KEY = "privilegies";
-    private static final String FACULTY_ID_KEY = "faculty_faculty_id";
-    private static final String USER_ID_KEY = "user_user_id";
 
     private static final int MIN_PARAMETER_INDEX = 1;
 
@@ -54,6 +37,7 @@ public class ProfileDaoService {
     private static final String UPDATE_PRIVILEGED_PROFILE_QUERY = "UPDATE profile SET passport_id = ?, first_name = ?, " +
             "middle_name = ?, last_name = ?, birth_date = ?, phone = ?, address = ?, points = ?, " +
             "medal = ?, free_form = ?, privilegies = ?, faculty_faculty_id = ? WHERE user_user_id = ?";
+    private static final String UPDATE_APPLICATION_STATUS = "UPDATE profile SET applied = ? WHERE profile_id = ?";
 
     public Profile createProfile(Profile profile, Connection connection) throws SQLException {
         String query;
@@ -67,7 +51,8 @@ public class ProfileDaoService {
                 PreparedStatement statement = connection.prepareStatement(query);
         ) {
             fillInStatement(statement, profile);
-            int result = statement.executeUpdate();;
+            int result = statement.executeUpdate();
+            ;
 
             if (result != 0) {
                 return profile;
@@ -99,6 +84,19 @@ public class ProfileDaoService {
         }
     }
 
+    public boolean updateProfileApplicationStatus(Profile profile, Connection connection) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(UPDATE_APPLICATION_STATUS);
+        ) {
+            statement.setBoolean(1, profile.isApplied());
+            statement.setLong(2, profile.getId());
+
+            int result = statement.executeUpdate();
+
+            return result != 0;
+        }
+    }
+
     private void fillInStatement(PreparedStatement statement, Profile profile) throws SQLException {
         int i = MIN_PARAMETER_INDEX;
 
@@ -117,30 +115,6 @@ public class ProfileDaoService {
         }
         statement.setLong(i++, profile.getFacultyId());
         statement.setLong(i, profile.getUserId());
-    }
-
-    public Profile compileProfile(ResultSet resultSet) throws SQLException {
-        Profile profile = new Profile();
-
-        profile.setId(resultSet.getLong(PROFILE_ID_KEY));
-        profile.setPassportId(resultSet.getString(PASSPORT_ID_KEY));
-        profile.setFirstName(resultSet.getString(FIRST_NAME_KEY));
-        profile.setMiddleName(resultSet.getString(MIDDLE_NAME_KEY));
-        profile.setLastName(resultSet.getString(LAST_NAME_KEY));
-        profile.setBirthDate(DateTypeConverter.convertToCalendar(resultSet.getDate(BIRTH_DATE_KEY)));
-        profile.setPhone(resultSet.getString(PHONE_KEY));
-        profile.setAddress(resultSet.getString(ADDRESS_KEY));
-        profile.setPoints(resultSet.getInt(POINTS_KEY));
-        profile.setMedalType(MedalType.valueOf(resultSet.getString(MEDAL_TYPE_KEY)));
-        profile.setFreeForm(resultSet.getBoolean(FORM_KEY));
-        String privileges = resultSet.getString(PRIVILEGES_KEY);
-        if (!resultSet.wasNull()) {
-            profile.setPrivileges(privileges);
-        }
-        profile.setFacultyId(resultSet.getLong(FACULTY_ID_KEY));
-        profile.setUserId(resultSet.getLong(USER_ID_KEY));
-
-        return profile;
     }
 
 }

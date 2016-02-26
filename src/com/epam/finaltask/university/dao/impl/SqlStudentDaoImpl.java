@@ -4,11 +4,13 @@ import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.dao.StudentDao;
-import com.epam.finaltask.university.dao.common.ProfileDaoService;
-import com.epam.finaltask.university.dao.common.UserDaoService;
+import com.epam.finaltask.university.dao.common.ProfileCommon;
+import com.epam.finaltask.university.dao.common.UserCommon;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
+import com.epam.finaltask.university.dao.util.constructor.impl.ProfileDaoConstructor;
+import com.epam.finaltask.university.dao.util.constructor.impl.UserDaoConstructor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -87,14 +89,14 @@ public class SqlStudentDaoImpl implements StudentDao {
             User user = student.getUser();
             Profile profile = student.getProfile();
 
-            UserDaoService userDaoService = UserDaoService.getInstance();
-            user = userDaoService.createUser(user, connection);
+            UserCommon userCommon = UserCommon.getInstance();
+            user = userCommon.createUser(user, connection);
 
             if (user != null) {
                 profile.setUserId(user.getId());
 
-                ProfileDaoService profileDaoService = ProfileDaoService.getInstance();
-                profile = profileDaoService.createProfile(profile, connection);
+                ProfileCommon profileCommon = ProfileCommon.getInstance();
+                profile = profileCommon.createProfile(profile, connection);
             }
 
             if (user != null && profile != null) {
@@ -139,11 +141,11 @@ public class SqlStudentDaoImpl implements StudentDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                UserDaoService userService = UserDaoService.getInstance();
-                ProfileDaoService profileService = ProfileDaoService.getInstance();
+                UserDaoConstructor userConstructor = UserDaoConstructor.getInstance();
+                ProfileDaoConstructor profileConstructor = ProfileDaoConstructor.getInstance();
 
-                User user = userService.compileUser(resultSet);
-                Profile profile = profileService.compileProfile(resultSet);
+                User user = userConstructor.construct(resultSet);
+                Profile profile = profileConstructor.construct(resultSet);
 
                 return new Student(user, profile);
             } else {
@@ -164,14 +166,14 @@ public class SqlStudentDaoImpl implements StudentDao {
             User user = student.getUser();
             Profile profile = student.getProfile();
 
-            UserDaoService userDaoService = UserDaoService.getInstance();
-            user = userDaoService.updateUser(user, connection);
+            UserCommon userCommon = UserCommon.getInstance();
+            user = userCommon.updateUser(user, connection);
 
             if (user != null) {
                 profile.setUserId(user.getId());
 
-                ProfileDaoService profileDaoService = ProfileDaoService.getInstance();
-                profile = profileDaoService.updateProfile(profile, connection);
+                ProfileCommon profileCommon = ProfileCommon.getInstance();
+                profile = profileCommon.updateProfile(profile, connection);
             }
 
             if (user != null && profile != null) {

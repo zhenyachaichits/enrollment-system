@@ -29,11 +29,10 @@
                 <div class="list-group">
                     <div class="list-group-item">
                         <div class="row-action-primary">
-                            <i style="font-size:46px" class="material-icons">mood</i>
+                            <i style="font-size:36px" class="material-icons">mood</i>
                         </div>
                         <div class="row-content">
                             <h4 class="list-group-item-heading">Name</h4>
-                            <input type="hidden" name="profileID" value="${profile.id}">
                             <p class="list-group-item-text">
                                 <tr:transl>${profile.firstName} ${profile.middleName} ${profile.lastName}</tr:transl>
                             </p>
@@ -46,13 +45,24 @@
                         </div>
                         <div class="row-content">
                             <h4 class="list-group-item-heading">Faculty</h4>
-                            <input type="hidden" name="facultyID" value="${profile.facultyId}">
                             <p class="list-group-item-text">
                                 <c:forEach var="faculty" items="${faculties}">
                                     <c:if test="${faculty.id eq profile.facultyId}">
                                         <tr:transl>${faculty.name}</tr:transl>
                                     </c:if>
                                 </c:forEach>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="list-group-separator"></div>
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i style="font-size:36px" class="material-icons">date_range</i>
+                        </div>
+                        <div class="row-content">
+                            <h4 class="list-group-item-heading">Applied</h4>
+                            <p class="list-group-item-text">
+                                <fmt:formatDate pattern=" dd.MM.yyyy" value="${application.date.time}" />
                             </p>
                         </div>
                     </div>
@@ -72,7 +82,7 @@
             </div>
             <div class="col-md-3 col-md-offset-8">
                 <a href="javascript:confirmApplication.submit();"
-                   class="btn btn-raised btn-primary">Confirm</a>
+                   class="btn btn-raised btn-danger danger">Delete</a>
             </div>
         </div>
 
@@ -325,6 +335,7 @@
 
 <%@include file="included/js_list.jsp" %>
 <script src="content/js/profile-update.js"></script>
+<script src="content/js/ajax/singup.js"></script>
 
 </body>
 </html>

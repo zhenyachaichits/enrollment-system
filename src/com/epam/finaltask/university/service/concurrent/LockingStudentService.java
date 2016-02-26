@@ -1,15 +1,13 @@
-package com.epam.finaltask.university.service.impl.concurrent;
+package com.epam.finaltask.university.service.concurrent;
 
-import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.dao.StudentDao;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
-import com.epam.finaltask.university.service.Service;
+import com.epam.finaltask.university.service.StudentService;
 import com.epam.finaltask.university.service.exception.InvalidServiceDataException;
 import com.epam.finaltask.university.service.exception.ServiceException;
-import com.epam.finaltask.university.service.impl.StudentService;
 import com.epam.finaltask.university.service.util.DataEncrypter;
 import com.epam.finaltask.university.validator.StudentValidator;
 
@@ -19,7 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by Zheny Chaichits on 18.02.2016.
  */
-public class LockingStudentService implements Service {
+public class LockingStudentService {
     private LockingStudentService() {
     }
 

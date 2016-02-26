@@ -1,10 +1,11 @@
-package com.epam.finaltask.university.controller.util;
+package com.epam.finaltask.university.controller.util.compiler.impl;
 
 import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.bean.type.MedalType;
 import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
+import com.epam.finaltask.university.controller.util.compiler.BeanCompiler;
+import com.epam.finaltask.university.controller.util.compiler.exception.BeanCompilerException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -13,25 +14,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Created by Zheny Chaichits on 20.02.2016.
+ * Created by Zheny Chaichits on 25.02.2016.
  */
-public class BeanConstructor {
+public class ProfileCompiler implements BeanCompiler<Profile> {
+
+    private ProfileCompiler() {
+    }
+
+    public static class ProfileCompilerHolder {
+        public static final ProfileCompiler INSTANCE = new ProfileCompiler();
+    }
+
+    public static ProfileCompiler getInstance() {
+        return ProfileCompilerHolder.INSTANCE;
+    }
 
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final String CHECKED = "on";
 
-    public static User constructUser(HttpServletRequest request) {
-        String email = request.getParameter(RequestParameterName.EMAIL);
-        String password = request.getParameter(RequestParameterName.PASSWORD);
-
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-
-        return user;
-    }
-
-    public static Profile constructProfile(HttpServletRequest request) throws CommandException {
+    @Override
+    public Profile compile(HttpServletRequest request) throws BeanCompilerException {
         try {
             DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 
@@ -68,7 +70,7 @@ public class BeanConstructor {
 
             return profile;
         } catch (ParseException | NumberFormatException e) {
-            throw new CommandException("Couldn't construct profile bean", e);
+            throw new BeanCompilerException("Couldn't compile profile bean", e);
         }
     }
 }

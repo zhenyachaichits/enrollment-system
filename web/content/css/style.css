@@ -40,3 +40,7 @@
 .centred {
     padding: 1em 0;
 }
+
+.danger {
+    background-color: #bd5050;
+}

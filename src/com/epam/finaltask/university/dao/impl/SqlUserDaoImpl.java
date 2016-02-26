@@ -5,7 +5,8 @@ import com.epam.finaltask.university.dao.UserDao;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
-import com.epam.finaltask.university.dao.common.UserDaoService;
+import com.epam.finaltask.university.dao.common.UserCommon;
+import com.epam.finaltask.university.dao.util.constructor.impl.UserDaoConstructor;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,14 +31,8 @@ public class SqlUserDaoImpl implements UserDao {
         return UserDaoHolder.INSTANCE;
     }
 
-    private static final int MIN_PARAMETER_INDEX = 1;
-
-    private static final String ID_KEY = "user_id";
-    private static final String EMAIL_KEY = "email";
-    private static final String PASSWORD_HASH_KEY = "password_hash";
-    private static final String ROLE_KEY = "role";
-
-    private static final String GET_ROLE_QUERY = "SELECT * FROM user WHERE email = ? AND password_hash = ? AND status = 'ACTIVE'";
+    private static final String GET_ROLE_QUERY = "SELECT * FROM user WHERE email = ? AND password_hash = ? " +
+            "AND status = 'ACTIVE'";
     private static final String GET_ALL_USERS_QUERY = "SELECT * FROM user WHERE status = 'ACTIVE'";
 
     private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM user WHERE email = ? AND status = 'ACTIVE'";
@@ -54,9 +49,9 @@ public class SqlUserDaoImpl implements UserDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                UserDaoService service = UserDaoService.getInstance();
+                UserDaoConstructor constructor = UserDaoConstructor.getInstance();
 
-                return service.compileUser(resultSet);
+                return constructor.construct(resultSet);
             } else {
                 return null;
             }
@@ -76,9 +71,9 @@ public class SqlUserDaoImpl implements UserDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                UserDaoService service = UserDaoService.getInstance();
+                UserDaoConstructor constructor = UserDaoConstructor.getInstance();
 
-                return service.compileUser(resultSet);
+                return constructor.construct(resultSet);
             } else {
                 return null;
             }
@@ -94,7 +89,7 @@ public class SqlUserDaoImpl implements UserDao {
         try (
                 Connection connection = connectionPool.getConnection();
         ) {
-            UserDaoService service = UserDaoService.getInstance();
+            UserCommon service = UserCommon.getInstance();
             user = service.createUser(user, connection);
 
             return user;
@@ -114,9 +109,9 @@ public class SqlUserDaoImpl implements UserDao {
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
-                UserDaoService service = UserDaoService.getInstance();
+                UserDaoConstructor constructor = UserDaoConstructor.getInstance();
 
-                return service.compileUser(resultSet);
+                return constructor.construct(resultSet);
             } else {
                 return null;
             }
@@ -132,7 +127,7 @@ public class SqlUserDaoImpl implements UserDao {
         try (
                 Connection connection = connectionPool.getConnection();
         ) {
-            UserDaoService service = UserDaoService.getInstance();
+            UserCommon service = UserCommon.getInstance();
             user = service.updateUser(user, connection);
 
             return user;
@@ -156,9 +151,9 @@ public class SqlUserDaoImpl implements UserDao {
 
             ResultSet resultSet = statement.executeQuery(GET_ALL_USERS_QUERY);
             while (resultSet.next()) {
-                UserDaoService service = UserDaoService.getInstance();
+                UserDaoConstructor constructor = UserDaoConstructor.getInstance();
 
-                userList.add(service.compileUser(resultSet));
+                userList.add(constructor.construct(resultSet));
             }
 
             return userList;

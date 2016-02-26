@@ -4,9 +4,12 @@ package com.epam.finaltask.university.controller.command;
 import com.epam.finaltask.university.controller.command.impl.ajax.*;
 import com.epam.finaltask.university.controller.command.impl.error.NoSuchCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.*;
+import com.epam.finaltask.university.controller.command.impl.logic.search.FindAppliedByLastNameCommand;
+import com.epam.finaltask.university.controller.command.impl.logic.search.FindAppliedByPassportIdCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.search.FindProfileByPassportIdCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.search.FindProfilesByLastNameCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.update.UpdateProfileCommand;
+import com.epam.finaltask.university.controller.command.impl.logic.update.UpdateStudentDataCommand;
 import com.epam.finaltask.university.controller.command.impl.navigation.*;
 
 import java.util.HashMap;
@@ -38,11 +41,16 @@ public class CommandHelper {
         commandMap.put(CommandName.GO_PROFILE, new GoProfileCommand());
         commandMap.put(CommandName.GO_SUPPORT_SEARCH, new GoSupportSearchCommand());
         commandMap.put(CommandName.GO_APPLY_FORM, new GoApplyFormCommand());
+        commandMap.put(CommandName.GO_APPLICATION, new GoApplicationCommand());
 
         commandMap.put(CommandName.SEARCH_PROFILE_BY_PASSPORT, new FindProfileByPassportIdCommand());
         commandMap.put(CommandName.SEARCH_PROFILES_BY_LAST_NAME, new FindProfilesByLastNameCommand());
+        commandMap.put(CommandName.SEARCH_APPLIED_BY_PASSPORT, new FindAppliedByPassportIdCommand());
+        commandMap.put(CommandName.SEARCH_APPLIED_BY_LAST_NAME, new FindAppliedByLastNameCommand());
 
         commandMap.put(CommandName.UPDATE_PROFILE, new UpdateProfileCommand());
+        commandMap.put(CommandName.UPDATE_STUDENT_DATA, new UpdateStudentDataCommand());
+        commandMap.put(CommandName.CREATE_APPLICATION, new CreateApplicationCommand());
 
         commandMap.put(CommandName.GET_SUBJECTS, new GetFacultySubjectsCommand());
 

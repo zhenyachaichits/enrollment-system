@@ -8,12 +8,11 @@ import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.util.AccessManager;
 import com.epam.finaltask.university.service.exception.ServiceException;
-import com.epam.finaltask.university.service.impl.ProfileService;
+import com.epam.finaltask.university.service.ProfileService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**

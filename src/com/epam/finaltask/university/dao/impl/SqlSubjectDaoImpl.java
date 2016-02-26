@@ -35,11 +35,11 @@ public class SqlSubjectDaoImpl implements SubjectDao {
 
     private static final String GET_SUBJECTS_BY_FACULTY_ID = "SELECT subject.* FROM faculty_has_subject " +
             "INNER JOIN subject ON subject.subject_id = faculty_has_subject.subject_subject_id " +
-            "WHERE faculty_has_subject.faculty_faculty_id = ?";
+            "WHERE faculty_has_subject.faculty_faculty_id = ? AND status = 'ACTIVE'";
 
-    private static final String GET_ALL_SUBJECTS = "SELECT * FROM subject";
-    private static final String GET_SUBJECT_BY_ID_QUERY = "SELECT * FROM subject WHERE subject_id = ?";
-    private static final String GET_SUBJECT_BY_NAME_QUERY = "SELECT * FROM subject WHERE name = ?";
+    private static final String GET_ALL_SUBJECTS = "SELECT * FROM subject WHERE status = 'ACTIVE'";
+    private static final String GET_SUBJECT_BY_ID_QUERY = "SELECT * FROM subject WHERE subject_id = ? AND status = 'ACTIVE'";
+    private static final String GET_SUBJECT_BY_NAME_QUERY = "SELECT * FROM subject WHERE name = ? AND status = 'ACTIVE'";
 
     @Override
     public List<Subject> getSubjectsByFacultyId(long facultyId) throws DaoException {

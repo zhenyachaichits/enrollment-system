@@ -1,12 +1,11 @@
-package com.epam.finaltask.university.service.impl.concurrent;
+package com.epam.finaltask.university.service.concurrent;
 
 import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.dao.ProfileDao;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
-import com.epam.finaltask.university.service.impl.ProfileService;
-import com.epam.finaltask.university.service.Service;
+import com.epam.finaltask.university.service.ProfileService;
 import com.epam.finaltask.university.service.exception.InvalidServiceDataException;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.validator.ProfileValidator;
@@ -17,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by Zheny Chaichits on 14.02.2016.
  */
-public class LockingProfileService implements Service {
+public class LockingProfileService {
     private LockingProfileService() {
     }
 
@@ -31,7 +30,7 @@ public class LockingProfileService implements Service {
 
     private static final Lock lock = new ReentrantLock();
 
-    public Profile createNewStudent(Profile profile) throws ServiceException, InvalidServiceDataException {
+    public Profile createNewProfile(Profile profile) throws ServiceException {
         ProfileService profileService = ProfileService.getInstance();
 
         if (ProfileValidator.validateProfile(profile) && !profileService.checkPassportIdExistence(profile.getPassportId())) {
@@ -43,6 +42,27 @@ public class LockingProfileService implements Service {
 
                 return profile;
 
+            } catch (DaoFactoryException | DaoException e) {
+                throw new ServiceException("Couldn't provide profile creation service");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new InvalidServiceDataException("Invalid profile data. Operation Stopped");
+        }
+    }
+
+    public Profile updateProfile(Profile profile) throws ServiceException {
+        ProfileService profileService = ProfileService.getInstance();
+
+        if (ProfileValidator.validateProfile(profile) && profileService.checkUpdateAvailability(profile)) {
+            lock.lock();
+            try {
+                ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+                profile = dao.update(profile);
+
+                return profile;
             } catch (DaoFactoryException | DaoException e) {
                 throw new ServiceException("Couldn't provide profile creation service");
             } finally {

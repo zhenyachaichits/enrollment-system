@@ -1,11 +1,10 @@
-package com.epam.finaltask.university.service.impl;
+package com.epam.finaltask.university.service;
 
 import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.dao.ProfileDao;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
-import com.epam.finaltask.university.service.Service;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 /**
  * Created by Zheny Chaichits on 11.02.2016.
  */
-public class ProfileService implements Service {
+public class ProfileService {
 
     private ProfileService() { }
 
@@ -45,6 +44,16 @@ public class ProfileService implements Service {
         }
     }
 
+    public Profile findAppliedProfileByPassportId(String passportId) throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.findApplied(passportId);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide profile finding service", e);
+        }
+    }
+
     public Profile findProfileById(long profileId) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -59,7 +68,17 @@ public class ProfileService implements Service {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
 
-            return dao.findByLastName(lastName);
+            return dao.findProfileByLastName(lastName);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide profile finding service", e);
+        }
+    }
+
+    public List<Profile> findAppliedProfilesByLastName(String lastName) throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.findAppliedByLastName(lastName);
         } catch (DaoFactoryException | DaoException e) {
             throw new ServiceException("Couldn't provide profile finding service", e);
         }
@@ -72,6 +91,16 @@ public class ProfileService implements Service {
             return dao.all();
         } catch (DaoFactoryException | DaoException e) {
             throw new ServiceException("Couldn't provide all profiles finding service", e);
+        }
+    }
+
+    public boolean checkUpdateAvailability(Profile student) throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.checkUpdateAvailability(student);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide student existence checking service");
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.epam.finaltask.university.controller.util;
+package com.epam.finaltask.university.controller.util.compiler;
 
 import com.epam.finaltask.university.controller.RequestParameterName;
 

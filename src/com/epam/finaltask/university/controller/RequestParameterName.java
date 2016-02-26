@@ -16,6 +16,7 @@ public final class RequestParameterName {
 
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
+    public static final String USER_ID = "userID";
 
     public static final String REMEMBERED = "remember";
 
@@ -38,6 +39,7 @@ public final class RequestParameterName {
     public static final String PROFILE_ID = "profileID";
     public static final String OUT_OF_COMPETITION = "outCompetition";
     public static final String PROFILE = "profile";
+    public static final String APPLICATION = "application";
 
     public static final String LOCALE = "locale";
 

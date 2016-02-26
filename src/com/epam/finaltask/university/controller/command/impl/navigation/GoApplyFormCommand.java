@@ -10,10 +10,10 @@ import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
-import com.epam.finaltask.university.controller.util.UrlCompiler;
+import com.epam.finaltask.university.controller.util.compiler.UrlCompiler;
 import com.epam.finaltask.university.service.exception.ServiceException;
-import com.epam.finaltask.university.service.impl.FacultyService;
-import com.epam.finaltask.university.service.impl.ProfileService;
+import com.epam.finaltask.university.service.FacultyService;
+import com.epam.finaltask.university.service.ProfileService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

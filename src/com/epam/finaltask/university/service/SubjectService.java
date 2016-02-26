@@ -1,11 +1,10 @@
-package com.epam.finaltask.university.service.impl;
+package com.epam.finaltask.university.service;
 
 import com.epam.finaltask.university.bean.Subject;
 import com.epam.finaltask.university.dao.SubjectDao;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
-import com.epam.finaltask.university.service.Service;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 /**
  * Created by Zheny Chaichits on 15.02.2016.
  */
-public class SubjectService implements Service {
+public class SubjectService {
 
     private SubjectService() { }
 
