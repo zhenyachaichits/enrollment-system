@@ -53,7 +53,7 @@ public class LockingStudentService {
         }
     }
 
-    public Student updateStudentProfile(Student student) throws ServiceException, InvalidServiceDataException {
+    public Student updateStudentProfile(Student student) throws ServiceException {
         StudentService studentService = StudentService.getInstance();
 
         if (StudentValidator.validateStudentForUpdate(student) && studentService.checkUpdateAvailability(student)) {
@@ -74,6 +74,20 @@ public class LockingStudentService {
             }
         } else {
             throw new InvalidServiceDataException("Invalid student data. Operation Stopped");
+        }
+    }
+
+    public boolean deleteAccount(long userId) throws ServiceException {
+        lock.lock();
+        try {
+            StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();
+
+            return dao.delete(userId);
+
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide account deletion service");
+        } finally {
+            lock.unlock();
         }
     }
 }

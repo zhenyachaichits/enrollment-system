@@ -1,7 +1,6 @@
 package com.epam.finaltask.university.dao.impl;
 
 import com.epam.finaltask.university.bean.Application;
-import com.epam.finaltask.university.bean.Faculty;
 import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.dao.ApplicationDao;
 import com.epam.finaltask.university.dao.common.ApplicationCommon;
@@ -9,8 +8,8 @@ import com.epam.finaltask.university.dao.common.ProfileCommon;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
-import com.epam.finaltask.university.dao.util.constructor.DaoConstructor;
-import com.epam.finaltask.university.dao.util.constructor.impl.ApplicationDaoConstructor;
+import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.ApplicationBeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -35,14 +34,9 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
         return ApplicationDaoHolder.INSTANCE;
     }
 
-    private static final String ID_KEY = "faculty_id";
-    private static final String NAME_KEY = "name";
-    private static final String FREE_QUOTA_KEY = "free_quota";
-
     private static final String FIND_ALL_APPLICATIONS_QUERY = "SELECT * FROM application WHERE status = 'ACTIVE'";
     private static final String FIND_BY_PROFILE_ID_QUERY = "SELECT * FROM application WHERE " +
             "profile_profile_id = ? AND status = 'ACTIVE'";
-
 
     @Override
     public Application add(Application application) throws DaoException {
@@ -99,7 +93,7 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
             statement.setLong(1, profileId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                DaoConstructor<Application> constructor = ApplicationDaoConstructor.getInstance();
+                DaoBeanFactory<Application> constructor = ApplicationBeanFactory.getInstance();
 
                 return constructor.construct(resultSet);
             } else {
@@ -112,18 +106,78 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
     }
 
     @Override
-    public Application update(Application entity) throws DaoException {
-        return null;
+    public Application update(Application entity) {
+        throw new UnsupportedOperationException("Application can't be updated");
     }
 
     @Override
-    public Application delete(Long domain) throws DaoException {
-        return null;
+    public Application delete(Long profileId) throws DaoException {
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+
+            ApplicationCommon applicationCommon = ApplicationCommon.getInstance();
+            ProfileCommon profileCommon = ProfileCommon.getInstance();
+
+            Application application = new Application();
+            application.setProfileId(profileId);
+            Profile profile = new Profile();
+            profile.setApplied(false);
+            profile.setId(profileId);
+
+            boolean isApplicationDeleted = applicationCommon.deleteApplication(profileId, connection);
+            boolean isProfileUpdated = profileCommon.updateProfileApplicationStatus(profile, connection);
+
+            if (isApplicationDeleted && isProfileUpdated) {
+                connection.commit();
+                return application;
+            } else {
+                connection.rollback();
+                return null;
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                // TODO: 16.02.2016 logger?
+            }
+            throw new DaoException("Couldn't process operation", e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    // TODO: 19.02.2016 logger
+                }
+                connectionPool.closeConnection(connection);
+            }
+        }
     }
 
     @Override
     public List<Application> all() throws DaoException {
-        return null;
+        try (
+                Connection connection = connectionPool.getConnection();
+                Statement statement = connection.createStatement();
+        ) {
+            List<Application> applications = new ArrayList<>();
+
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_APPLICATIONS_QUERY);
+            while (resultSet.next()) {
+                DaoBeanFactory<Application> constructor = ApplicationBeanFactory.getInstance();
+
+                applications.add(constructor.construct(resultSet));
+            }
+
+            return applications;
+
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
 }

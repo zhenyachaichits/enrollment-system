@@ -4,6 +4,8 @@ package com.epam.finaltask.university.controller.command;
 import com.epam.finaltask.university.controller.command.impl.ajax.*;
 import com.epam.finaltask.university.controller.command.impl.error.NoSuchCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.*;
+import com.epam.finaltask.university.controller.command.impl.logic.delete.DeleteApplicationCommand;
+import com.epam.finaltask.university.controller.command.impl.logic.delete.DeleteProfileCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.search.FindAppliedByLastNameCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.search.FindAppliedByPassportIdCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.search.FindProfileByPassportIdCommand;
@@ -50,6 +52,10 @@ public class CommandHelper {
 
         commandMap.put(CommandName.UPDATE_PROFILE, new UpdateProfileCommand());
         commandMap.put(CommandName.UPDATE_STUDENT_DATA, new UpdateStudentDataCommand());
+
+        commandMap.put(CommandName.DELETE_APPLICATION, new DeleteApplicationCommand());
+        commandMap.put(CommandName.DELETE_PROFILE, new DeleteProfileCommand());
+
         commandMap.put(CommandName.CREATE_APPLICATION, new CreateApplicationCommand());
 
         commandMap.put(CommandName.GET_SUBJECTS, new GetFacultySubjectsCommand());

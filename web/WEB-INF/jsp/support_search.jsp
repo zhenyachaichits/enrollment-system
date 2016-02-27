@@ -143,7 +143,12 @@
                                 <tbody>
                                 <c:forEach var="profile" items="${profiles}">
                                     <form action="apply_form" name="goApplyForm" method="post">
-                                        <input type="hidden" name="command" value="go-application">
+                                        <c:if test="${not profile.applied}">
+                                            <input type="hidden" name="command" value="go-apply-form">
+                                        </c:if>
+                                        <c:if test="${profile.applied}">
+                                            <input type="hidden" name="command" value="go-application">
+                                        </c:if>
                                         <tr>
                                             <td>
                                                 <p class="centred">${profile.passportId}</p>

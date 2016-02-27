@@ -9,13 +9,10 @@ import com.epam.finaltask.university.dao.common.UserCommon;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
-import com.epam.finaltask.university.dao.util.constructor.impl.ProfileDaoConstructor;
-import com.epam.finaltask.university.dao.util.constructor.impl.UserDaoConstructor;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.ProfileDaoBeanFactory;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.UserDaoBeanFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -141,8 +138,8 @@ public class SqlStudentDaoImpl implements StudentDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                UserDaoConstructor userConstructor = UserDaoConstructor.getInstance();
-                ProfileDaoConstructor profileConstructor = ProfileDaoConstructor.getInstance();
+                UserDaoBeanFactory userConstructor = UserDaoBeanFactory.getInstance();
+                ProfileDaoBeanFactory profileConstructor = ProfileDaoBeanFactory.getInstance();
 
                 User user = userConstructor.construct(resultSet);
                 Profile profile = profileConstructor.construct(resultSet);
@@ -210,11 +207,56 @@ public class SqlStudentDaoImpl implements StudentDao {
 
     @Override
     public Student delete(String domain) throws DaoException {
-        return null;
+        throw new UnsupportedOperationException("This operation is unsupported");
     }
 
     @Override
-    public List<Student> all() throws DaoException {
-        return null;
+    public boolean delete(long userId) throws DaoException {
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+
+
+            Profile profile = new Profile();
+            profile.setUserId(userId);
+
+            UserCommon userCommon = UserCommon.getInstance();
+            boolean isUserDeleted = userCommon.deleteUser(userId, connection);
+            ProfileCommon profileCommon = ProfileCommon.getInstance();
+            boolean isProfileDeleted = profileCommon.deleteProfile(userId, connection);
+
+            if (isUserDeleted && isProfileDeleted) {
+                connection.commit();
+                return true;
+            } else {
+                connection.rollback();
+                return false;
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                // TODO: 16.02.2016 logger?
+            }
+            throw new DaoException("Couldn't process operation", e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    // TODO: 19.02.2016 logger
+                }
+                connectionPool.closeConnection(connection);
+            }
+        }
+    }
+
+    @Override
+    public List<Student> all() {
+        throw new UnsupportedOperationException("Student Dao doesn't support this operation");
     }
 }

@@ -11,7 +11,7 @@ import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
-import com.epam.finaltask.university.controller.util.compiler.UrlCompiler;
+import com.epam.finaltask.university.controller.util.bean.factory.UrlCompiler;
 import com.epam.finaltask.university.service.ApplicationService;
 import com.epam.finaltask.university.service.FacultyService;
 import com.epam.finaltask.university.service.ProfileService;

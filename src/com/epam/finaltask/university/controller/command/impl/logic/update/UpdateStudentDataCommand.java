@@ -9,9 +9,9 @@ import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
-import com.epam.finaltask.university.controller.util.compiler.BeanCompiler;
-import com.epam.finaltask.university.controller.util.compiler.exception.BeanCompilerException;
-import com.epam.finaltask.university.controller.util.compiler.impl.ProfileCompiler;
+import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
+import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
+import com.epam.finaltask.university.controller.util.bean.factory.impl.ProfileCommandBeanFactory;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.concurrent.LockingProfileService;
 
@@ -30,7 +30,7 @@ public class UpdateStudentDataCommand implements Command {
             AccessManager.manageAccess(session, UserType.SUPPORT);
 
             LockingProfileService service = LockingProfileService.getInstance();
-            BeanCompiler<Profile> compiler = ProfileCompiler.getInstance();
+            CommandBeanFactory<Profile> compiler = ProfileCommandBeanFactory.getInstance();
             Profile profile = compiler.compile(request);
 
             String userStr = request.getParameter(RequestParameterName.USER_ID);
@@ -47,7 +47,7 @@ public class UpdateStudentDataCommand implements Command {
 
             return currentQuery == null ? CommandName.GO_APPLY_FORM.getQueryString() : currentQuery;
 
-        } catch (BeanCompilerException | NumberFormatException | ServiceException e) {
+        } catch (CommandBeanFactoryException | NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't process profile update command");
         }
     }

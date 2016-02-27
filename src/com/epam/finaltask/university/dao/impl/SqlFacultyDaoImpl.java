@@ -5,6 +5,8 @@ import com.epam.finaltask.university.dao.FacultyDao;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
+import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.FacultyDaoBeanFactory;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,14 +33,6 @@ public class SqlFacultyDaoImpl implements FacultyDao {
     public static SqlFacultyDaoImpl getInstance() {
         return FacultyDaoHolder.INSTANCE;
     }
-
-    private static final String ID_KEY = "faculty_id";
-    private static final String NAME_KEY = "name";
-    private static final String FREE_QUOTA_KEY = "free_quota";
-    private static final String PAID_QUOTA_KEY = "paid_quota";
-    private static final String FREE_POINT_KEY = "free_point";
-    private static final String PAID_POINT_KEY = "paid_point";
-    private static final String TERMS_KEY = "terms_terms_id";
 
     private static final String FIND_ALL_FACULTIES = "SELECT * FROM faculty WHERE status = 'ACTIVE'";
 
@@ -70,19 +64,11 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         ) {
             List<Faculty> faculties = new ArrayList<>();
 
-            Faculty faculty = new Faculty();
-
             ResultSet resultSet = statement.executeQuery(FIND_ALL_FACULTIES);
             while (resultSet.next()) {
-                faculty.setId(resultSet.getLong(ID_KEY));
-                faculty.setName(resultSet.getString(NAME_KEY));
-                faculty.setFreeQuota(resultSet.getInt(FREE_QUOTA_KEY));
-                faculty.setPaidQuota(resultSet.getInt(PAID_QUOTA_KEY));
-                faculty.setFreePoint(resultSet.getInt(FREE_POINT_KEY));
-                faculty.setPaidPoint(resultSet.getInt(PAID_POINT_KEY));
-                faculty.setTermsId(resultSet.getLong(TERMS_KEY));
+                DaoBeanFactory<Faculty> constructor = FacultyDaoBeanFactory.getInstance();
 
-                faculties.add(faculty);
+                faculties.add(constructor.construct(resultSet));
             }
 
             return faculties;

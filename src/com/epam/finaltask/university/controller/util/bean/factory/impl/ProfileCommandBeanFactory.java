@@ -1,11 +1,10 @@
-package com.epam.finaltask.university.controller.util.compiler.impl;
+package com.epam.finaltask.university.controller.util.bean.factory.impl;
 
 import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.type.MedalType;
 import com.epam.finaltask.university.controller.RequestParameterName;
-import com.epam.finaltask.university.controller.command.exception.CommandException;
-import com.epam.finaltask.university.controller.util.compiler.BeanCompiler;
-import com.epam.finaltask.university.controller.util.compiler.exception.BeanCompilerException;
+import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
+import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -16,16 +15,16 @@ import java.util.Calendar;
 /**
  * Created by Zheny Chaichits on 25.02.2016.
  */
-public class ProfileCompiler implements BeanCompiler<Profile> {
+public class ProfileCommandBeanFactory implements CommandBeanFactory<Profile> {
 
-    private ProfileCompiler() {
+    private ProfileCommandBeanFactory() {
     }
 
     public static class ProfileCompilerHolder {
-        public static final ProfileCompiler INSTANCE = new ProfileCompiler();
+        public static final ProfileCommandBeanFactory INSTANCE = new ProfileCommandBeanFactory();
     }
 
-    public static ProfileCompiler getInstance() {
+    public static ProfileCommandBeanFactory getInstance() {
         return ProfileCompilerHolder.INSTANCE;
     }
 
@@ -33,7 +32,7 @@ public class ProfileCompiler implements BeanCompiler<Profile> {
     private static final String CHECKED = "on";
 
     @Override
-    public Profile compile(HttpServletRequest request) throws BeanCompilerException {
+    public Profile compile(HttpServletRequest request) throws CommandBeanFactoryException {
         try {
             DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 
@@ -70,7 +69,7 @@ public class ProfileCompiler implements BeanCompiler<Profile> {
 
             return profile;
         } catch (ParseException | NumberFormatException e) {
-            throw new BeanCompilerException("Couldn't compile profile bean", e);
+            throw new CommandBeanFactoryException("Couldn't compile profile bean", e);
         }
     }
 }

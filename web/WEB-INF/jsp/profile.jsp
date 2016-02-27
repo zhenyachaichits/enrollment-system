@@ -21,10 +21,21 @@
 <jsp:include page="included/navbar.jsp"/>
 
 <div class="container">
+
+    <c:if test="${student.profile.applied}">
+        <div class="alert alert-dismissible alert-danger" style="background-color: #bd5050;">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Attention!</strong>
+            <p>You can't change your personal data, because your application was created</p>
+        </div>
+    </c:if>
+
     <form class="form-horizontal" name="update" accept-charset="utf-8" action="profile" method="post">
+
         <div class="row">
             <div class="col-md-6">
-                <a href="javascript:update.submit()" id="saveBtn" class="btn btn-primary btn-lg btn-block btn-raised">SAVE</a>
+                <a href="javascript:update.submit()" id="saveBtn"
+                   class="btn btn-primary btn-lg btn-block btn-raised">SAVE</a>
             </div>
             <div class="col-md-6">
                 <a href="javascript:void(0)" id="cancelBtn"
@@ -111,11 +122,13 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-12 col-md-offset-9">
-                                <a id="updPrivileges" class="btn btn-primary">Update</a>
+                        <c:if test="${not student.profile.applied}">
+                            <div class="form-group">
+                                <div class="col-md-12 col-md-offset-9">
+                                    <a id="updPrivileges" class="btn btn-primary">Update</a>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
 
                     </div>
                 </div>
@@ -145,11 +158,13 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-12 col-md-offset-9">
-                                <a id="updContact" class="btn btn-primary">Update</a>
+                        <c:if test="${not student.profile.applied}">
+                            <div class="form-group">
+                                <div class="col-md-12 col-md-offset-9">
+                                    <a id="updContact" class="btn btn-primary">Update</a>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
 
                     </div>
                 </div>
@@ -206,11 +221,13 @@
                                        value="${student.profile.birthDate.time}" />" required>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-12 col-md-offset-9">
-                                <a id="updPersonal" class="btn btn-primary">Update</a>
+                        <c:if test="${not student.profile.applied}">
+                            <div class="form-group">
+                                <div class="col-md-12 col-md-offset-9">
+                                    <a id="updPersonal" class="btn btn-primary">Update</a>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
                     </div>
                 </div>
 
@@ -259,17 +276,28 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-12 col-md-offset-9">
-                                <a id="updEducation" class="btn btn-primary">Update</a>
+                        <c:if test="${not student.profile.applied}">
+                            <div class="form-group">
+                                <div class="col-md-12 col-md-offset-9">
+                                    <a id="updEducation" class="btn btn-primary">Update</a>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
 
                     </div>
                 </div>
             </div>
         </div>
     </form>
+    <c:if test="${not student.profile.applied}">
+        <form action="home" method="post">
+            <input type="hidden" name="command" value="delete-profile">
+            <button type="submit"
+                    class="btn btn-raised btn-block btn-danger" style="background-color: #bd5050;">Delete
+            </button>
+
+        </form>
+    </c:if>
 </div>
 
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
@@ -284,7 +312,6 @@
 
 <%@include file="included/js_list.jsp" %>
 <script src="content/js/profile-update.js"></script>
-<script src="content/js/ajax/singup.js"></script>
 
 </body>
 </html>

@@ -294,7 +294,6 @@
 
 <%@include file="included/js_list.jsp" %>
 <script src="content/js/jquery.onepage-scroll.min.js"></script>
-<script src="content/js/ajax/singup.js"></script>
 <script src="content/js/onepage-config.js"></script>
 <script src="content/js/onepage-navigation.js"></script>
 

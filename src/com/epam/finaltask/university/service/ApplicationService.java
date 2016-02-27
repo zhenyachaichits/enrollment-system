@@ -29,7 +29,7 @@ public class ApplicationService {
 
             return dao.find(profileId) != null;
         } catch (DaoException | DaoFactoryException e) {
-            throw new ServiceException("Couldn't provide application existence service", e);
+            throw new ServiceException("Couldn't provide application existence checking service", e);
         }
     }
 
@@ -39,7 +39,7 @@ public class ApplicationService {
 
             return dao.find(profileId);
         } catch (DaoException | DaoFactoryException e) {
-            throw new ServiceException("Couldn't provide application existence service", e);
+            throw new ServiceException("Couldn't provide application finding service", e);
         }
     }
 }

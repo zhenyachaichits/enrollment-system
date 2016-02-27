@@ -7,6 +7,7 @@ public enum CommandName {
     GO_HOME, GO_SIGNUP, GO_STATISTICS, GO_PROFILE, GO_SUPPORT_SEARCH, GO_APPLY_FORM, GO_APPLICATION,
     CHECK_ACCOUNT, AUTHENTICATE, COOKIE_AUTHENTICATE, LOG_OUT, SIGN_UP, CHECK_EMAIL, CHECK_PASSPORT_ID,
     UPDATE_PROFILE, UPDATE_STUDENT_DATA,
+    DELETE_APPLICATION, DELETE_PROFILE,
     GET_SUBJECTS,
     SET_LOCALE,
 
@@ -15,9 +16,10 @@ public enum CommandName {
 
     NO_SUCH_COMMAND;
 
+    private static String CONTROLLER_NAME = "action";
     private static String COMMAND_QUERY_NAME = "?command=";
 
     public String getQueryString() {
-        return COMMAND_QUERY_NAME + this.toString().toLowerCase();
+        return CONTROLLER_NAME + COMMAND_QUERY_NAME + this.toString().toLowerCase();
     }
 }

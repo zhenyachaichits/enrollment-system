@@ -1,24 +1,24 @@
-package com.epam.finaltask.university.controller.util.compiler.impl;
+package com.epam.finaltask.university.controller.util.bean.factory.impl;
 
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.controller.RequestParameterName;
-import com.epam.finaltask.university.controller.util.compiler.BeanCompiler;
+import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Zheny Chaichits on 25.02.2016.
  */
-public class UserCompiler implements BeanCompiler<User> {
+public class UserCommandBeanFactory implements CommandBeanFactory<User> {
 
-    private UserCompiler() {
+    private UserCommandBeanFactory() {
     }
 
     public static class UserCompilerHolder {
-        public static final UserCompiler INSTANCE = new UserCompiler();
+        public static final UserCommandBeanFactory INSTANCE = new UserCommandBeanFactory();
     }
 
-    public static UserCompiler getInstance() {
+    public static UserCommandBeanFactory getInstance() {
         return UserCompilerHolder.INSTANCE;
     }
 

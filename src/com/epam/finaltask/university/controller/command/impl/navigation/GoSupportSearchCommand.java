@@ -8,9 +8,9 @@ import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.util.AccessManager;
-import com.epam.finaltask.university.controller.util.compiler.UrlCompiler;
-import com.epam.finaltask.university.service.exception.ServiceException;
+import com.epam.finaltask.university.controller.util.bean.factory.UrlCompiler;
 import com.epam.finaltask.university.service.ProfileService;
+import com.epam.finaltask.university.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

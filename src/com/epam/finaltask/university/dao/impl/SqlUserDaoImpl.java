@@ -6,7 +6,7 @@ import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.common.UserCommon;
-import com.epam.finaltask.university.dao.util.constructor.impl.UserDaoConstructor;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.UserDaoBeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class SqlUserDaoImpl implements UserDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                UserDaoConstructor constructor = UserDaoConstructor.getInstance();
+                UserDaoBeanFactory constructor = UserDaoBeanFactory.getInstance();
 
                 return constructor.construct(resultSet);
             } else {
@@ -71,7 +71,7 @@ public class SqlUserDaoImpl implements UserDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                UserDaoConstructor constructor = UserDaoConstructor.getInstance();
+                UserDaoBeanFactory constructor = UserDaoBeanFactory.getInstance();
 
                 return constructor.construct(resultSet);
             } else {
@@ -109,7 +109,7 @@ public class SqlUserDaoImpl implements UserDao {
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
-                UserDaoConstructor constructor = UserDaoConstructor.getInstance();
+                UserDaoBeanFactory constructor = UserDaoBeanFactory.getInstance();
 
                 return constructor.construct(resultSet);
             } else {
@@ -137,7 +137,20 @@ public class SqlUserDaoImpl implements UserDao {
     }
 
     @Override
-    public User delete(String domain) throws DaoException {
+    public User delete(String email) throws DaoException {
+        /*try (
+                Connection connection = connectionPool.getConnection();
+        ) {
+            UserCommon service = UserCommon.getInstance();
+            User user = new User();
+            user.setEmail(email);
+
+            boolean isDeleted = service.deleteUser(email, connection);
+
+            return isDeleted ? user : null;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }*/
         return null;
     }
 
@@ -151,7 +164,7 @@ public class SqlUserDaoImpl implements UserDao {
 
             ResultSet resultSet = statement.executeQuery(GET_ALL_USERS_QUERY);
             while (resultSet.next()) {
-                UserDaoConstructor constructor = UserDaoConstructor.getInstance();
+                UserDaoBeanFactory constructor = UserDaoBeanFactory.getInstance();
 
                 userList.add(constructor.construct(resultSet));
             }

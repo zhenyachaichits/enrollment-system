@@ -22,6 +22,7 @@
 
 <script src="content/js/ajax/authenticate.js"></script>
 <script src="content/js/locale.js"></script>
+<script src="content/js/ajax/singup.js"></script>
 
 <script>
     $.material.init();

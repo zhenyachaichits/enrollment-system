@@ -28,6 +28,7 @@ public class UserCommon {
     private static final String UPDATE_USER_QUERY = "UPDATE user SET email = ?, role = ? WHERE user_id = ?";
     private static final String UPDATE_USER_AND_PASSWORD_QUERY = "UPDATE user SET email = ?, password_hash = ?," +
             "role = ? WHERE user_id = ?";
+    private static final String DELETE_USER_QUERY = "UPDATE user SET status = 'DELETED' WHERE user_id = ?";
 
     public User createUser(User user, Connection connection) throws SQLException {
         String query;
@@ -94,6 +95,18 @@ public class UserCommon {
             } else {
                 return null;
             }
+        }
+    }
+
+    public boolean deleteUser(Long id, Connection connection) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY,
+                        Statement.RETURN_GENERATED_KEYS);
+        ) {
+            statement.setLong(1, id);
+            int result = statement.executeUpdate();
+
+            return result != 0;
         }
     }
 }

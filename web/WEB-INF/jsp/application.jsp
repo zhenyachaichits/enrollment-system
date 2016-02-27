@@ -22,8 +22,9 @@
 
 <div class="container">
 
-    <form action="search" name="confirmApplication" method="post">
-        <input type="hidden" name="command" value="create-application">
+    <form action="search" name="deleteApplication" method="post">
+        <input type="hidden" name="command" value="delete-application">
+        <input type="hidden" name="profileID" value="${profile.id}">
         <div class="well col-md-6 col-md-offset-3" id="confirmForm">
             <div class="col-md-10 col-md-offset-1">
                 <div class="list-group">
@@ -81,8 +82,8 @@
                 </div>
             </div>
             <div class="col-md-3 col-md-offset-8">
-                <a href="javascript:confirmApplication.submit();"
-                   class="btn btn-raised btn-danger danger">Delete</a>
+                <a href="javascript:deleteApplication.submit();"
+                   class="btn btn-raised btn-danger" style="background-color: #bd5050;">Delete</a>
             </div>
         </div>
 
@@ -335,7 +336,6 @@
 
 <%@include file="included/js_list.jsp" %>
 <script src="content/js/profile-update.js"></script>
-<script src="content/js/ajax/singup.js"></script>
 
 </body>
 </html>

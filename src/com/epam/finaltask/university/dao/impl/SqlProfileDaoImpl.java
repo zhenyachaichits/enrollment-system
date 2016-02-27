@@ -6,8 +6,8 @@ import com.epam.finaltask.university.dao.common.ProfileCommon;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
-import com.epam.finaltask.university.dao.util.constructor.DaoConstructor;
-import com.epam.finaltask.university.dao.util.constructor.impl.ProfileDaoConstructor;
+import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.ProfileDaoBeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                DaoConstructor<Profile> constructor = ProfileDaoConstructor.getInstance();
+                DaoBeanFactory<Profile> constructor = ProfileDaoBeanFactory.getInstance();
 
                 return constructor.construct(resultSet);
             } else {
@@ -122,7 +122,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
 
             ResultSet resultSet = statement.executeQuery(GET_ALL_PROFILES_QUERY);
             while (resultSet.next()) {
-                DaoConstructor<Profile> constructor = ProfileDaoConstructor.getInstance();
+                DaoBeanFactory<Profile> constructor = ProfileDaoBeanFactory.getInstance();
 
                 profiles.add(constructor.construct(resultSet));
             }
@@ -176,7 +176,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                DaoConstructor<Profile> constructor = ProfileDaoConstructor.getInstance();
+                DaoBeanFactory<Profile> constructor = ProfileDaoBeanFactory.getInstance();
                 ;
 
                 return constructor.construct(resultSet);
@@ -205,7 +205,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
 
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                DaoConstructor<Profile> constructor = ProfileDaoConstructor.getInstance();
+                DaoBeanFactory<Profile> constructor = ProfileDaoBeanFactory.getInstance();
 
                 profiles.add(constructor.construct(resultSet));
             }

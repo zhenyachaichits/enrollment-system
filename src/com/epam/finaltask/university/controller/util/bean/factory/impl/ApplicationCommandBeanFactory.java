@@ -1,34 +1,33 @@
-package com.epam.finaltask.university.controller.util.compiler.impl;
+package com.epam.finaltask.university.controller.util.bean.factory.impl;
 
 import com.epam.finaltask.university.bean.Application;
 import com.epam.finaltask.university.controller.RequestParameterName;
-import com.epam.finaltask.university.controller.util.compiler.BeanCompiler;
-import com.epam.finaltask.university.controller.util.compiler.exception.BeanCompilerException;
+import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
+import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  * Created by Zheny Chaichits on 25.02.2016.
  */
-public class ApplicationCompiler implements BeanCompiler<Application> {
+public class ApplicationCommandBeanFactory implements CommandBeanFactory<Application> {
 
-    private ApplicationCompiler() {
+    private ApplicationCommandBeanFactory() {
     }
 
     public static class ApplicationCompilerHolder {
-        public static final ApplicationCompiler INSTANCE = new ApplicationCompiler();
+        public static final ApplicationCommandBeanFactory INSTANCE = new ApplicationCommandBeanFactory();
     }
 
-    public static ApplicationCompiler getInstance() {
+    public static ApplicationCommandBeanFactory getInstance() {
         return ApplicationCompilerHolder.INSTANCE;
     }
 
     private static final String CHECKED = "on";
 
     @Override
-    public Application compile(HttpServletRequest request) throws BeanCompilerException {
+    public Application compile(HttpServletRequest request) throws CommandBeanFactoryException {
         boolean isOutCompetition = CHECKED.equals(request.getParameter(RequestParameterName.OUT_OF_COMPETITION));
         Calendar date = Calendar.getInstance();
         String facultyStr = request.getParameter(RequestParameterName.FACULTY_ID);

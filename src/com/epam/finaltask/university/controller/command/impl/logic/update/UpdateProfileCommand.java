@@ -11,10 +11,10 @@ import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
-import com.epam.finaltask.university.controller.util.compiler.BeanCompiler;
-import com.epam.finaltask.university.controller.util.compiler.exception.BeanCompilerException;
-import com.epam.finaltask.university.controller.util.compiler.impl.ProfileCompiler;
-import com.epam.finaltask.university.controller.util.compiler.impl.UserCompiler;
+import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
+import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
+import com.epam.finaltask.university.controller.util.bean.factory.impl.ProfileCommandBeanFactory;
+import com.epam.finaltask.university.controller.util.bean.factory.impl.UserCommandBeanFactory;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.concurrent.LockingStudentService;
 
@@ -33,15 +33,15 @@ public class UpdateProfileCommand implements Command {
 
             AccessManager.manageAccess(session, UserType.STUDENT);
 
-            long user_id = (Long) session.getAttribute(SessionParameterName.UID);
+            long userId = (Long) session.getAttribute(SessionParameterName.UID);
 
             LockingStudentService service = LockingStudentService.getInstance();
 
-            BeanCompiler<User> userCompiler = UserCompiler.getInstance();
-            BeanCompiler<Profile> profileCompiler = ProfileCompiler.getInstance();
+            CommandBeanFactory<User> userCompiler = UserCommandBeanFactory.getInstance();
+            CommandBeanFactory<Profile> profileCompiler = ProfileCommandBeanFactory.getInstance();
 
             User user = userCompiler.compile(request);
-            user.setId(user_id);
+            user.setId(userId);
             Profile profile = profileCompiler.compile(request);
             Student student = new Student(user, profile);
 
@@ -57,7 +57,7 @@ public class UpdateProfileCommand implements Command {
 
             return currentQuery == null ? CommandName.GO_HOME.getQueryString() : currentQuery;
 
-        } catch (BeanCompilerException | NumberFormatException | ServiceException e) {
+        } catch (CommandBeanFactoryException | NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't process profile update command");
         }
     }

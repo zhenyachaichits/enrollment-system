@@ -25,6 +25,9 @@ public class ApplicationCommon {
 
     private static final String ADD_APPLICATION_QUERY = "INSERT INTO application (out_of_competition, date, " +
             "profile_profile_id, profile_faculty_faculty_id) VALUES (?, ?, ?, ?)";
+    private static final String DELETE_APPLICATION_QUERY = "UPDATE application SET status = 'DELETED' WHERE " +
+            "profile_profile_id = ?";
+
 
     public Application createApplication(Application application, Connection connection) throws SQLException {
         try (
@@ -43,6 +46,18 @@ public class ApplicationCommon {
             } else {
                 return null;
             }
+        }
+    }
+
+    public boolean deleteApplication(Long profileId, Connection connection) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(DELETE_APPLICATION_QUERY);
+        ) {
+            statement.setLong(1, profileId);
+
+            int result = statement.executeUpdate();
+
+            return result != 0;
         }
     }
 }

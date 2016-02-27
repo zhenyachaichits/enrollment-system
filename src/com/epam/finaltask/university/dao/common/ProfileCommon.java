@@ -37,7 +37,9 @@ public class ProfileCommon {
     private static final String UPDATE_PRIVILEGED_PROFILE_QUERY = "UPDATE profile SET passport_id = ?, first_name = ?, " +
             "middle_name = ?, last_name = ?, birth_date = ?, phone = ?, address = ?, points = ?, " +
             "medal = ?, free_form = ?, privilegies = ?, faculty_faculty_id = ? WHERE user_user_id = ?";
-    private static final String UPDATE_APPLICATION_STATUS = "UPDATE profile SET applied = ? WHERE profile_id = ?";
+    private static final String UPDATE_APPLICATION_STATUS_QUERY = "UPDATE profile SET applied = ? WHERE profile_id = ?";
+    private static final String DELETE_PROFILE_QUERY = "UPDATE profile SET status = 'DELETED' " +
+            "WHERE user_user_id = ?";
 
     public Profile createProfile(Profile profile, Connection connection) throws SQLException {
         String query;
@@ -84,9 +86,20 @@ public class ProfileCommon {
         }
     }
 
+    public boolean deleteProfile(Long userId, Connection connection) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(DELETE_PROFILE_QUERY);
+        ) {
+            statement.setLong(1, userId);
+            int result = statement.executeUpdate();
+
+            return result != 0;
+        }
+    }
+
     public boolean updateProfileApplicationStatus(Profile profile, Connection connection) throws SQLException {
         try (
-                PreparedStatement statement = connection.prepareStatement(UPDATE_APPLICATION_STATUS);
+                PreparedStatement statement = connection.prepareStatement(UPDATE_APPLICATION_STATUS_QUERY);
         ) {
             statement.setBoolean(1, profile.isApplied());
             statement.setLong(2, profile.getId());

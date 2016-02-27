@@ -1,8 +1,8 @@
-package com.epam.finaltask.university.dao.util.constructor.impl;
+package com.epam.finaltask.university.dao.util.bean.factory.impl;
 
 import com.epam.finaltask.university.bean.Application;
 import com.epam.finaltask.university.dao.util.DateTypeConverter;
-import com.epam.finaltask.university.dao.util.constructor.DaoConstructor;
+import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,15 +11,15 @@ import java.util.Calendar;
 /**
  * Created by Zheny Chaichits on 25.02.2016.
  */
-public class ApplicationDaoConstructor implements DaoConstructor<Application> {
+public class ApplicationBeanFactory implements DaoBeanFactory<Application> {
 
-    private ApplicationDaoConstructor() { }
+    private ApplicationBeanFactory() { }
 
     public static class ApplicationDaoConstructorHolder {
-        public static final ApplicationDaoConstructor INSTANCE = new ApplicationDaoConstructor();
+        public static final ApplicationBeanFactory INSTANCE = new ApplicationBeanFactory();
     }
 
-    public static ApplicationDaoConstructor getInstance() {
+    public static ApplicationBeanFactory getInstance() {
         return ApplicationDaoConstructorHolder.INSTANCE;
     }
 

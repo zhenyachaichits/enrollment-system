@@ -8,10 +8,10 @@ import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
-import com.epam.finaltask.university.controller.util.compiler.BeanCompiler;
-import com.epam.finaltask.university.controller.util.compiler.exception.BeanCompilerException;
-import com.epam.finaltask.university.controller.util.compiler.impl.ProfileCompiler;
-import com.epam.finaltask.university.controller.util.compiler.impl.UserCompiler;
+import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
+import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
+import com.epam.finaltask.university.controller.util.bean.factory.impl.ProfileCommandBeanFactory;
+import com.epam.finaltask.university.controller.util.bean.factory.impl.UserCommandBeanFactory;
 import com.epam.finaltask.university.service.concurrent.LockingStudentService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
@@ -27,8 +27,8 @@ public class SignUpCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
-            BeanCompiler<User> userCompiler = UserCompiler.getInstance();
-            BeanCompiler<Profile> profileCompiler = ProfileCompiler.getInstance();
+            CommandBeanFactory<User> userCompiler = UserCommandBeanFactory.getInstance();
+            CommandBeanFactory<Profile> profileCompiler = ProfileCommandBeanFactory.getInstance();
 
             User user = userCompiler.compile(request);
             Profile profile = profileCompiler.compile(request);
@@ -50,7 +50,7 @@ public class SignUpCommand implements Command {
 
             return CommandName.GO_HOME.getQueryString();
 
-        } catch (BeanCompilerException | ServiceException e) {
+        } catch (CommandBeanFactoryException | ServiceException e) {
             throw new CommandException("Couldn't execute authentication command", e);
         }
     }

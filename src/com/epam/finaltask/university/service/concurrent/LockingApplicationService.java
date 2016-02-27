@@ -54,4 +54,13 @@ public class LockingApplicationService {
         }
     }
 
+    public boolean deleteApplicationByProfileId(long profileId) throws ServiceException {
+        try {
+            ApplicationDao dao = DaoFactory.getDaoFactory().getApplicationDao();
+
+            return dao.delete(profileId) != null;
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide application deleting service", e);
+        }
+    }
 }

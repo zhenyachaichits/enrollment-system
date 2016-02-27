@@ -1,9 +1,9 @@
-package com.epam.finaltask.university.dao.util.constructor.impl;
+package com.epam.finaltask.university.dao.util.bean.factory.impl;
 
 import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.type.MedalType;
 import com.epam.finaltask.university.dao.util.DateTypeConverter;
-import com.epam.finaltask.university.dao.util.constructor.DaoConstructor;
+import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,15 +11,15 @@ import java.sql.SQLException;
 /**
  * Created by Zheny Chaichits on 25.02.2016.
  */
-public class ProfileDaoConstructor implements DaoConstructor<Profile> {
+public class ProfileDaoBeanFactory implements DaoBeanFactory<Profile> {
 
-    private ProfileDaoConstructor() { }
+    private ProfileDaoBeanFactory() { }
 
     public static class ProfileDaoConstructorHolder {
-        public static final ProfileDaoConstructor INSTANCE = new ProfileDaoConstructor();
+        public static final ProfileDaoBeanFactory INSTANCE = new ProfileDaoBeanFactory();
     }
 
-    public static ProfileDaoConstructor getInstance() {
+    public static ProfileDaoBeanFactory getInstance() {
         return ProfileDaoConstructorHolder.INSTANCE;
     }
 
@@ -35,6 +35,7 @@ public class ProfileDaoConstructor implements DaoConstructor<Profile> {
     private static final String FORM_KEY = "free_form";
     private static final String MEDAL_TYPE_KEY = "medal";
     private static final String PRIVILEGES_KEY = "privilegies";
+    private static final String APPLIED_KEY = "applied";
     private static final String FACULTY_ID_KEY = "faculty_faculty_id";
     private static final String USER_ID_KEY = "user_user_id";
 
@@ -53,6 +54,7 @@ public class ProfileDaoConstructor implements DaoConstructor<Profile> {
         profile.setPoints(resultSet.getInt(POINTS_KEY));
         profile.setMedalType(MedalType.valueOf(resultSet.getString(MEDAL_TYPE_KEY)));
         profile.setFreeForm(resultSet.getBoolean(FORM_KEY));
+        profile.setApplied(resultSet.getBoolean(APPLIED_KEY));
         String privileges = resultSet.getString(PRIVILEGES_KEY);
         if (!resultSet.wasNull()) {
             profile.setPrivileges(privileges);

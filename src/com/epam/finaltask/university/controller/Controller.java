@@ -52,7 +52,6 @@ public final class Controller extends HttpServlet {
         if (isAjax && !isXml) {
             writeToResponse(response, responseString);
         } else if (responseString.contains(COMMAND_QUERY)) {
-            response.addHeader("Location", "");
             response.sendRedirect(responseString);
         } else {
             forwardPage(request, response, responseString);

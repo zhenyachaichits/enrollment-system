@@ -1,8 +1,8 @@
-package com.epam.finaltask.university.dao.util.constructor.impl;
+package com.epam.finaltask.university.dao.util.bean.factory.impl;
 
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.bean.type.UserType;
-import com.epam.finaltask.university.dao.util.constructor.DaoConstructor;
+import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,16 +10,16 @@ import java.sql.SQLException;
 /**
  * Created by Zheny Chaichits on 25.02.2016.
  */
-public class UserDaoConstructor implements DaoConstructor<User> {
+public class UserDaoBeanFactory implements DaoBeanFactory<User> {
 
-    private UserDaoConstructor() {
+    private UserDaoBeanFactory() {
     }
 
     public static class UserDaoConstructorHolder {
-        public static final UserDaoConstructor INSTANCE = new UserDaoConstructor();
+        public static final UserDaoBeanFactory INSTANCE = new UserDaoBeanFactory();
     }
 
-    public static UserDaoConstructor getInstance() {
+    public static UserDaoBeanFactory getInstance() {
         return UserDaoConstructorHolder.INSTANCE;
     }
 
