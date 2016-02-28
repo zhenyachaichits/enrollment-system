@@ -5,6 +5,8 @@ import com.epam.finaltask.university.dao.SubjectDao;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
+import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.SubjectDaoBeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,13 +31,9 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         return SubjectDaoHolder.INSTANCE;
     }
 
-    private static final String ID_KEY = "subject_id";
-    private static final String NAME_KEY = "name";
-    private static final String MIN_POINTS_KEY = "min_points";
-
     private static final String GET_SUBJECTS_BY_FACULTY_ID = "SELECT subject.* FROM faculty_has_subject " +
             "INNER JOIN subject ON subject.subject_id = faculty_has_subject.subject_subject_id " +
-            "WHERE faculty_has_subject.faculty_faculty_id = ? AND status = 'ACTIVE'";
+            "WHERE faculty_has_subject.faculty_faculty_id = ? AND subject.status = 'ACTIVE'";
 
     private static final String GET_ALL_SUBJECTS = "SELECT * FROM subject WHERE status = 'ACTIVE'";
     private static final String GET_SUBJECT_BY_ID_QUERY = "SELECT * FROM subject WHERE subject_id = ? AND status = 'ACTIVE'";
@@ -54,13 +52,9 @@ public class SqlSubjectDaoImpl implements SubjectDao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Subject subject = new Subject();
+                DaoBeanFactory<Subject> factory = SubjectDaoBeanFactory.getInstance();
 
-                subject.setId(resultSet.getLong(ID_KEY));
-                subject.setName(resultSet.getString(NAME_KEY));
-                subject.setMinPoint(resultSet.getInt(MIN_POINTS_KEY));
-
-                subjects.add(subject);
+                subjects.add(factory.construct(resultSet));
             }
 
             return subjects;
@@ -83,10 +77,9 @@ public class SqlSubjectDaoImpl implements SubjectDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                subject.setName(resultSet.getString(NAME_KEY));
-                subject.setMinPoint(resultSet.getInt(MIN_POINTS_KEY));
+                DaoBeanFactory<Subject> factory = SubjectDaoBeanFactory.getInstance();
 
-                return subject;
+                return factory.construct(resultSet);
             } else {
                 return null;
             }
@@ -115,10 +108,9 @@ public class SqlSubjectDaoImpl implements SubjectDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                subject.setId(resultSet.getLong(ID_KEY));
-                subject.setMinPoint(resultSet.getInt(MIN_POINTS_KEY));
+                DaoBeanFactory<Subject> factory = SubjectDaoBeanFactory.getInstance();
 
-                return subject;
+                return factory.construct(resultSet);
             } else {
                 return null;
             }
@@ -150,12 +142,9 @@ public class SqlSubjectDaoImpl implements SubjectDao {
 
             ResultSet resultSet = statement.executeQuery(GET_ALL_SUBJECTS);
             while (resultSet.next()) {
+                DaoBeanFactory<Subject> factory = SubjectDaoBeanFactory.getInstance();
 
-                subject.setId(resultSet.getLong(ID_KEY));
-                subject.setName(resultSet.getString(NAME_KEY));
-                subject.setMinPoint(resultSet.getInt(MIN_POINTS_KEY));
-
-                userList.add(subject);
+                userList.add(factory.construct(resultSet));
             }
 
             return userList;

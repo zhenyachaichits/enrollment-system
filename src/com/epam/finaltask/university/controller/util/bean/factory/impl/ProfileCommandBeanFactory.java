@@ -69,7 +69,7 @@ public class ProfileCommandBeanFactory implements CommandBeanFactory<Profile> {
 
             return profile;
         } catch (ParseException | NumberFormatException e) {
-            throw new CommandBeanFactoryException("Couldn't compile profile bean", e);
+            throw new CommandBeanFactoryException("Couldn't build profile bean", e);
         }
     }
 }

@@ -64,21 +64,22 @@ public class ProfileService {
         }
     }
 
-    public List<Profile> findProfilesByLastName(String lastName) throws ServiceException {
+    public List<Profile> findProfilesByLastName(String lastName, int offset, int recordsCount) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
 
-            return dao.findProfileByLastName(lastName);
+            return dao.findProfileByLastName(lastName, offset, recordsCount);
         } catch (DaoFactoryException | DaoException e) {
             throw new ServiceException("Couldn't provide profile finding service", e);
         }
     }
 
-    public List<Profile> findAppliedProfilesByLastName(String lastName) throws ServiceException {
+    public List<Profile> findAppliedProfilesByLastName(String lastName, int offset, int recordsCount)
+            throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
 
-            return dao.findAppliedByLastName(lastName);
+            return dao.findAppliedByLastName(lastName, offset, recordsCount);
         } catch (DaoFactoryException | DaoException e) {
             throw new ServiceException("Couldn't provide profile finding service", e);
         }
@@ -94,6 +95,26 @@ public class ProfileService {
         }
     }
 
+    public List<Profile> getAllProfiles(int offset, int recordsCount) throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.findAllProfiles(offset, recordsCount);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide all profiles finding service", e);
+        }
+    }
+
+    public List<Profile> getAllApplied(int offset, int recordsCount) throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.findAllApplied(offset, recordsCount);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide all profiles finding service", e);
+        }
+    }
+
     public boolean checkUpdateAvailability(Profile student) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -101,6 +122,16 @@ public class ProfileService {
             return dao.checkUpdateAvailability(student);
         } catch (DaoException | DaoFactoryException e) {
             throw new ServiceException("Couldn't provide student existence checking service");
+        }
+    }
+
+    public int getCurrentRecordsCount() throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.getRecordsCount();
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide records counting service");
         }
     }
 }

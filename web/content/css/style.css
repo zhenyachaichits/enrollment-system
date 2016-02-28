@@ -41,6 +41,19 @@
     padding: 1em 0;
 }
 
+.horizontal-center {
+    margin: 0 auto;
+    text-align: center;
+}
+
 .danger {
     background-color: #bd5050;
+}
+
+.pagination>.active>span {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #1DA195;
+    border-color: #1DA195;
 }

@@ -11,15 +11,15 @@ import java.util.Calendar;
 /**
  * Created by Zheny Chaichits on 25.02.2016.
  */
-public class ApplicationBeanFactory implements DaoBeanFactory<Application> {
+public class ApplicationDaoBeanFactory implements DaoBeanFactory<Application> {
 
-    private ApplicationBeanFactory() { }
+    private ApplicationDaoBeanFactory() { }
 
     public static class ApplicationDaoConstructorHolder {
-        public static final ApplicationBeanFactory INSTANCE = new ApplicationBeanFactory();
+        public static final ApplicationDaoBeanFactory INSTANCE = new ApplicationDaoBeanFactory();
     }
 
-    public static ApplicationBeanFactory getInstance() {
+    public static ApplicationDaoBeanFactory getInstance() {
         return ApplicationDaoConstructorHolder.INSTANCE;
     }
 

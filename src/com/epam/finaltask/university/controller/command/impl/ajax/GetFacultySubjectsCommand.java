@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class GetFacultySubjectsCommand implements Command {
 
-    private static final String SUBJECTS_ATTR = "subjects";
+
     private static final String CONTENT_TYPE = "application/xml";
 
     @Override
@@ -29,7 +29,7 @@ public class GetFacultySubjectsCommand implements Command {
             SubjectService service = SubjectService.getInstance();
             List<Subject> subjects = service.getSubjectsByFacultyId(id);
 
-            request.setAttribute(SUBJECTS_ATTR, subjects);
+            request.setAttribute(RequestParameterName.SUBJECTS, subjects);
             response.setContentType(CONTENT_TYPE);
 
             return JspPageName.SUBJECTS_XML;

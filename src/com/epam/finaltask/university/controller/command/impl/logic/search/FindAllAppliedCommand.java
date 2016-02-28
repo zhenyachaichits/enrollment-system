@@ -18,13 +18,12 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * Created by Zheny Chaichits on 26.02.2016.
+ * Created by Zheny Chaichits on 28.02.2016.
  */
-public class FindAppliedByLastNameCommand implements Command {
+public class FindAllAppliedCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
-            String lastName = request.getParameter(RequestParameterName.LAST_NAME);
             HttpSession session = request.getSession(false);
 
             AccessManager.manageAccess(session, UserType.SUPPORT);
@@ -36,8 +35,7 @@ public class FindAppliedByLastNameCommand implements Command {
 
             int offset = Paginator.calculateOffset(currentPage);
             ProfileService service = ProfileService.getInstance();
-            List<Profile> profileList = service.findAppliedProfilesByLastName(lastName, offset,
-                    Paginator.RECORDS_ON_PAGE);
+            List<Profile> profileList = service.getAllApplied(offset, Paginator.RECORDS_ON_PAGE);
 
             int recordsNumber = service.getCurrentRecordsCount();
             int pagesNumber = Paginator.calculatePagesNumber(recordsNumber);

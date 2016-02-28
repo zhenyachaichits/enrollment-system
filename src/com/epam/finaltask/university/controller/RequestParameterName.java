@@ -11,6 +11,7 @@ public final class RequestParameterName {
     public static final String FORWARD_QUERY_STRING = "javax.servlet.forward.query_string";
 
     public static final String FACULTIES = "faculties";
+    public static final String SUBJECTS = "subjects";
 
     public static final String COMMAND_NAME = "command";
 
@@ -41,6 +42,8 @@ public final class RequestParameterName {
     public static final String PROFILE = "profile";
     public static final String APPLICATION = "application";
 
+    public static final String CURRENT_PAGE = "currentPage";
+    public static final String PAGES_NUMBER = "pagesNumber";
     public static final String LOCALE = "locale";
 
 }

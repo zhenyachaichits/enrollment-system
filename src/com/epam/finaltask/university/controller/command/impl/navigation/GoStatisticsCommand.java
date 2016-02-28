@@ -6,7 +6,7 @@ import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
-import com.epam.finaltask.university.controller.util.bean.factory.UrlCompiler;
+import com.epam.finaltask.university.controller.util.UrlBuilder;
 import com.epam.finaltask.university.service.FacultyService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
@@ -29,7 +29,7 @@ public class GoStatisticsCommand implements Command {
             request.setAttribute(RequestParameterName.FACULTIES, faculties);
 
             HttpSession session = request.getSession(true);
-            session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlCompiler.compile(request));
+            session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 
             return JspPageName.STATICTICS_PAGE;
         } catch (ServiceException e) {

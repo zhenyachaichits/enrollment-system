@@ -21,7 +21,6 @@ public class AjaxIdentifier {
 
     public static boolean isResponseContextXml(HttpServletResponse response) {
         String contentType = response.getContentType();
-
-        return XML_CONTENT_TYPE.equals(contentType);
+        return contentType != null && contentType.contains(XML_CONTENT_TYPE);
     }
 }

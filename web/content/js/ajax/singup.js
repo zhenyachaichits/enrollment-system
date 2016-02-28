@@ -8,6 +8,9 @@ var currentPassportId;
 $(document).ready(function () {
     currentEmail = $('#newEmail').val();
     currentPassportId = $('#passportID').val();
+    $("#subject1Group").hide("fast");
+    $("#subject2Group").hide("fast");
+    $("#subject3Group").hide("fast");
 });
 
 function refreshTotal() {
@@ -29,12 +32,25 @@ $("#faculty").change(function () {
 
     var faculty = $('#faculty').val();
 
-    $.get("/action?command=get-subjects&facultyID=" + faculty, function (responseXml) {
-        $("#subjects").html($(responseXml).find("data").html());
-        $("#subject1Group").show("fast");
-        $("#subject2Group").show("fast");
-        $("#subject3Group").show("fast");
-    });
+    $.post(
+        '/action',
+        {
+            command: 'get-subjects',
+            facultyID: faculty,
+        },
+        function (responseXml) {
+            var i = 1;
+            $(responseXml).find("data").find("subject").each(function () {
+                $("#label" + i).append($(this).find("name").text());
+                $("#subject" + i).attr('min', $(this).find("minPoint").text());
+                $("#help" + i).append($(this).find("minPoint").text());
+                $("#subject" + i + "Group").show("fast");
+                i++;
+            });
+        })
+        .fail(function () {
+            alert("Request failed.");
+        });
 });
 
 var isEmailOk = true;

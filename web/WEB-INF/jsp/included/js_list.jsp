@@ -22,11 +22,9 @@
 
 <script src="content/js/ajax/authenticate.js"></script>
 <script src="content/js/locale.js"></script>
-<script src="content/js/ajax/singup.js"></script>
 
 <script>
     $.material.init();
-
 
     $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
     $("select").dropdown({"autoinit": "select"});

@@ -11,7 +11,7 @@ import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
-import com.epam.finaltask.university.controller.util.bean.factory.UrlCompiler;
+import com.epam.finaltask.university.controller.util.UrlBuilder;
 import com.epam.finaltask.university.service.ApplicationService;
 import com.epam.finaltask.university.service.FacultyService;
 import com.epam.finaltask.university.service.ProfileService;
@@ -30,10 +30,9 @@ public class GoApplicationCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-
             AccessManager.manageAccess(session, UserType.SUPPORT);
 
-            session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlCompiler.compile(request));
+            session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 
             String profileStr = request.getParameter(RequestParameterName.PROFILE_ID);
             long profileId = Long.parseLong(profileStr);
@@ -53,7 +52,7 @@ public class GoApplicationCommand implements Command {
                 request.setAttribute(RequestParameterName.PROFILE, profile);
                 request.setAttribute(RequestParameterName.APPLICATION, application);
             } else {
-                throw new InvalidDataException("Couldn't find student from session");
+                throw new InvalidDataException("Couldn't find profile or application session");
             }
 
             return JspPageName.APPLICATION;

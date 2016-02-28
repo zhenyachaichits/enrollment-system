@@ -74,6 +74,14 @@
                                 <li class="divider"></li>
                             </c:if>
 
+                            <c:if test="${sessionScope.userRole eq 'STUDENT'}">
+                                <form hidden="hidden" name="goApplicationData" action="profile" method="post">
+                                    <input type="hidden" name="command" value="go-application-data">
+                                </form>
+                                <li><a href="javascript:goApplicationData.submit();">Application</a></li>
+                                <li class="divider"></li>
+                            </c:if>
+
                             <c:if test="${sessionScope.userRole eq 'SUPPORT'}">
                                 <form hidden="hidden" name="goProfile" action="search" method="post">
                                     <input type="hidden" name="command" value="go-support-search">

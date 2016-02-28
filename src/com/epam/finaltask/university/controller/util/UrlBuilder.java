@@ -1,4 +1,4 @@
-package com.epam.finaltask.university.controller.util.bean.factory;
+package com.epam.finaltask.university.controller.util;
 
 import com.epam.finaltask.university.controller.RequestParameterName;
 
@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * Created by Zheny Chaichits on 18.02.2016.
  */
-public class UrlCompiler {
+public class UrlBuilder {
 
     private static final String URI_DELIMITER_PATTERN = "\\?";
 
@@ -17,7 +17,7 @@ public class UrlCompiler {
     private static final String PARAM_DELIMITER = "&";
     private static final String PARAM_VALUE_DELIMITER = "=";
 
-    public static String compile(HttpServletRequest request) {
+    public static String build(HttpServletRequest request) {
         String uri = request.getRequestURI();
 
         uri = uri.split(URI_DELIMITER_PATTERN)[0];
@@ -33,12 +33,15 @@ public class UrlCompiler {
         int count = 1;
 
         for (Map.Entry<String, String[]> parameter : entrySet) {
-            stringBuilder.append(parameter.getKey());
-            stringBuilder.append(PARAM_VALUE_DELIMITER);
-            stringBuilder.append(parameter.getValue()[0]);
-            if (count++ < entrySet.size()) {
-                stringBuilder.append(PARAM_DELIMITER);
+            if (!RequestParameterName.CURRENT_PAGE.equals(parameter.getKey())) {
+                stringBuilder.append(parameter.getKey());
+                stringBuilder.append(PARAM_VALUE_DELIMITER);
+                stringBuilder.append(parameter.getValue()[0]);
+                if (count < entrySet.size()) {
+                    stringBuilder.append(PARAM_DELIMITER);
+                }
             }
+            count++;
         }
 
         return stringBuilder.toString();

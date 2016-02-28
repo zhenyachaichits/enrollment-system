@@ -14,6 +14,7 @@ public final class JspPageName {
     public static final String SUPPORT_SEARCH_PAGE = "WEB-INF/jsp/support_search.jsp";
     public static final String APPLY_FORM = "WEB-INF/jsp/apply_form.jsp";
     public static final String APPLICATION= "WEB-INF/jsp/application.jsp";
+    public static final String APPLICATION_DATA= "WEB-INF/jsp/application_data.jsp";
 
     public static final String SUBJECTS_XML = "WEB-INF/jsp/xml/subjects.jsp";
 

@@ -336,6 +336,7 @@
 
 <%@include file="included/js_list.jsp" %>
 <script src="content/js/profile-update.js"></script>
+<script src="content/js/ajax/singup.js"></script>
 
 </body>
 </html>

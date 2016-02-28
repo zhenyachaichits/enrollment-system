@@ -9,7 +9,7 @@ import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
-import com.epam.finaltask.university.dao.util.bean.factory.impl.ApplicationBeanFactory;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.ApplicationDaoBeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
             statement.setLong(1, profileId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                DaoBeanFactory<Application> constructor = ApplicationBeanFactory.getInstance();
+                DaoBeanFactory<Application> constructor = ApplicationDaoBeanFactory.getInstance();
 
                 return constructor.construct(resultSet);
             } else {
@@ -168,7 +168,7 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
 
             ResultSet resultSet = statement.executeQuery(FIND_ALL_APPLICATIONS_QUERY);
             while (resultSet.next()) {
-                DaoBeanFactory<Application> constructor = ApplicationBeanFactory.getInstance();
+                DaoBeanFactory<Application> constructor = ApplicationDaoBeanFactory.getInstance();
 
                 applications.add(constructor.construct(resultSet));
             }

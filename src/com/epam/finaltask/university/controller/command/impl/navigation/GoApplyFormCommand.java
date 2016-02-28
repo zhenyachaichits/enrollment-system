@@ -10,7 +10,7 @@ import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
-import com.epam.finaltask.university.controller.util.bean.factory.UrlCompiler;
+import com.epam.finaltask.university.controller.util.UrlBuilder;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.FacultyService;
 import com.epam.finaltask.university.service.ProfileService;
@@ -31,7 +31,7 @@ public class GoApplyFormCommand implements Command {
 
             AccessManager.manageAccess(session, UserType.SUPPORT);
 
-            session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlCompiler.compile(request));
+            session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 
             String profileStr = request.getParameter(RequestParameterName.PROFILE_ID);
             long profileId = Long.parseLong(profileStr);

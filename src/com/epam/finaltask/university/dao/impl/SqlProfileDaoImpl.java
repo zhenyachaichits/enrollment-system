@@ -19,6 +19,7 @@ import java.util.List;
 public class SqlProfileDaoImpl implements ProfileDao {
 
     private final ConnectionPool connectionPool;
+    private int recordsCount;
 
     private SqlProfileDaoImpl() {
         connectionPool = ConnectionPool.getInstance();
@@ -32,20 +33,25 @@ public class SqlProfileDaoImpl implements ProfileDao {
         return ProfileDaoHolder.INSTANCE;
     }
 
-    private static final String FIND_PROFILE_BY_PASSPORT_ID_QUERY = "SELECT * FROM profile WHERE passport_id = ? " +
-            "AND status = 'ACTIVE' AND applied = FALSE";
-    private static final String FIND_PROFILE_BY_LAST_NAME_QUERY = "SELECT * FROM profile WHERE last_name = ? " +
-            "AND status = 'ACTIVE' AND applied = FALSE";
-    private static final String FIND_APPLIED_PROFILE_BY_PASSPORT_ID_QUERY = "SELECT * FROM profile WHERE passport_id = ? " +
-            "AND status = 'ACTIVE' AND applied = TRUE";
-    private static final String FIND_APPLIED_PROFILE_BY_LAST_NAME_QUERY = "SELECT * FROM profile WHERE last_name = ? " +
-            "AND status = 'ACTIVE' AND applied = TRUE";
+    private static final String FIND_PROFILE_BY_PASSPORT_ID_QUERY = "SELECT * FROM profile " +
+            "WHERE passport_id = ? AND status = 'ACTIVE' AND applied = FALSE";
+    private static final String FIND_PROFILE_BY_LAST_NAME_QUERY = "SELECT SQL_CALC_FOUND_ROWS * FROM profile " +
+            "WHERE last_name = ? AND status = 'ACTIVE' AND applied = FALSE LIMIT ?, ?";
+    private static final String FIND_APPLIED_PROFILE_BY_PASSPORT_ID_QUERY = "SELECT * FROM profile " +
+            "WHERE passport_id = ? AND status = 'ACTIVE' AND applied = TRUE";
+    private static final String FIND_APPLIED_PROFILE_BY_LAST_NAME_QUERY = "SELECT SQL_CALC_FOUND_ROWS * FROM profile " +
+            "WHERE last_name = ? AND status = 'ACTIVE' AND applied = TRUE LIMIT ?, ?";
     private static final String FIND_PROFILE_BY_ID_QUERY = "SELECT * FROM profile WHERE profile_id = ? " +
             "AND status = 'ACTIVE'";
     private static final String GET_ALL_PROFILES_QUERY = "SELECT * FROM profile WHERE status = 'ACTIVE' " +
             "AND applied = FALSE";
-    private static final String CHECK_UPDATE_AVAILABILITY = "SELECT profile_id FROM profile " +
+    private static final String GET_ALL_PROFILES_QUERY_COUNTED = "SELECT SQL_CALC_FOUND_ROWS * FROM profile " +
+            "WHERE status = 'ACTIVE' AND applied = FALSE LIMIT ?, ?";
+    private static final String GET_ALL_APPLIED_QUERY_COUNTED = "SELECT SQL_CALC_FOUND_ROWS * FROM profile " +
+            "WHERE status = 'ACTIVE' AND applied = TRUE LIMIT ?, ?";
+    private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT profile_id FROM profile " +
             "WHERE user_user_id <> ? AND passport_id = ? AND status = 'ACTIVE'";
+    private static final String GET_COUNT_QUERY = "SELECT FOUND_ROWS()";
 
     @Override
     public Profile add(Profile profile) throws DaoException {
@@ -67,8 +73,8 @@ public class SqlProfileDaoImpl implements ProfileDao {
     }
 
     @Override
-    public List<Profile> findProfileByLastName(String lastName) throws DaoException {
-        return  findByLastName(lastName, false);
+    public List<Profile> findProfileByLastName(String lastName, int offset, int recordsCount) throws DaoException {
+        return  findByLastName(lastName, offset, recordsCount, false);
     }
 
     @Override
@@ -109,7 +115,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
 
     @Override
     public Profile delete(String domain) throws DaoException {
-        return null;
+        throw new UnsupportedOperationException("Profile can't be delete without account");
     }
 
     @Override
@@ -129,7 +135,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
 
             return profiles;
 
-        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }
     }
@@ -138,7 +144,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
     public boolean checkUpdateAvailability(Profile profile) throws DaoException {
         try (
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVAILABILITY);
+                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVAILABILITY_QUERY);
         ) {
             statement.setLong(1, profile.getUserId());
             statement.setString(2, profile.getPassportId());
@@ -156,8 +162,59 @@ public class SqlProfileDaoImpl implements ProfileDao {
     }
 
     @Override
-    public List<Profile> findAppliedByLastName(String lastName) throws DaoException {
-        return findByLastName(lastName, true);
+    public List<Profile> findAppliedByLastName(String lastName, int offset, int recordsCount) throws DaoException {
+        return findByLastName(lastName, offset, recordsCount, true);
+    }
+
+    @Override
+    public List<Profile> findAllApplied(int offset, int recordsCount) throws DaoException {
+        return findAll(offset, recordsCount, true);
+    }
+
+    @Override
+    public List<Profile> findAllProfiles(int offset, int recordsCount) throws DaoException {
+        return findAll(offset,recordsCount, false);
+    }
+
+    @Override
+    public int getRecordsCount() {
+        return recordsCount;
+    }
+
+    private List<Profile> findAll(int offset, int recordsCount, boolean isApplied) throws DaoException {
+        String query;
+        if (isApplied) {
+            query = GET_ALL_APPLIED_QUERY_COUNTED;
+        } else {
+            query = GET_ALL_PROFILES_QUERY_COUNTED;
+        }
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query);
+        ) {
+            List<Profile> profiles = new ArrayList<>();
+
+            statement.setInt(1, offset);
+            statement.setInt(2, recordsCount);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                DaoBeanFactory<Profile> constructor = ProfileDaoBeanFactory.getInstance();
+
+                profiles.add(constructor.construct(resultSet));
+            }
+
+            resultSet = statement.executeQuery(GET_COUNT_QUERY);
+            if(resultSet.next()) {
+                this.recordsCount = resultSet.getInt(1);
+            }
+
+            return profiles;
+
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     private Profile findByPassportId(String passportId, boolean isApplied) throws DaoException {
@@ -177,7 +234,6 @@ public class SqlProfileDaoImpl implements ProfileDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 DaoBeanFactory<Profile> constructor = ProfileDaoBeanFactory.getInstance();
-                ;
 
                 return constructor.construct(resultSet);
             } else {
@@ -188,7 +244,8 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
-    private List<Profile> findByLastName(String lastName, boolean isApplied) throws DaoException {
+    private List<Profile> findByLastName(String lastName, int offset,
+                                         int number, boolean isApplied) throws DaoException {
         String query;
         if (isApplied) {
             query = FIND_APPLIED_PROFILE_BY_LAST_NAME_QUERY;
@@ -202,12 +259,19 @@ public class SqlProfileDaoImpl implements ProfileDao {
         ) {
             List<Profile> profiles = new ArrayList<>();
             statement.setString(1, lastName);
+            statement.setInt(2, offset);
+            statement.setInt(3, number);
 
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 DaoBeanFactory<Profile> constructor = ProfileDaoBeanFactory.getInstance();
 
                 profiles.add(constructor.construct(resultSet));
+            }
+
+            resultSet = statement.executeQuery(GET_COUNT_QUERY);
+            if(resultSet.next()) {
+                this.recordsCount = resultSet.getInt(1);
             }
 
             return profiles;
