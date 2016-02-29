@@ -40,9 +40,9 @@ public class UpdateProfileCommand implements Command {
             CommandBeanFactory<User> userCompiler = UserCommandBeanFactory.getInstance();
             CommandBeanFactory<Profile> profileCompiler = ProfileCommandBeanFactory.getInstance();
 
-            User user = userCompiler.compile(request);
+            User user = userCompiler.constructBean(request);
             user.setId(userId);
-            Profile profile = profileCompiler.compile(request);
+            Profile profile = profileCompiler.constructBean(request);
             Student student = new Student(user, profile);
 
             student = service.updateStudentProfile(student);

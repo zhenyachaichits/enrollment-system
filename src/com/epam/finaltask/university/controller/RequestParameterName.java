@@ -15,6 +15,7 @@ public final class RequestParameterName {
 
     public static final String COMMAND_NAME = "command";
 
+    public static final String USER = "user";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String USER_ID = "userID";

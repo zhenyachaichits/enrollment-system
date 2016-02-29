@@ -28,7 +28,7 @@ public class CreateApplicationCommand implements Command {
             AccessManager.manageAccess(session, UserType.SUPPORT);
 
             CommandBeanFactory<Application> compiler = ApplicationCommandBeanFactory.getInstance();
-            Application application = compiler.compile(request);
+            Application application = compiler.constructBean(request);
 
             LockingApplicationService service = LockingApplicationService.getInstance();
             application = service.createNewApplication(application);

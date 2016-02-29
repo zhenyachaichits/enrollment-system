@@ -27,7 +27,7 @@ public class ApplicationCommandBeanFactory implements CommandBeanFactory<Applica
     private static final String CHECKED = "on";
 
     @Override
-    public Application compile(HttpServletRequest request) throws CommandBeanFactoryException {
+    public Application constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
         boolean isOutCompetition = CHECKED.equals(request.getParameter(RequestParameterName.OUT_OF_COMPETITION));
         Calendar date = Calendar.getInstance();
         String facultyStr = request.getParameter(RequestParameterName.FACULTY_ID);

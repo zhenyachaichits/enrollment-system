@@ -32,7 +32,7 @@ public class LockingUserService {
 
     private static final Lock lock = new ReentrantLock();
 
-    public User createNewAccount(User user) throws InvalidServiceDataException, ServiceException {
+    public User createUser(User user) throws ServiceException {
         UserService userService = UserService.getInstance(); // TODO: ask about it
 
         if (UserValidator.validateUser(user) && !userService.checkEmailExistence(user.getEmail())) {
@@ -45,7 +45,7 @@ public class LockingUserService {
                 return user;
 
             } catch (DaoFactoryException | DaoException e) {
-                throw new ServiceException("Couldn't provide account creation service");
+                throw new ServiceException("Couldn't provide user creation service");
             } finally {
                 lock.unlock();
             }
@@ -54,5 +54,39 @@ public class LockingUserService {
         }
     }
 
+    public User updateUser(User user) throws ServiceException {
+        UserService service = UserService.getInstance();
+
+        if (UserValidator.validateUserForUpdate(user) && service.checkUpdateAvailability(user)) {
+            lock.lock();
+            try {
+                UserDao dao = DaoFactory.getDaoFactory().getUserDao();
+
+                user = dao.update(user);
+
+                return user;
+            } catch (DaoFactoryException | DaoException e) {
+                throw new ServiceException("Couldn't provide user updating service");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new InvalidServiceDataException("Invalid user data. Operation Stopped");
+        }
+    }
+
+    public boolean deleteUser(long userId) throws ServiceException {
+        lock.lock();
+        try {
+            UserDao dao = DaoFactory.getDaoFactory().getUserDao();
+
+            return dao.deleteById(userId);
+
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide account deletion service");
+        } finally {
+            lock.unlock();
+        }
+    }
 
 }

@@ -14,5 +14,7 @@ public interface UserDao extends EntityDao<String, User> {
     User findUserToLogIn(String email, String passwordHash) throws DaoException;
     User findUserById(long id) throws DaoException;
     List<User> findUsersByRole(UserType role, int offset, int recordsCount) throws DaoException;
+    boolean checkUpdateAvailability(User user) throws DaoException;
     int getRecordsCount();
+    boolean deleteById(long id) throws DaoException;
 }

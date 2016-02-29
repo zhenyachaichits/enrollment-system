@@ -41,6 +41,8 @@ public class SqlUserDaoImpl implements UserDao {
     private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM user WHERE user_id = ? AND status = 'ACTIVE'";
     private static final String FIND_USERS_BY_ROLE_QUERY = "SELECT SQL_CALC_FOUND_ROWS * FROM user WHERE role = ? " +
             "AND status = 'ACTIVE' LIMIT ?, ?";
+    private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT * FROM user " +
+            "WHERE user_id <> ? AND email = ? AND status = 'ACTIVE'";
     private static final String GET_COUNT_QUERY = "SELECT FOUND_ROWS()";
 
     @Override
@@ -119,8 +121,38 @@ public class SqlUserDaoImpl implements UserDao {
     }
 
     @Override
+    public boolean checkUpdateAvailability(User user) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVAILABILITY_QUERY);
+        ) {
+            statement.setLong(1, user.getId());
+            statement.setString(2, user.getEmail());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return !resultSet.next();
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
     public int getRecordsCount() {
         return recordsCount;
+    }
+
+    @Override
+    public boolean deleteById(long id) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+        ) {
+            UserCommon service = UserCommon.getInstance();
+
+            return service.deleteUser(id, connection);
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
 
@@ -156,7 +188,6 @@ public class SqlUserDaoImpl implements UserDao {
                 return null;
             }
 
-
         } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }
@@ -178,20 +209,7 @@ public class SqlUserDaoImpl implements UserDao {
 
     @Override
     public User delete(String email) throws DaoException {
-        /*try (
-                Connection connection = connectionPool.getConnection();
-        ) {
-            UserCommon service = UserCommon.getInstance();
-            User user = new User();
-            user.setEmail(email);
-
-            boolean isDeleted = service.deleteUser(email, connection);
-
-            return isDeleted ? user : null;
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException("Couldn't process operation", e);
-        }*/
-        return null;
+        throw new UnsupportedOperationException("Deleting user by email unsupported");
     }
 
     @Override

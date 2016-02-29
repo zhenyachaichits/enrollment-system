@@ -102,4 +102,14 @@ public class UserService {
             throw new ServiceException("Couldn't provide records counting service");
         }
     }
+
+    public boolean checkUpdateAvailability(User user) throws ServiceException {
+        try {
+            UserDao dao = DaoFactory.getDaoFactory().getUserDao();
+
+            return dao.checkUpdateAvailability(user);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide update availability checking service");
+        }
+    }
 }

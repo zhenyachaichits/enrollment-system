@@ -23,6 +23,18 @@ public class UserValidator {
         return true;
     }
 
+    public static boolean validateUserForUpdate(User user) {
+        if (!validateEmail(user.getEmail())) {
+            return false;
+        }
+
+        if (!"".equals(user.getPassword()) && !validatePassword(user.getPassword())) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static boolean validateEmail(String email) {
         return email.matches(EMAIL_PATTERN);
     }

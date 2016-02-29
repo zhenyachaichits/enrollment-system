@@ -6,9 +6,11 @@ import com.epam.finaltask.university.controller.command.impl.error.NoSuchCommand
 import com.epam.finaltask.university.controller.command.impl.logic.*;
 import com.epam.finaltask.university.controller.command.impl.logic.delete.DeleteApplicationCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.delete.DeleteProfileCommand;
+import com.epam.finaltask.university.controller.command.impl.logic.delete.DeleteUserCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.search.*;
 import com.epam.finaltask.university.controller.command.impl.logic.update.UpdateProfileCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.update.UpdateStudentDataCommand;
+import com.epam.finaltask.university.controller.command.impl.logic.update.UpdateUserDataCommand;
 import com.epam.finaltask.university.controller.command.impl.navigation.*;
 
 import java.util.HashMap;
@@ -43,6 +45,7 @@ public class CommandHelper {
         commandMap.put(CommandName.GO_APPLICATION, new GoApplicationCommand());
         commandMap.put(CommandName.GO_APPLICATION_DATA, new GoApplicationDataCommand());
         commandMap.put(CommandName.GO_USER_MANAGEMENT, new GoUserManagementCommand());
+        commandMap.put(CommandName.GO_USER_DATA, new GoUserDataCommand());
 
         commandMap.put(CommandName.SEARCH_PROFILE_BY_PASSPORT, new FindProfileByPassportIdCommand());
         commandMap.put(CommandName.SEARCH_PROFILES_BY_LAST_NAME, new FindProfilesByLastNameCommand());
@@ -54,11 +57,14 @@ public class CommandHelper {
 
         commandMap.put(CommandName.UPDATE_PROFILE, new UpdateProfileCommand());
         commandMap.put(CommandName.UPDATE_STUDENT_DATA, new UpdateStudentDataCommand());
+        commandMap.put(CommandName.UPDATE_USER, new UpdateUserDataCommand());
 
         commandMap.put(CommandName.DELETE_APPLICATION, new DeleteApplicationCommand());
         commandMap.put(CommandName.DELETE_PROFILE, new DeleteProfileCommand());
+        commandMap.put(CommandName.DELETE_USER, new DeleteUserCommand());
 
         commandMap.put(CommandName.CREATE_APPLICATION, new CreateApplicationCommand());
+        commandMap.put(CommandName.CREATE_USER, new CreateUserCommand());
 
         commandMap.put(CommandName.GET_SUBJECTS, new GetFacultySubjectsCommand());
 

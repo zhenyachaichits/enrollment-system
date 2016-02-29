@@ -25,131 +25,90 @@
 
 <jsp:include page="included/navbar.jsp"/>
 
-<div class="content">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-default clear">
-                <div class="panel-heading">
-                    <h4 class="text-muted">Add faculty</h4>
-                </div>
-                <div class="panel-body">
-                    <form>
-                        <fieldset>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label" for="name">Name</label>
-                                <div class="col-md-8">
-                                    <input type="email" name="name" id="name" class="form-control"
-                                           placeholder="Email"
-                                           required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="subject1" id="label1" class="col-md-5 control-label">
-                                    Minimal points
-                                </label>
 
-                                <div class="col-md-4">
-                                    <input type="number" min="0" max="100" class="form-control point"
-                                           id="subject1"
-                                           placeholder="Points" pattern="\d{1,3}">
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-default">
-                <div class="panel-body">
-
-                    <p class="lead text-muted">Records found: ${fn:length(users)}</p>
-                    <c:if test="${fn:length(users) gt 0}">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover ">
-                                <thead>
-                                <tr>
-                                    <th>Email</th>
-                                    <th>Access level</th>
-                                    <th> </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="user" items="${users}">
-                                    <form action="apply_form" name="goApplyForm" method="post">
-                                        <c:if test="${not profile.applied}">
-                                            <input type="hidden" name="command" value="go-apply-form">
-                                        </c:if>
-                                        <c:if test="${profile.applied}">
-                                            <input type="hidden" name="command" value="go-application">
-                                        </c:if>
-                                        <tr>
-                                            <td>
-                                                <p class="centred">${user.email}</p>
-                                            </td>
-                                            <td>
-                                                <p class="centred">${user.role}</p>
-                                            </td>
-                                            <td>
-                                                <button name="userID" value="${user.id}"
-                                                        class="btn btn-primary">
-                                                    More
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </form>
-                                </c:forEach>
-                                </tbody>
-                            </table>
+<div class="container">
+    <form action="search" name="deleteApplication" method="post">
+        <input type="hidden" name="command" value="delete-application">
+        <input type="hidden" name="userID" value="${user.id}">
+        <div class="well col-md-6 col-md-offset-3" id="confirmForm">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i style="font-size:36px" class="material-icons">contact_mail</i>
                         </div>
-                        <c:if test="${pagesNumber gt 1}">
-
-                            <div class="col-md-12 horizontal-center">
-                                <ul class="pagination">
-                                    <c:if test="${currentPage ne 1}">
-                                        <form action="${command}" method="post" name="previousPage" hidden>
-                                            <input type="hidden" name="currentPage" value="${currentPage - 1}">
-                                        </form>
-                                        <li><a href="javascript:previousPage.submit()">«</a></li>
-                                    </c:if>
-
-                                    <c:forEach begin="1" end="${pagesNumber}" var="i">
-                                        <c:choose>
-                                            <c:when test="${currentPage eq i}">
-                                                <li class="active"><a
-                                                        style=" background-color: #1DA195;
-                                                            border-color: #1DA195;"
-                                                        href="javascript:void(0)">${i}</a></li>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <form action="${command}" method="post" name="changePage" hidden>
-                                                    <input type="hidden" name="currentPage" value="${i}">
-                                                </form>
-                                                <li><a href="javascript:changePage.submit()">${i}</a></li>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-
-                                    <c:if test="${currentPage lt pagesNumber}">
-                                        <form action="${command}" method="post" name="nextPage" hidden>
-                                            <input type="hidden" name="currentPage" value="${currentPage + 1}">
-                                        </form>
-                                        <li><a href="javascript:nextPage.submit()">»</a></li>
-                                    </c:if>
-
-                                </ul>
+                        <div class="row-content">
+                            <h4 class="list-group-item-heading">Email</h4>
+                            <p class="list-group-item-text">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <input type="email" class="form-control" id="email"
+                                           value="${user.email}" placeholder="Email">
+                                </div>
                             </div>
-                        </c:if>
-
-                    </c:if>
-
+                            </p>
+                        </div>
+                    </div>
+                    <div class="list-group-separator"></div>
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i style="font-size:36px" class="material-icons">more_horiz</i>
+                        </div>
+                        <div class="row-content">
+                            <h4 class="list-group-item-heading">Password</h4>
+                            <p class="list-group-item-text">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <input type="email" class="form-control" id="password"
+                                           value="${user.email}" placeholder="Email">
+                                </div>
+                            </div>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="list-group-separator"></div>
+                    <div class="list-group-item">
+                        <div class="row-action-primary">
+                            <i style="font-size:36px" class="material-icons">group</i>
+                        </div>
+                        <div class="row-content">
+                            <h4 class="list-group-item-heading">Role</h4>
+                            <p class="list-group-item-text">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="radio radio-primary">
+                                        <label>
+                                            <input type="radio" name="role" id="supportRole" value="SUPPORT" checked="">
+                                            Support
+                                        </label>
+                                    </div>
+                                    <div class="radio radio-primary">
+                                        <label>
+                                            <input type="radio" name="role" id="adminRole" value="ADMIN">
+                                            Admin
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="list-group-separator"></div>
+                    <div class="form-group">
+                        <div class="col-md-12 col-md-offset-6">
+                            <form name="deleteUser" action="management" method="post">
+                                <input type="hidden" name="command" value="delete-user">
+                                <input type="hidden" name="userID" value="${user.id}">
+                            </form>
+                            <a href="javascript:deleteUser.submit()" class="btn btn-raised btn-primary"
+                                    style="background-color: #bd5050;">Delete</a>
+                            <button class="btn btn-raised btn-primary">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"

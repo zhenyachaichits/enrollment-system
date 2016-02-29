@@ -1,18 +1,21 @@
 package com.epam.finaltask.university.controller.command.impl.logic;
 
 import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.User;
+import com.epam.finaltask.university.bean.to.Student;
+import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
+import com.epam.finaltask.university.controller.util.AccessManager;
 import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
 import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
 import com.epam.finaltask.university.controller.util.bean.factory.impl.ProfileCommandBeanFactory;
 import com.epam.finaltask.university.controller.util.bean.factory.impl.UserCommandBeanFactory;
 import com.epam.finaltask.university.service.concurrent.LockingStudentService;
+import com.epam.finaltask.university.service.concurrent.LockingUserService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,35 +23,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by Zheny Chaichits on 11.02.2016.
+ * Created by Zheny Chaichits on 29.02.2016.
  */
-public class SignUpCommand implements Command {
-
+public class CreateUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
+            HttpSession session = request.getSession(false);
+            AccessManager.manageAccess(session, UserType.ADMIN);
+
             CommandBeanFactory<User> userFactory = UserCommandBeanFactory.getInstance();
-            CommandBeanFactory<Profile> profileFactory = ProfileCommandBeanFactory.getInstance();
 
             User user = userFactory.constructBean(request);
-            Profile profile = profileFactory.constructBean(request);
 
-            Student student = new Student(user, profile);
+            LockingUserService service = LockingUserService.getInstance();
 
-            LockingStudentService service = LockingStudentService.getInstance();
-
-            student = service.createNewAccount(student);
-            if (student != null) {
-                HttpSession session = request.getSession(true);
-
-                session.setAttribute(SessionParameterName.EMAIL, student.getUser().getEmail());
-                session.setAttribute(SessionParameterName.ROLE, student.getUser().getRole());
-
-            } else {
+            user = service.createUser(user);
+            if (user == null) {
                 throw new InvalidDataException("Invalid user data. Couldn't sign up");
             }
 
-            return CommandName.GO_HOME.getQueryString();
+            return CommandName.GO_USER_MANAGEMENT.getQueryString();
 
         } catch (CommandBeanFactoryException | ServiceException e) {
             throw new CommandException("Couldn't execute authentication command", e);

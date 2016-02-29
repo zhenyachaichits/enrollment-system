@@ -32,7 +32,7 @@ public class ProfileCommandBeanFactory implements CommandBeanFactory<Profile> {
     private static final String CHECKED = "on";
 
     @Override
-    public Profile compile(HttpServletRequest request) throws CommandBeanFactoryException {
+    public Profile constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
         try {
             DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 
