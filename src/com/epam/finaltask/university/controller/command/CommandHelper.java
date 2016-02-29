@@ -42,6 +42,7 @@ public class CommandHelper {
         commandMap.put(CommandName.GO_APPLY_FORM, new GoApplyFormCommand());
         commandMap.put(CommandName.GO_APPLICATION, new GoApplicationCommand());
         commandMap.put(CommandName.GO_APPLICATION_DATA, new GoApplicationDataCommand());
+        commandMap.put(CommandName.GO_USER_MANAGEMENT, new GoUserManagementCommand());
 
         commandMap.put(CommandName.SEARCH_PROFILE_BY_PASSPORT, new FindProfileByPassportIdCommand());
         commandMap.put(CommandName.SEARCH_PROFILES_BY_LAST_NAME, new FindProfilesByLastNameCommand());
@@ -49,6 +50,7 @@ public class CommandHelper {
         commandMap.put(CommandName.SEARCH_APPLIED_BY_LAST_NAME, new FindAppliedByLastNameCommand());
         commandMap.put(CommandName.SEARCH_ALL_PROFILES, new FindAllProfilesCommand());
         commandMap.put(CommandName.SEARCH_ALL_APPLIED, new FindAllAppliedCommand());
+        commandMap.put(CommandName.SEARCH_USERS_BY_ROLE, new FindUsersByRoleCommand());
 
         commandMap.put(CommandName.UPDATE_PROFILE, new UpdateProfileCommand());
         commandMap.put(CommandName.UPDATE_STUDENT_DATA, new UpdateStudentDataCommand());

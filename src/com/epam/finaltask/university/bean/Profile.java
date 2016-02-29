@@ -16,7 +16,7 @@ public class Profile implements Serializable {
     private String firstName;
     private String middleName;
     private String lastName;
-    private Calendar birthDate; // calendar
+    private Calendar birthDate;
 
     private String phone;
     private String address;

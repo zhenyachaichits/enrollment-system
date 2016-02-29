@@ -50,7 +50,7 @@ public class GoApplyFormCommand implements Command {
                 throw new InvalidDataException("Couldn't find student from session");
             }
 
-            return JspPageName.APPLY_FORM;
+            return JspPageName.APPLY_FORM_PAGE;
         } catch (NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't execute navigation command", e);
         }

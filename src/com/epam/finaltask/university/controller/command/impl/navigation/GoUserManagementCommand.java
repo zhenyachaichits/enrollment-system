@@ -13,17 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by Zheny Chaichits on 22.02.2016.
+ * Created by Zheny Chaichits on 29.02.2016.
  */
-public class GoSupportSearchCommand implements Command {
+public class GoUserManagementCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+
         HttpSession session = request.getSession(false);
 
-        AccessManager.manageAccess(session, UserType.SUPPORT);
+        AccessManager.manageAccess(session, UserType.ADMIN);
 
         session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 
-        return JspPageName.SUPPORT_SEARCH_PAGE;
+        return JspPageName.USER_MANAGEMENT_PAGE;
     }
 }

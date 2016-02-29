@@ -7,14 +7,15 @@ public final class JspPageName {
     private JspPageName() {}
 
     public static final String INDEX = "index.jsp";
-    public static final String STATICTICS_PAGE = "WEB-INF/jsp/statistics.jsp";
+    public static final String STATISTICS_PAGE = "WEB-INF/jsp/statistics.jsp";
     public static final String SIGN_UP_PAGE = "WEB-INF/jsp/signup.jsp";
 
     public static final String PROFILE_PAGE = "WEB-INF/jsp/profile.jsp";
     public static final String SUPPORT_SEARCH_PAGE = "WEB-INF/jsp/support_search.jsp";
-    public static final String APPLY_FORM = "WEB-INF/jsp/apply_form.jsp";
-    public static final String APPLICATION= "WEB-INF/jsp/application.jsp";
-    public static final String APPLICATION_DATA= "WEB-INF/jsp/application_data.jsp";
+    public static final String APPLY_FORM_PAGE = "WEB-INF/jsp/apply_form.jsp";
+    public static final String APPLICATION_PAGE = "WEB-INF/jsp/application.jsp";
+    public static final String APPLICATION_DATA_PAGE = "WEB-INF/jsp/application_data.jsp";
+    public static final String USER_MANAGEMENT_PAGE = "WEB-INF/jsp/user_management.jsp";
 
     public static final String SUBJECTS_XML = "WEB-INF/jsp/xml/subjects.jsp";
 

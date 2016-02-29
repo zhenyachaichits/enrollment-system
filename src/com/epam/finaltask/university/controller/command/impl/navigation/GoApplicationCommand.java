@@ -55,7 +55,7 @@ public class GoApplicationCommand implements Command {
                 throw new InvalidDataException("Couldn't find profile or application session");
             }
 
-            return JspPageName.APPLICATION;
+            return JspPageName.APPLICATION_PAGE;
         } catch (NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't execute navigation command", e);
         }

@@ -1,0 +1,201 @@
+<html>
+<head>
+    <title>${title}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Material Design -->
+    <link href="../../content/css/dropdown.css" rel="stylesheet">
+    <link href="../../content/css/bootstrap-material-design.css" rel="stylesheet">
+    <link href="../../content/css/ripples.min.css" rel="stylesheet">
+    <link href="../../content/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <link href="../../content/css/style.css" rel="stylesheet">
+    <link href="../../content/css/snackbar.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+
+<jsp:include page="included/navbar.jsp"/>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default clear">
+                <div class="panel-heading">
+                    <h4 class="text-muted">Add faculty</h4>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="name">Name</label>
+                                <div class="col-md-8">
+                                    <input type="email" name="name" id="name" class="form-control"
+                                           placeholder="Email"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject1" id="label1" class="col-md-5 control-label">
+                                    Minimal points
+                                </label>
+
+                                <div class="col-md-4">
+                                    <input type="number" min="0" max="100" class="form-control point"
+                                           id="subject1"
+                                           placeholder="Points" pattern="\d{1,3}">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <p class="lead text-muted">Records found: ${fn:length(users)}</p>
+                    <c:if test="${fn:length(users) gt 0}">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Access level</th>
+                                    <th> </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="user" items="${users}">
+                                    <form action="apply_form" name="goApplyForm" method="post">
+                                        <c:if test="${not profile.applied}">
+                                            <input type="hidden" name="command" value="go-apply-form">
+                                        </c:if>
+                                        <c:if test="${profile.applied}">
+                                            <input type="hidden" name="command" value="go-application">
+                                        </c:if>
+                                        <tr>
+                                            <td>
+                                                <p class="centred">${user.email}</p>
+                                            </td>
+                                            <td>
+                                                <p class="centred">${user.role}</p>
+                                            </td>
+                                            <td>
+                                                <button name="userID" value="${user.id}"
+                                                        class="btn btn-primary">
+                                                    More
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                        <c:if test="${pagesNumber gt 1}">
+
+                            <div class="col-md-12 horizontal-center">
+                                <ul class="pagination">
+                                    <c:if test="${currentPage ne 1}">
+                                        <form action="${command}" method="post" name="previousPage" hidden>
+                                            <input type="hidden" name="currentPage" value="${currentPage - 1}">
+                                        </form>
+                                        <li><a href="javascript:previousPage.submit()">«</a></li>
+                                    </c:if>
+
+                                    <c:forEach begin="1" end="${pagesNumber}" var="i">
+                                        <c:choose>
+                                            <c:when test="${currentPage eq i}">
+                                                <li class="active"><a
+                                                        style=" background-color: #1DA195;
+                                                            border-color: #1DA195;"
+                                                        href="javascript:void(0)">${i}</a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <form action="${command}" method="post" name="changePage" hidden>
+                                                    <input type="hidden" name="currentPage" value="${i}">
+                                                </form>
+                                                <li><a href="javascript:changePage.submit()">${i}</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+
+                                    <c:if test="${currentPage lt pagesNumber}">
+                                        <form action="${command}" method="post" name="nextPage" hidden>
+                                            <input type="hidden" name="currentPage" value="${currentPage + 1}">
+                                        </form>
+                                        <li><a href="javascript:nextPage.submit()">»</a></li>
+                                    </c:if>
+
+                                </ul>
+                            </div>
+                        </c:if>
+
+                    </c:if>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+      data-content="One or more records are incorrect" data-timeout="4000"
+      data-snackbar-id="snackbar1454251274095"></span>
+    <span id="emailErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+          data-content="Account with such Email already exists" data-timeout="4000"
+          data-snackbar-id="snackbar1454251274096"></span>
+    <span id="passportErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+          data-content="Account with such Passport ID already exists" data-timeout="4000"
+          data-snackbar-id="snackbar1454251274097"></span>
+
+
+<script src="//code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script src="content/js/ripples.min.js"></script>
+<script src="content/js/dropdown.js"></script>
+<script src="content/js/material.min.js"></script>
+<script src="content/js/moment.js"></script>
+<script src="content/js/bootstrap-material-datetimepicker.js"></script>
+<script src="content/js/maskedinput.min.js"></script>
+<script src="content/js/snackbar.min.js"></script>
+
+
+<script src="content/js/ajax/authenticate.js"></script>
+<script src="content/js/locale.js"></script>
+
+<script>
+    $.material.init();
+
+
+    $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
+    $("select").dropdown({"autoinit": "select"});
+
+    $(function ($) {
+        $(".phone").mask("+999 (99) 999-99-99", {placeholder: "_"});
+        $(".score").mask("999", {placeholder: ""});
+        $("#passportID").mask("aa9999999", {placeholder: ""});
+    });
+
+</script>
+
+
+<script src="content/js/profile-update.js"></script>
+<script src="content/js/ajax/singup.js"></script>
+
+</body>
+</html>

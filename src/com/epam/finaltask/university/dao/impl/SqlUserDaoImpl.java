@@ -1,6 +1,7 @@
 package com.epam.finaltask.university.dao.impl;
 
 import com.epam.finaltask.university.bean.User;
+import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.dao.UserDao;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
@@ -18,6 +19,7 @@ import java.util.List;
 public class SqlUserDaoImpl implements UserDao {
 
     private final ConnectionPool connectionPool;
+    private int recordsCount;
 
     private SqlUserDaoImpl() {
         connectionPool = ConnectionPool.getInstance();
@@ -37,6 +39,9 @@ public class SqlUserDaoImpl implements UserDao {
 
     private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM user WHERE email = ? AND status = 'ACTIVE'";
     private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM user WHERE user_id = ? AND status = 'ACTIVE'";
+    private static final String FIND_USERS_BY_ROLE_QUERY = "SELECT SQL_CALC_FOUND_ROWS * FROM user WHERE role = ? " +
+            "AND status = 'ACTIVE' LIMIT ?, ?";
+    private static final String GET_COUNT_QUERY = "SELECT FOUND_ROWS()";
 
     @Override
     public User findUserToLogIn(String email, String passwordHash) throws DaoException {
@@ -81,6 +86,41 @@ public class SqlUserDaoImpl implements UserDao {
         } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }
+    }
+
+    @Override
+    public List<User> findUsersByRole(UserType role, int offset, int recordsCount) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(FIND_USERS_BY_ROLE_QUERY);
+        ) {
+            statement.setString(1, role.toString());
+            statement.setInt(2, offset);
+            statement.setInt(3, recordsCount);
+
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<User> users = new ArrayList<>();
+
+            while (resultSet.next()) {
+                UserDaoBeanFactory factory = UserDaoBeanFactory.getInstance();
+                users.add(factory.construct(resultSet));
+            }
+
+            resultSet = statement.executeQuery(GET_COUNT_QUERY);
+            if(resultSet.next()) {
+                this.recordsCount = resultSet.getInt(1);
+            }
+
+            return users;
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public int getRecordsCount() {
+        return recordsCount;
     }
 
 

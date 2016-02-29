@@ -31,7 +31,7 @@ public class GoStatisticsCommand implements Command {
             HttpSession session = request.getSession(true);
             session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 
-            return JspPageName.STATICTICS_PAGE;
+            return JspPageName.STATISTICS_PAGE;
         } catch (ServiceException e) {
             throw new CommandException("Couldn't execute navigation command", e);
         }

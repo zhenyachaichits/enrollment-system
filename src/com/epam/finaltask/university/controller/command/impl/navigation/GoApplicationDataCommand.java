@@ -56,7 +56,7 @@ public class GoApplicationDataCommand implements Command {
                 throw new InvalidDataException("Couldn't find student or application from session");
             }
 
-            return JspPageName.APPLICATION_DATA;
+            return JspPageName.APPLICATION_DATA_PAGE;
         } catch (NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't execute navigation command", e);
         }

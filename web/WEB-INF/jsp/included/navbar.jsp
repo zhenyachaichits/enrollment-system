@@ -66,6 +66,14 @@
                             <b class="caret"></b></a>
                         <ul class="dropdown-menu">
 
+                            <c:if test="${sessionScope.userRole eq 'ADMIN'}">
+                                <form hidden="hidden" name="goUserManagement" action="management" method="post">
+                                    <input type="hidden" name="command" value="go-user-management">
+                                </form>
+                                <li><a href="javascript:goUserManagement.submit();">User management</a></li>
+                                <li class="divider"></li>
+                            </c:if>
+
                             <c:if test="${sessionScope.userRole eq 'STUDENT'}">
                                 <form hidden="hidden" name="goProfile" action="profile" method="post">
                                     <input type="hidden" name="command" value="go-profile">

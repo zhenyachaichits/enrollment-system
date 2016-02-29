@@ -57,3 +57,7 @@
     background-color: #1DA195;
     border-color: #1DA195;
 }
+
+body {
+    overflow-x: hidden;
+}

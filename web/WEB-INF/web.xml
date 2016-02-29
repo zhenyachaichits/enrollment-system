@@ -72,6 +72,11 @@
         <url-pattern>/error</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/management</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>CharsetFilter</filter-name>
         <filter-class>com.epam.finaltask.university.filter.CharsetFilter</filter-class>

@@ -138,8 +138,6 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         ) {
             List<Subject> userList = new ArrayList<>();
 
-            Subject subject = new Subject();
-
             ResultSet resultSet = statement.executeQuery(GET_ALL_SUBJECTS);
             while (resultSet.next()) {
                 DaoBeanFactory<Subject> factory = SubjectDaoBeanFactory.getInstance();

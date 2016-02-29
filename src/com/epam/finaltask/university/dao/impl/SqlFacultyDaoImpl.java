@@ -1,17 +1,20 @@
 package com.epam.finaltask.university.dao.impl;
 
 import com.epam.finaltask.university.bean.Faculty;
+import com.epam.finaltask.university.bean.Profile;
+import com.epam.finaltask.university.bean.User;
+import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.dao.FacultyDao;
+import com.epam.finaltask.university.dao.common.FacultyCommon;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.FacultyDaoBeanFactory;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.ProfileDaoBeanFactory;
+import com.epam.finaltask.university.dao.util.bean.factory.impl.UserDaoBeanFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,16 +37,44 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         return FacultyDaoHolder.INSTANCE;
     }
 
-    private static final String FIND_ALL_FACULTIES = "SELECT * FROM faculty WHERE status = 'ACTIVE'";
+    private static final String FIND_ALL_FACULTIES_QUERY = "SELECT * FROM faculty WHERE status = 'ACTIVE'";
+    private static final String FIND_FACULTY_BY_NAME_QUERY = "SELECT * FROM faculty WHERE name = ? AND " +
+            "status = 'ACTIVE'";
+
 
     @Override
-    public Faculty add(Faculty entity) throws DaoException {
-        return null;
+    public Faculty add(Faculty faculty) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+        ) {
+            FacultyCommon common = FacultyCommon.getInstance();
+            faculty = common.createFaculty(faculty, connection);
+
+            return faculty;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     @Override
-    public Faculty find(Faculty domain) throws DaoException {
-        return null;
+    public Faculty find(String name) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(FIND_FACULTY_BY_NAME_QUERY);
+        ) {
+            statement.setString(1, name);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                FacultyDaoBeanFactory factory = FacultyDaoBeanFactory.getInstance();
+
+                return factory.construct(resultSet);
+            } else {
+                return null;
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     @Override
@@ -52,7 +83,7 @@ public class SqlFacultyDaoImpl implements FacultyDao {
     }
 
     @Override
-    public Faculty delete(Faculty domain) throws DaoException {
+    public Faculty delete(String name) throws DaoException {
         return null;
     }
 
@@ -64,7 +95,7 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         ) {
             List<Faculty> faculties = new ArrayList<>();
 
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_FACULTIES);
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_FACULTIES_QUERY);
             while (resultSet.next()) {
                 DaoBeanFactory<Faculty> constructor = FacultyDaoBeanFactory.getInstance();
 
