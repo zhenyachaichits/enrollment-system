@@ -33,4 +33,14 @@ public class SubjectService {
             throw new ServiceException("Couldn't provide subjects finding service", e);
         }
     }
+
+    public List<Subject> getAllSubjects() throws ServiceException {
+        try {
+            SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
+
+            return dao.all();
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide subjects finding service", e);
+        }
+    }
 }

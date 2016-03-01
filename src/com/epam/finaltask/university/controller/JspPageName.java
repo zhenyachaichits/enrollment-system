@@ -15,7 +15,10 @@ public final class JspPageName {
     public static final String APPLY_FORM_PAGE = "WEB-INF/jsp/apply_form.jsp";
     public static final String APPLICATION_PAGE = "WEB-INF/jsp/application.jsp";
     public static final String APPLICATION_DATA_PAGE = "WEB-INF/jsp/application_data.jsp";
+
     public static final String USER_MANAGEMENT_PAGE = "WEB-INF/jsp/user_management.jsp";
+    public static final String FACULTY_MANAGEMENT_PAGE = "WEB-INF/jsp/faculty_management.jsp";
+
     public static final String USER_DATA_PAGE = "WEB-INF/jsp/user_data.jsp";
 
     public static final String SUBJECTS_XML = "WEB-INF/jsp/xml/subjects.jsp";

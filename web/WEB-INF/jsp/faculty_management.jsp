@@ -1,24 +1,25 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="tr" uri="http://epam.com/project/university/transliterate" %>
+
+
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="resources.locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.index.header" var="divHeader"/>
+<fmt:message bundle="${loc}" key="locale.page.index.description" var="description"/>
+<fmt:message bundle="${loc}" key="locale.page.index.button.statistics" var="statisticsBtn"/>
+
+<fmt:message bundle="${loc}" key="locale.modal.signin.message.error" var="errorMessage"/>
+
 <html>
 <head>
     <title>${title}</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Material Design fonts -->
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Material Design -->
-    <link href="../../content/css/dropdown.css" rel="stylesheet">
-    <link href="../../content/css/bootstrap-material-design.css" rel="stylesheet">
-    <link href="../../content/css/ripples.min.css" rel="stylesheet">
-    <link href="../../content/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
-    <link href="../../content/css/style.css" rel="stylesheet">
-    <link href="../../content/css/snackbar.min.css" rel="stylesheet">
-
+    <%@include file="included/css_list.jsp" %>
 
 </head>
 <body>
@@ -32,11 +33,11 @@
 
             <div class="panel panel-default clear">
                 <div class="panel-heading">
-                   <h4>Create new faculty</h4>
+                    <h4>Create new faculty</h4>
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form action="management" name="addUser" method="post">
+                        <form action="management" name="addFaculty" method="post">
                             <input type="hidden" name="command" value="create-faculty">
                             <fieldset>
                                 <div class="form-group">
@@ -47,16 +48,6 @@
                                                required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label" for="newPassword">Name</label>
-                                    <div class="col-md-8">
-                                        <input type="password" name="password" id="newPassword"
-                                               class="form-control"
-                                               placeholder="Password"
-                                               required>
-                                    </div>
-                                </div>
-
                                 <div class="form-group">
                                     <label for="freeQuota" class="col-md-5 control-label">
                                         Free Form Quota
@@ -88,7 +79,15 @@
 
                                     <div class="col-md-8">
                                         <select id="terms" name="terms" class="form-control">
-                                            <option value=""></option>
+                                            <c:forEach var="terms" items="${termsList}">
+                                                <option value="${terms.id}">
+                                                    <fmt:formatDate pattern="dd.MM.yyyy"
+                                                                    value="${terms.startDate}"/>
+                                                    -
+                                                    <fmt:formatDate pattern="dd.MM.yyyy"
+                                                                    value="${terms.endDate}"/>
+                                                </option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
@@ -97,8 +96,10 @@
                                     <label for="subjects" class="col-md-3 control-label">Subjects</label>
 
                                     <div class="col-md-8">
-                                        <select id="subjects" name="sp" multiple="" class="form-control">
-                                            <option value=""></option>
+                                        <select id="subjects" name="subjects" multiple="" class="form-control">
+                                            <c:forEach var="subject" items="subjects">
+                                                <option value="${subject.id}">${subject.name}</option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
@@ -140,7 +141,8 @@
                                         <input type="hidden" name="command" value="go-faculty-data">
                                         <tr>
                                             <td>
-                                                <p class="centred">${faculty.name}</p>
+                                                <p class="centred">
+                                                <tr:transl>${faculty.name}</p></tr:transl>
                                             </td>
                                             <td>
                                                 <c:forEach var="terms" items="termsList">
@@ -174,57 +176,17 @@
     </c:if>
 </div>
 
+
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
       data-content="One or more records are incorrect" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
-    <span id="emailErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-          data-content="Account with such Email already exists" data-timeout="4000"
-          data-snackbar-id="snackbar1454251274096"></span>
-    <span id="passportErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-          data-content="Account with such Passport ID already exists" data-timeout="4000"
-          data-snackbar-id="snackbar1454251274097"></span>
+<span id="subjectsErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+      data-content="You should choose 3 subjects" data-timeout="4000"
+      data-snackbar-id="snackbar1454251274095"></span>
 
+<%@include file="included/js_list.jsp" %>
+<script src="content/js/ajax/faculty_management.js"></script>
 
-<script src="//code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<script src="content/js/ripples.min.js"></script>
-<script src="content/js/dropdown.js"></script>
-<script src="content/js/material.min.js"></script>
-<script src="content/js/moment.js"></script>
-<script src="content/js/bootstrap-material-datetimepicker.js"></script>
-<script src="content/js/maskedinput.min.js"></script>
-<script src="content/js/snackbar.min.js"></script>
-
-
-<script src="content/js/ajax/authenticate.js"></script>
-<script src="content/js/locale.js"></script>
-
-<script>
-    $.material.init();
-
-
-    $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
-    $("select").dropdown({"autoinit": "select"});
-
-    $(function ($) {
-        $(".phone").mask("+999 (99) 999-99-99", {placeholder: "_"});
-        $(".score").mask("999", {placeholder: ""});
-        $("#passportID").mask("aa9999999", {placeholder: ""});
-    });
-
-    $("#subjects").change(function () {
-        if ($("#subjects option:selected").length > 3) {
-            $('#subjectsErrorMessage').snackbar('show');
-            $("#subjects option:selected").removeAttr("selected");
-        }
-    });
-
-</script>
-
-
-<script src="content/js/profile-update.js"></script>
-<script src="content/js/ajax/singup.js"></script>
 
 </body>
 </html>

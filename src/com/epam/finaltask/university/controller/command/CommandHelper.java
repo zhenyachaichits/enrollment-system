@@ -46,6 +46,7 @@ public class CommandHelper {
         commandMap.put(CommandName.GO_APPLICATION_DATA, new GoApplicationDataCommand());
         commandMap.put(CommandName.GO_USER_MANAGEMENT, new GoUserManagementCommand());
         commandMap.put(CommandName.GO_USER_DATA, new GoUserDataCommand());
+        commandMap.put(CommandName.GO_FACULTY_MANAGEMENT, new GoFacultyManagementCommand());
 
         commandMap.put(CommandName.SEARCH_PROFILE_BY_PASSPORT, new FindProfileByPassportIdCommand());
         commandMap.put(CommandName.SEARCH_PROFILES_BY_LAST_NAME, new FindProfilesByLastNameCommand());

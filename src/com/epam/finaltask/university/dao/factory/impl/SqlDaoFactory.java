@@ -47,5 +47,10 @@ public class SqlDaoFactory extends DaoFactory {
         return SqlApplicationDaoImpl.getInstance();
     }
 
+    @Override
+    public TermsDao getTermsDao() throws DaoException {
+        return SqlTermsDaoImpl.getInstance();
+    }
+
 
 }

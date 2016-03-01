@@ -7,11 +7,9 @@ public final class RequestParameterName {
 
     private RequestParameterName() {}
 
-    public static final String FORWARD_URI = "javax.servlet.forward.request_uri";
-    public static final String FORWARD_QUERY_STRING = "javax.servlet.forward.query_string";
-
     public static final String FACULTIES = "faculties";
     public static final String SUBJECTS = "subjects";
+    public static final String TERMS_LIST = "termsList";
 
     public static final String COMMAND_NAME = "command";
 

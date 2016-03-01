@@ -47,4 +47,6 @@ public abstract class DaoFactory {
 
     public abstract ApplicationDao getApplicationDao() throws DaoException;
 
+    public abstract TermsDao getTermsDao() throws DaoException;
+
 }

@@ -74,6 +74,14 @@
                                 <li class="divider"></li>
                             </c:if>
 
+                            <c:if test="${sessionScope.userRole eq 'ADMIN'}">
+                                <form hidden="hidden" name="goFacultyManagement" action="management" method="post">
+                                    <input type="hidden" name="command" value="go-faculty-management">
+                                </form>
+                                <li><a href="javascript:goFacultyManagement.submit();">Faculty management</a></li>
+                                <li class="divider"></li>
+                            </c:if>
+
                             <c:if test="${sessionScope.userRole eq 'STUDENT'}">
                                 <form hidden="hidden" name="goProfile" action="profile" method="post">
                                     <input type="hidden" name="command" value="go-profile">
