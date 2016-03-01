@@ -2,6 +2,7 @@ package com.epam.finaltask.university.controller.command.impl.logic.delete;
 
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.RequestParameterName;
+import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
@@ -23,6 +24,7 @@ public class DeleteUserCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
+            long currentUserId = (long) session.getAttribute(SessionParameterName.UID);
             AccessManager.manageAccess(session, UserType.ADMIN);
 
             String idStr = request.getParameter(RequestParameterName.USER_ID);
@@ -43,7 +45,11 @@ public class DeleteUserCommand implements Command {
                 throw new InvalidDataException("Invalid user data. Couldn't sign up");
             }
 
-            return CommandName.GO_USER_MANAGEMENT.getQueryString();
+            if (currentUserId == userId) {
+                return CommandName.LOG_OUT.getQueryString();
+            } else {
+                return CommandName.GO_USER_MANAGEMENT.getQueryString();
+            }
 
         } catch (NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't execute application confirming command", e);

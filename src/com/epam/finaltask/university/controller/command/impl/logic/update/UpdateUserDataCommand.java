@@ -27,6 +27,7 @@ public class UpdateUserDataCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
+            long currentUserId = (long) session.getAttribute(SessionParameterName.UID);
             AccessManager.manageAccess(session, UserType.ADMIN);
 
             LockingUserService service = LockingUserService.getInstance();
@@ -44,9 +45,12 @@ public class UpdateUserDataCommand implements Command {
                 throw new InvalidDataException("Couldn't update profile");
             }
 
-            String currentQuery = (String) session.getAttribute(SessionParameterName.CURRENT_PAGE);
-
-            return currentQuery == null ? CommandName.GO_USER_MANAGEMENT.getQueryString() : currentQuery;
+            if (currentUserId == userId) {
+                return CommandName.LOG_OUT.getQueryString();
+            } else {
+                String currentQuery = (String) session.getAttribute(SessionParameterName.CURRENT_PAGE);
+                return currentQuery == null ? CommandName.GO_USER_MANAGEMENT.getQueryString() : currentQuery;
+            }
 
         } catch (CommandBeanFactoryException | NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't process profile update command");

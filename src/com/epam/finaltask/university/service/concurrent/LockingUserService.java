@@ -62,6 +62,11 @@ public class LockingUserService {
             try {
                 UserDao dao = DaoFactory.getDaoFactory().getUserDao();
 
+                if (!"".equals(user.getPassword())) {
+                    String passwordHash = DataEncrypter.encrypt(user.getPassword());
+                    user.setPassword(passwordHash);
+                }
+
                 user = dao.update(user);
 
                 return user;

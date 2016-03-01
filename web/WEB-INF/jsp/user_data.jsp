@@ -77,6 +77,7 @@
                                 <c:choose>
                                 <c:when test="${user.role eq 'STUDENT'}">
                                 Student
+                                    <input type="hidden" name="role" value="STUDENT">
                                 </c:when>
                                 <c:otherwise>
                             <div class="form-group">
