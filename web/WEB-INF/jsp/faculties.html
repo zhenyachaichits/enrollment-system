@@ -32,7 +32,7 @@
 
             <div class="panel panel-default clear">
                 <div class="panel-heading">
-                   <h4>Create new faculty</h4>
+                    <h4>Create new faculty</h4>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -40,7 +40,7 @@
                             <input type="hidden" name="command" value="create-faculty">
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label" for="name">Faculty Name</label>
+                                    <label class="col-md-3 control-label" for="name">Subject Name</label>
                                     <div class="col-md-8">
                                         <input type="text" name="name" id="name" class="form-control"
                                                placeholder="Name"
@@ -48,61 +48,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label" for="newPassword">Name</label>
-                                    <div class="col-md-8">
-                                        <input type="password" name="password" id="newPassword"
-                                               class="form-control"
-                                               placeholder="Password"
-                                               required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="freeQuota" class="col-md-5 control-label">
-                                        Free Form Quota
+                                    <label for="minPoints" class="col-md-5 control-label">
+                                        Minimal points
                                     </label>
 
                                     <div class="col-md-4">
-                                        <input type="number" name="freeQuota" min="1" max="999"
+                                        <input type="number" name="freeQuota" min="1" max="80"
                                                class="form-control point"
-                                               id="freeQuota"
+                                               id="minPoints"
                                                placeholder="Points" pattern="\d{1,3}">
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="freeQuota" class="col-md-5 control-label">
-                                        Paid Form Quota
-                                    </label>
-
-                                    <div class="col-md-4">
-                                        <input type="number" name="freeQuota" min="1" max="999"
-                                               class="form-control point"
-                                               id="paidQuota"
-                                               placeholder="Points" pattern="\d{1,3}">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="terms" class="col-md-3 control-label">Terms</label>
-
-                                    <div class="col-md-8">
-                                        <select id="terms" name="terms" class="form-control">
-                                            <option value=""></option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="subjects" class="col-md-3 control-label">Subjects</label>
-
-                                    <div class="col-md-8">
-                                        <select id="subjects" name="sp" multiple="" class="form-control">
-                                            <option value=""></option>
-                                        </select>
-                                    </div>
-                                </div>
-
                                 <div class="form-group">
                                     <div class="col-md-12 col-md-offset-8">
                                         <button class="btn btn-primary">Add</button>
@@ -137,28 +93,27 @@
                                 <tbody>
                                 <c:forEach var="faculty" items="${faculties}">
                                     <form action="management" name="goApplyForm" method="post">
-                                        <input type="hidden" name="command" value="go-faculty-data">
+                                        <input type="hidden" name="command" value="go-user-data">
                                         <tr>
                                             <td>
-                                                <p class="centred">${faculty.name}</p>
+                                                <p class="centred">${subject.name}</p>
                                             </td>
                                             <td>
-                                                <c:forEach var="terms" items="termsList">
-                                                    <c:if test="${faculty.termsId eq terms.id}">
-                                                        <p class="centred">
-                                                            <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                            value="${terms.startDate}"/>
-                                                            -
-                                                            <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                            value="${terms.endDate}"/>
-                                                        </p>
-                                                    </c:if>
-                                                </c:forEach>
+                                                <div class="form-group">
+                                                    <input class="form-control point" name="minPoints"
+                                                           value="${subject.minPoints}"/>
+                                                </div>
                                             </td>
                                             <td>
-                                                <button name="userID" value="${faculty.id}"
+                                                <button name="subjectID" value="${subject.id}"
                                                         class="btn btn-primary">
-                                                    More
+                                                    Save
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button name="subjectID" value="${subject.id}"
+                                                        class="btn btn-danger">
+                                                    Delete
                                                 </button>
                                             </td>
                                         </tr>

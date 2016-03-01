@@ -38,6 +38,15 @@ public class SqlSubjectDaoImpl implements SubjectDao {
     private static final String GET_ALL_SUBJECTS = "SELECT * FROM subject WHERE status = 'ACTIVE'";
     private static final String GET_SUBJECT_BY_ID_QUERY = "SELECT * FROM subject WHERE subject_id = ? AND status = 'ACTIVE'";
     private static final String GET_SUBJECT_BY_NAME_QUERY = "SELECT * FROM subject WHERE name = ? AND status = 'ACTIVE'";
+    private static final String ADD_SUBJECT_QUERY = "INSERT INTO subject (name, min_points) VALUES (?, ?)";
+    private static final String UPDATE_SUBJECT_QUERY = "UPDATE subject SET name = ?, min_points = ? WHERE subject_id = ? " +
+            "AND status = 'ACTIVE'";
+    private static final String DELETE_SUBJECT_BY_NAME_QUERY = "UPDATE subject SET status = 'DELETED' " +
+            "WHERE name = ? ";
+    private static final String DELETE_SUBJECT_BY_ID_QUERY = "UPDATE subject SET status = 'DELETED' " +
+            "WHERE subject_id = ? ";
+    private static final String CHECK_UPDATE_AVALIABILITY_QUERY = "SELECT * FROM subject WHERE subject_id <> ? AND " +
+            "name = ? AND status = 'ACTIVE'";
 
     @Override
     public List<Subject> getSubjectsByFacultyId(long facultyId) throws DaoException {
@@ -90,8 +99,54 @@ public class SqlSubjectDaoImpl implements SubjectDao {
     }
 
     @Override
-    public Subject add(Subject entity) throws DaoException {
-        return null;
+    public boolean delete(long id) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(DELETE_SUBJECT_BY_ID_QUERY);
+        ) {
+            statement.setLong(1, id);
+
+            int result = statement.executeUpdate();
+
+            return result != 0;
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean checkUpdateAvailability(Subject subject) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVALIABILITY_QUERY);
+        ) {
+            statement.setLong(1, subject.getId());
+            statement.setString(2, subject.getName());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return !resultSet.next();
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public Subject add(Subject subject) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(ADD_SUBJECT_QUERY);
+        ) {
+            statement.setString(1, subject.getName());
+            statement.setInt(2, subject.getMinPoint());
+
+            int result = statement.executeUpdate();
+
+            return result == 0 ? null : subject;
+
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     @Override
@@ -100,9 +155,6 @@ public class SqlSubjectDaoImpl implements SubjectDao {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(GET_SUBJECT_BY_NAME_QUERY);
         ) {
-            Subject subject = new Subject();
-            subject.setName(name);
-
             statement.setString(1, name);
 
             ResultSet resultSet = statement.executeQuery();
@@ -121,13 +173,42 @@ public class SqlSubjectDaoImpl implements SubjectDao {
     }
 
     @Override
-    public Subject update(Subject entity) throws DaoException {
-        return null;
+    public Subject update(Subject subject) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(UPDATE_SUBJECT_QUERY);
+        ) {
+            statement.setString(1, subject.getName());
+            statement.setInt(2, subject.getMinPoint());
+            statement.setLong(3, subject.getId());
+
+            int result = statement.executeUpdate();
+
+            return result == 0 ? null : subject;
+
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     @Override
-    public Subject delete(String domain) throws DaoException {
-        return null;
+    public Subject delete(String name) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(DELETE_SUBJECT_BY_NAME_QUERY);
+        ) {
+            Subject subject = new Subject();
+            subject.setName(name);
+
+            statement.setString(1, name);
+
+            int result = statement.executeUpdate();
+
+            return result == 0 ? null : subject;
+
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     @Override

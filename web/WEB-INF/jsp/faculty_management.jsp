@@ -41,36 +41,36 @@
                             <input type="hidden" name="command" value="create-faculty">
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label" for="name">Faculty Name</label>
+                                    <label class="col-md-3 control-label" for="facultyName">Faculty Name</label>
                                     <div class="col-md-8">
-                                        <input type="text" name="name" id="name" class="form-control"
+                                        <input type="text" name="facultyName" id="facultyName" class="form-control"
                                                placeholder="Name"
                                                required>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="freeQuota" class="col-md-5 control-label">
+                                    <label for="freeQuota" class="col-md-3 control-label">
                                         Free Form Quota
                                     </label>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-8">
                                         <input type="number" name="freeQuota" min="1" max="999"
                                                class="form-control point"
                                                id="freeQuota"
-                                               placeholder="Points" pattern="\d{1,3}">
+                                               placeholder="Quota" pattern="\d{1,3}">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="freeQuota" class="col-md-5 control-label">
+                                    <label for="freeQuota" class="col-md-3 control-label">
                                         Paid Form Quota
                                     </label>
 
-                                    <div class="col-md-4">
-                                        <input type="number" name="freeQuota" min="1" max="999"
+                                    <div class="col-md-8">
+                                        <input type="number" name="paidQuota" min="1" max="999"
                                                class="form-control point"
                                                id="paidQuota"
-                                               placeholder="Points" pattern="\d{1,3}">
+                                               placeholder="Quota" pattern="\d{1,3}">
                                     </div>
                                 </div>
 
@@ -78,14 +78,12 @@
                                     <label for="terms" class="col-md-3 control-label">Terms</label>
 
                                     <div class="col-md-8">
-                                        <select id="terms" name="terms" class="form-control">
+                                        <select id="terms" name="termsID" class="form-control select-dropdown">
                                             <c:forEach var="terms" items="${termsList}">
                                                 <option value="${terms.id}">
                                                     <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                    value="${terms.startDate}"/>
-                                                    -
-                                                    <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                    value="${terms.endDate}"/>
+                                                                    value="${terms.startDate.time}"/>-<fmt:formatDate
+                                                        pattern="dd.MM.yyyy" value="${terms.endDate.time}"/>
                                                 </option>
                                             </c:forEach>
                                         </select>
@@ -94,11 +92,12 @@
 
                                 <div class="form-group">
                                     <label for="subjects" class="col-md-3 control-label">Subjects</label>
-
                                     <div class="col-md-8">
-                                        <select id="subjects" name="subjects" multiple="" class="form-control">
-                                            <c:forEach var="subject" items="subjects">
-                                                <option value="${subject.id}">${subject.name}</option>
+                                        <select id="subjects" name="subjects" class="form-control" multiple>
+                                            <c:forEach var="subject" items="${subjects}">
+                                                <option value="${subject.id}">
+                                                    <tr:transl>${subject.name}</tr:transl>
+                                                </option>
                                             </c:forEach>
                                         </select>
                                     </div>
@@ -145,14 +144,14 @@
                                                 <tr:transl>${faculty.name}</p></tr:transl>
                                             </td>
                                             <td>
-                                                <c:forEach var="terms" items="termsList">
+                                                <c:forEach var="terms" items="${termsList}">
                                                     <c:if test="${faculty.termsId eq terms.id}">
                                                         <p class="centred">
                                                             <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                            value="${terms.startDate}"/>
+                                                                            value="${terms.startDate.time}"/>
                                                             -
                                                             <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                            value="${terms.endDate}"/>
+                                                                            value="${terms.endDate.time}"/>
                                                         </p>
                                                     </c:if>
                                                 </c:forEach>
@@ -180,12 +179,15 @@
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
       data-content="One or more records are incorrect" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
+<span id="nameErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+      data-content="This faculty name already user" data-timeout="4000"
+      data-snackbar-id="snackbar1454251274095"></span>
 <span id="subjectsErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
       data-content="You should choose 3 subjects" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
 
 <%@include file="included/js_list.jsp" %>
-<script src="content/js/ajax/faculty_management.js"></script>
+<script src="content\js\ajax\faculty-management.js"></script>
 
 
 </body>

@@ -82,6 +82,14 @@
                                 <li class="divider"></li>
                             </c:if>
 
+                            <c:if test="${sessionScope.userRole eq 'ADMIN'}">
+                                <form hidden="hidden" name="goSubjectManagement" action="management" method="post">
+                                    <input type="hidden" name="command" value="go-subject-management">
+                                </form>
+                                <li><a href="javascript:goSubjectManagement.submit();">Subject management</a></li>
+                                <li class="divider"></li>
+                            </c:if>
+
                             <c:if test="${sessionScope.userRole eq 'STUDENT'}">
                                 <form hidden="hidden" name="goProfile" action="profile" method="post">
                                     <input type="hidden" name="command" value="go-profile">
@@ -117,7 +125,7 @@
                 </c:if>
 
                 <c:if test="${sessionScope.userEmail == null}">
-                    <li><a href="javascript:void(0)" id="signInLink" data-toggle="modal"
+                    <li><a href="javascript:void(0)" onclick="authenticateCookies()" id="signInLink" data-toggle="modal"
                            data-target="#signIn">${signIn}</a></li>
                 </c:if>
 

@@ -28,19 +28,23 @@ public class ApplicationCommandBeanFactory implements CommandBeanFactory<Applica
 
     @Override
     public Application constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
-        boolean isOutCompetition = CHECKED.equals(request.getParameter(RequestParameterName.OUT_OF_COMPETITION));
-        Calendar date = Calendar.getInstance();
-        String facultyStr = request.getParameter(RequestParameterName.FACULTY_ID);
-        String profileStr = request.getParameter(RequestParameterName.PROFILE_ID);
-        long facultyId = Long.parseLong(facultyStr);
-        long profileId = Long.parseLong(profileStr);
+        try {
+            boolean isOutCompetition = CHECKED.equals(request.getParameter(RequestParameterName.OUT_OF_COMPETITION));
+            Calendar date = Calendar.getInstance();
+            String facultyStr = request.getParameter(RequestParameterName.FACULTY_ID);
+            String profileStr = request.getParameter(RequestParameterName.PROFILE_ID);
+            long facultyId = Long.parseLong(facultyStr);
+            long profileId = Long.parseLong(profileStr);
 
-        Application application = new Application();
-        application.setOutOfCompetition(isOutCompetition);
-        application.setDate(date);
-        application.setFacultyId(facultyId);
-        application.setProfileId(profileId);
+            Application application = new Application();
+            application.setOutOfCompetition(isOutCompetition);
+            application.setDate(date);
+            application.setFacultyId(facultyId);
+            application.setProfileId(profileId);
 
-        return application;
+            return application;
+        } catch (NumberFormatException e) {
+            throw new CommandBeanFactoryException("Couldn't build application bean", e);
+        }
     }
 }

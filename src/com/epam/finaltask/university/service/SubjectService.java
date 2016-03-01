@@ -43,4 +43,24 @@ public class SubjectService {
             throw new ServiceException("Couldn't provide subjects finding service", e);
         }
     }
+
+    public boolean checkSubjectExistence(String name) throws ServiceException {
+        try {
+            SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
+
+            return dao.find(name) != null;
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide subjects existence checking service", e);
+        }
+    }
+
+    public boolean checkUpdateAvaliability(Subject subject) throws ServiceException {
+        try {
+            SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
+
+            return dao.checkUpdateAvailability(subject);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide subjects existence checking service", e);
+        }
+    }
 }

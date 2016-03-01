@@ -27,12 +27,23 @@
     $.material.init();
 
     $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
-    $("select").dropdown({"autoinit": "select"});
+    $(".select-dropdown").dropdown({"autoinit": "select"});
 
     $(function ($) {
         $(".phone").mask("+999 (99) 999-99-99", {placeholder: "_"});
         $(".score").mask("999", {placeholder: ""});
         $("#passportID").mask("aa9999999", {placeholder: ""});
     });
+
+    var allInputs = $(":input");
+    allInputs.each(function() {
+        $(this).val($.trim($(this).val()));
+    });
+
+    var li = document.getElementsByTagName('li');
+
+    for(var i = 0; i < li.length; i++) {
+        li[i].innerHTML = $.trim(li[i].innerHTML);
+    }
 
 </script>

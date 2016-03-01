@@ -1,4 +1,4 @@
-package com.epam.finaltask.university.controller.command.impl.logic;
+package com.epam.finaltask.university.controller.command.impl.logic.creation;
 
 import com.epam.finaltask.university.bean.Application;
 import com.epam.finaltask.university.bean.type.UserType;

@@ -4,6 +4,7 @@ import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
+import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,19 +25,24 @@ public class UserCommandBeanFactory implements CommandBeanFactory<User> {
     }
 
     @Override
-    public User constructBean(HttpServletRequest request) {
-        String email = request.getParameter(RequestParameterName.EMAIL);
-        String password = request.getParameter(RequestParameterName.PASSWORD);
-        String role = request.getParameter(RequestParameterName.ROLE);
+    public User constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
+        try {
+            String email = request.getParameter(RequestParameterName.EMAIL);
 
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        if (role != null) {
-            UserType userType = UserType.valueOf(role);
-            user.setRole(userType);
+            String password = request.getParameter(RequestParameterName.PASSWORD);
+            String role = request.getParameter(RequestParameterName.ROLE);
+
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+            if (role != null) {
+                UserType userType = UserType.valueOf(role);
+                user.setRole(userType);
+            }
+
+            return user;
+        } catch (IllegalArgumentException e) {
+            throw new CommandBeanFactoryException("Couldn't build user bean", e);
         }
-
-        return user;
     }
 }

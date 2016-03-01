@@ -138,7 +138,7 @@
                                     <div class="col-md-8">
                                         <label for="faculty" class="col-md-3 control-label">Faculty</label>
                                         <div class="col-md-8">
-                                            <select name="facultyID" id="faculty" class="form-control">
+                                            <select name="facultyID" id="faculty" class="form-control select-dropdown">
                                                 <option disabled selected>Choose faculty</option>
                                                 <c:forEach var="faculty" items="${faculties}">
                                                     <option value="${faculty.id}">

@@ -24,7 +24,10 @@
     <c:if test="${empty(application)}">
         <div class="col-md-6 col-md-offset-3">
             <div class="well">
-                <h1>You didn't apply yet.</h1>
+                <div class="horizontal-center">
+                    <i class="material-icons" style="font-size: 18em">mood_bad</i>
+                    <h1>You didn't apply yet.</h1>
+                </div>
             </div>
         </div>
     </c:if>

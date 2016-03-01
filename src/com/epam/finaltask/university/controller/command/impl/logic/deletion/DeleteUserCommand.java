@@ -1,4 +1,4 @@
-package com.epam.finaltask.university.controller.command.impl.logic.delete;
+package com.epam.finaltask.university.controller.command.impl.logic.deletion;
 
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.RequestParameterName;

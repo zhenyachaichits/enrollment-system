@@ -37,22 +37,80 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         return FacultyDaoHolder.INSTANCE;
     }
 
-    private static final String FIND_ALL_FACULTIES_QUERY = "SELECT * FROM faculty WHERE status = 'ACTIVE'";
-    private static final String FIND_FACULTY_BY_NAME_QUERY = "SELECT * FROM faculty WHERE name = ? AND " +
-            "status = 'ACTIVE'";
+    private static final String FIND_ALL_FACULTIES_QUERY = "SELECT faculty.*, faculty_has_subject.* FROM faculty  " +
+            "INNER JOIN faculty_has_subject ON faculty.faculty_id = faculty_has_subject.faculty_faculty_id " +
+            "WHERE faculty.status = 'ACTIVE' AND faculty_has_subject.status = 'ACTIVE'";
+    private static final String FIND_FACULTY_BY_NAME_QUERY = "SELECT faculty.*, faculty_has_subject.* FROM faculty  " +
+            "INNER JOIN faculty_has_subject ON faculty.faculty_id = faculty_has_subject.faculty_faculty_id " +
+            "WHERE name = ? AND faculty.status = 'ACTIVE' AND faculty_has_subject.status = 'ACTIVE'";
+    private static final String ADD_FACULTY_QUERY = "INSERT INTO faculty (name, free_quota, paid_quota, terms_terms_id) " +
+            "VALUES (?, ?, ?, ?)";
+    private static String ADD_FACULTY_SUBJECT_QUERY = "INSERT INTO faculty_has_subject (faculty_faculty_id, " +
+            "subject_subject_id) VALUES (?, ?)";
 
 
     @Override
     public Faculty add(Faculty faculty) throws DaoException {
-        try (
-                Connection connection = connectionPool.getConnection();
-        ) {
-            FacultyCommon common = FacultyCommon.getInstance();
-            faculty = common.createFaculty(faculty, connection);
 
-            return faculty;
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+
+            PreparedStatement statement = connection.prepareStatement(ADD_FACULTY_QUERY,
+                    Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, faculty.getName());
+            statement.setInt(2, faculty.getFreeQuota());
+            statement.setInt(3, faculty.getPaidQuota());
+            statement.setLong(4, faculty.getTermsId());
+
+            int facultyResult = statement.executeUpdate();
+
+            int subjectsResult = 0;
+            if (facultyResult != 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    faculty.setId(generatedKeys.getLong(1));
+                }
+                statement = connection.prepareStatement(ADD_FACULTY_SUBJECT_QUERY);
+
+                for(Long subjectId : faculty.getSubjects()) {
+                    statement.setLong(1, faculty.getId());
+                    statement.setLong(2, subjectId);
+
+                    subjectsResult = statement.executeUpdate();
+                    if (subjectId == 0) {
+                        break;
+                    }
+                }
+            }
+
+            if (facultyResult != 0 && subjectsResult != 0) {
+                connection.commit();
+                return faculty;
+            } else {
+                connection.rollback();
+                return null;
+            }
+
         } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                // TODO: 16.02.2016 logger?
+            }
             throw new DaoException("Couldn't process operation", e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    // TODO: 19.02.2016 logger
+                }
+                connectionPool.closeConnection(connection);
+            }
         }
     }
 

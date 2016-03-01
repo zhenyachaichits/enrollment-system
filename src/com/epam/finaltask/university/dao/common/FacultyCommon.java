@@ -22,7 +22,7 @@ public class FacultyCommon {
         return FacultyCommonHolder.INSTANCE;
     }
 
-    private static final String ADD_FACULTY_QUERY = "INSERT INTO faculty (name, free_quota, paid_quota,  terms_terms_id) " +
+    private static final String ADD_FACULTY_QUERY = "INSERT INTO faculty (name, free_quota, paid_quota, terms_terms_id) " +
             "VALUES (?, ?, ?, ?)";
 
     public Faculty createFaculty(Faculty faculty, Connection connection) throws SQLException {

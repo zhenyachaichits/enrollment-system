@@ -2,7 +2,8 @@
  * Created by Zheny Chaichits on 06.02.16.
  */
 
-$('#signInLink').click(function () {
+
+function authenticateCookies() {
     $('#newEmail').val("");
     $.post(
         '/action',
@@ -18,7 +19,8 @@ $('#signInLink').click(function () {
         .fail(function () {
             alert("Request failed.");
         });
-});
+}
+
 
 $('#submit').click(function () {
 

@@ -41,9 +41,9 @@ $("#faculty").change(function () {
         function (responseXml) {
             var i = 1;
             $(responseXml).find("data").find("subject").each(function () {
-                $("#label" + i).append($(this).find("name").text());
+                $("#label" + i).text($(this).find("name").text());
                 $("#subject" + i).attr('min', $(this).find("minPoint").text());
-                $("#help" + i).append($(this).find("minPoint").text());
+                $("#help" + i).text($(this).find("minPoint").text());
                 $("#subject" + i + "Group").show("fast");
                 i++;
             });

@@ -34,4 +34,15 @@ public class FacultyService {
             throw new ServiceException("Couldn't provide faculties searching service", e);
         }
     }
+
+    public boolean checkFacultyExistence(String name) throws ServiceException {
+        try {
+            FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
+
+            return dao.find(name) != null;
+
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide faculties searching service", e);
+        }
+    }
 }
