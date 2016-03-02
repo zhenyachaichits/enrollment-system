@@ -57,6 +57,9 @@ public class SqlFacultyDaoImpl implements FacultyDao {
     private static final String DELETE_FACULTY_BY_ID_QUERY = "UPDATE faculty SET status = 'DELETED' " +
             "WHERE faculty_id = ?";
     private static final String DELETE_FACULTY_BY_NAME_QUERY = "UPDATE faculty SET status = 'DELETED' WHERE name = ?";
+    private static final String UPDATE_POINTS_QUERY = "UPDATE faculty SET free_point = ?, paid_point = ? " +
+            "WHERE faculty_id = ? AND status = 'ACTIVE'";
+
     @Override
     public Faculty add(Faculty faculty) throws DaoException {
         Connection connection = null;
@@ -252,6 +255,24 @@ public class SqlFacultyDaoImpl implements FacultyDao {
                 PreparedStatement statement = connection.prepareStatement(DELETE_FACULTY_BY_ID_QUERY);
         ) {
             statement.setLong(1, facultyId);
+
+            int result = statement.executeUpdate();
+
+            return result != 0;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean updatePoints(long facultyId, int freePoint, int paidPoint) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(UPDATE_POINTS_QUERY);
+        ) {
+            statement.setInt(1, freePoint);
+            statement.setInt(2, paidPoint);
+            statement.setLong(3, facultyId);
 
             int result = statement.executeUpdate();
 

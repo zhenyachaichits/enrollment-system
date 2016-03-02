@@ -12,4 +12,6 @@ public interface FacultyDao extends EntityDao<String, Faculty> {
     boolean checkUpdateAvailability(Faculty faculty) throws DaoException;
 
     boolean delete(long facultyId) throws DaoException;
+
+    boolean updatePoints(long facultyId, int freePoint, int paidPoint) throws DaoException;
 }

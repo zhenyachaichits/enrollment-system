@@ -83,4 +83,17 @@ public class LockingFacultyService {
             lock.unlock();
         }
     }
+
+    public boolean updatePoints(long facultyId, int freePoint, int paidPoint) throws ServiceException {
+        lock.lock();
+        try {
+            FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
+
+            return dao.updatePoints(facultyId, freePoint, paidPoint);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide subject deletion service");
+        } finally {
+            lock.unlock();
+        }
+    }
 }

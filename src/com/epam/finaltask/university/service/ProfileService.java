@@ -134,4 +134,26 @@ public class ProfileService {
             throw new ServiceException("Couldn't provide records counting service");
         }
     }
+
+    public List<Profile> getProfilesToApply(long facultyId, boolean isFreeForm, boolean isOutOfCompetition, int quota)
+            throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.getToApply(facultyId, isFreeForm, isOutOfCompetition, quota);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide records counting service");
+        }
+    }
+
+    public List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points, int quota)
+            throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.getWithSamePoints(facultyId, isFreeForm, points, quota);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide records counting service");
+        }
+    }
 }

@@ -24,4 +24,9 @@ public interface ProfileDao extends EntityDao<String, Profile> {
     List<Profile> findAllProfiles(int offset, int recordsCount) throws DaoException;
 
     int getRecordsCount();
+
+    List<Profile> getToApply(long facultyId, boolean isFreeForm, boolean isOutOfCompetition, int quota)
+            throws DaoException;
+
+    List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points, int quota) throws DaoException;
 }

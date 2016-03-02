@@ -63,14 +63,15 @@
                         <div class="row-content">
                             <h4 class="list-group-item-heading">Applied</h4>
                             <p class="list-group-item-text">
-                                <fmt:formatDate pattern=" dd.MM.yyyy" value="${application.date.time}" />
+                                <fmt:formatDate pattern=" dd.MM.yyyy" value="${application.date.time}"/>
                             </p>
                         </div>
                     </div>
                     <div class="list-group-separator"></div>
                     <div class="list-group-item">
                         <div class="row-action-primary checkbox">
-                            <label><input type="checkbox" name="outCompetition">
+                            <label><input type="checkbox" name="outCompetition"
+                            <c:if test="${application.outOfCompetition}"> checked </c:if>  >
                             </label>
                         </div>
                         <div class="row-content">
@@ -82,8 +83,10 @@
                 </div>
             </div>
             <div class="col-md-3 col-md-offset-8">
-                <a href="javascript:deleteApplication.submit();"
-                   class="btn btn-raised btn-danger" style="background-color: #bd5050;">Delete</a>
+                <c:if test="${not application.confirmed}">
+                    <a href="javascript:deleteApplication.submit();"
+                       class="btn btn-raised btn-danger" style="background-color: #bd5050;">Delete</a>
+                </c:if>
             </div>
         </div>
 
@@ -160,11 +163,13 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-12 col-md-offset-9">
-                                    <a id="updPrivileges" class="btn btn-primary">Update</a>
+                            <c:if test="${not application.confirmed}">
+                                <div class="form-group">
+                                    <div class="col-md-12 col-md-offset-9">
+                                        <a id="updPrivileges" class="btn btn-primary">Update</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:if>
 
                         </div>
                     </div>
@@ -194,11 +199,13 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-12 col-md-offset-9">
-                                    <a id="updContact" class="btn btn-primary">Update</a>
+                            <c:if test="${not application.confirmed}">
+                                <div class="form-group">
+                                    <div class="col-md-12 col-md-offset-9">
+                                        <a id="updContact" class="btn btn-primary">Update</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:if>
 
                         </div>
                     </div>
@@ -255,11 +262,13 @@
                                 value="${profile.birthDate.time}" />" required>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-12 col-md-offset-9">
-                                    <a id="updPersonal" class="btn btn-primary">Update</a>
+                            <c:if test="${not application.confirmed}">
+                                <div class="form-group">
+                                    <div class="col-md-12 col-md-offset-9">
+                                        <a id="updPersonal" class="btn btn-primary">Update</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:if>
                         </div>
                     </div>
 
@@ -272,7 +281,8 @@
                                     <div class="col-md-8">
                                         <label for="faculty" class="col-md-3 control-label">Faculty</label>
                                         <div class="col-md-8">
-                                            <select name="facultyID" id="faculty" class="form-control select-dropdown" readonly="">
+                                            <select name="facultyID" id="faculty" class="form-control select-dropdown"
+                                                    readonly="">
                                                 <option disabled selected>Choose faculty</option>
                                                 <c:forEach var="faculty" items="${faculties}">
                                                     <option value="${faculty.id}"
@@ -288,7 +298,8 @@
                                     <div class="col-md-4">
                                         <div class="togglebutton">
                                             <label>
-                                                <input name="freeForm" type="checkbox" checked>
+                                                <input name="freeForm" type="checkbox"
+                                                <c:if test="${profile.freeForm}"> checked</c:if>>
                                             </label>
                                         </div>
                                     </div>
@@ -357,11 +368,13 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-12 col-md-offset-9">
-                                    <a id="updEducation" class="btn btn-primary">Update</a>
+                            <c:if test="${not application.confirmed}">
+                                <div class="form-group">
+                                    <div class="col-md-12 col-md-offset-9">
+                                        <a id="updEducation" class="btn btn-primary">Update</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:if>
 
                         </div>
                     </div>

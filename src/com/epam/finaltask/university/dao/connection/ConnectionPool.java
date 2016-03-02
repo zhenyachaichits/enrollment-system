@@ -69,8 +69,6 @@ public class ConnectionPool {
 
     }
 
-    // TODO: this can be auto-closable
-
     public void closeConnection(Connection connection) {
         try {
             connection.close();

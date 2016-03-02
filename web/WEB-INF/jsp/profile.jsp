@@ -255,7 +255,8 @@
                                 <div class="col-md-4">
                                     <div class="togglebutton">
                                         <label>
-                                            <input name="freeForm" type="checkbox" checked>
+                                            <input name="freeForm" type="checkbox"
+                                                   <c:if test="${student.profile.freeForm}"> checked</c:if>>
                                         </label>
                                     </div>
                                 </div>

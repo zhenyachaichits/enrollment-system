@@ -52,6 +52,17 @@ public class SqlProfileDaoImpl implements ProfileDao {
     private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT profile_id FROM profile " +
             "WHERE user_user_id <> ? AND passport_id = ? AND status = 'ACTIVE'";
     private static final String GET_COUNT_QUERY = "SELECT FOUND_ROWS()";
+    private static final String GET_FOR_APPLY_QUERY = "SELECT profile.* FROM application INNER JOIN profile " +
+            "ON profile.profile_id = application.profile_profile_id WHERE profile.free_form = ? AND " +
+            "application.out_of_competition = ? AND profile.faculty_faculty_id = ? " +
+            "AND profile.status = 'ACTIVE' AND application.status = 'ACTIVE' " +
+            "ORDER BY profile.points DESC LIMIT ?";
+    private static final String GET_WITH_SAME_POINT = "SELECT profile.* FROM application INNER JOIN profile " +
+            "ON profile.profile_id = application.profile_profile_id WHERE profile.free_form = ? AND " +
+            "application.out_of_competition = FALSE AND profile.points = ? AND profile.faculty_faculty_id = ? " +
+            "AND profile.status = 'ACTIVE' AND application.status = 'ACTIVE' " +
+            "ORDER BY application.date LIMIT ?";
+
 
     @Override
     public Profile add(Profile profile) throws DaoException {
@@ -279,4 +290,60 @@ public class SqlProfileDaoImpl implements ProfileDao {
             throw new DaoException("Couldn't process operation", e);
         }
     }
+
+    @Override
+    public List<Profile> getToApply(long facultyId, boolean isFreeForm, boolean isOutOfCompetition, int quota)
+            throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(GET_FOR_APPLY_QUERY);
+        ) {
+            statement.setBoolean(1, isFreeForm);
+            statement.setBoolean(2, isOutOfCompetition);
+            statement.setLong(3, facultyId);
+            statement.setInt(4, quota);
+
+            List<Profile> profiles = new ArrayList<>();
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                DaoBeanFactory<Profile> factory = ProfileDaoBeanFactory.getInstance();
+
+                profiles.add(factory.construct(resultSet));
+            }
+
+            return profiles;
+
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points, int quota) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(GET_WITH_SAME_POINT);
+        ) {
+            statement.setBoolean(1, isFreeForm);
+            statement.setInt(2, points);
+            statement.setLong(3, facultyId);
+            statement.setInt(4, quota);
+
+            List<Profile> profiles = new ArrayList<>();
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                DaoBeanFactory<Profile> factory = ProfileDaoBeanFactory.getInstance();
+
+                profiles.add(factory.construct(resultSet));
+            }
+
+            return profiles;
+
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
 }

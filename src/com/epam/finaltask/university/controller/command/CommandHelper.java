@@ -65,6 +65,9 @@ public class CommandHelper {
         commandMap.put(CommandName.UPDATE_FACULTY_DATA, new UpdateFacultyDataCommand());
         commandMap.put(CommandName.UPDATE_SUBJECT, new UpdateSubjectDataCommand());
         commandMap.put(CommandName.UPDATE_TERMS, new UpdateTermsCommand());
+        commandMap.put(CommandName.UPDATE_FACULTY_POINTS, new UpdateFacultyPointsCommand());
+
+        commandMap.put(CommandName.CONFIRM_FACULTY_APPLICATIONS, new ConfirmFacultyApplicationsCommand());
 
         commandMap.put(CommandName.DELETE_APPLICATION, new DeleteApplicationCommand());
         commandMap.put(CommandName.DELETE_PROFILE, new DeleteProfileCommand());

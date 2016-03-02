@@ -98,7 +98,8 @@
                         <div class="list-group-separator"></div>
                         <div class="list-group-item">
                             <div class="row-action-primary checkbox">
-                                <label><input type="checkbox" name="outCompetition" readonly>
+                                <label><input type="checkbox" name="outCompetition"
+                                <c:if test="${application.outOfCompetition}"> checked </c:if> disabled>
                                 </label>
                             </div>
                             <div class="row-content">

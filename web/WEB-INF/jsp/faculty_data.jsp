@@ -119,6 +119,44 @@
 </div>
 
 
+<div class="container">
+    <div class="col-md-6 col-md-offset-3 clear">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Action</h3>
+            </div>
+            <div class="panel-body">
+                <div class="horizontal-center">
+                    <div class="form-group" style="margin: 7px 0 0 0">
+                        <div class="col-md-6 col-md-offset-3">
+                            <input type="text" class="form-control"
+                                   value="${faculty.freePoint}" placeholder="Email" readonly>
+                            <input type="text" class="form-control"
+                                   value="${faculty.paidPoint}" placeholder="Email" readonly>
+                        </div>
+                    </div>
+
+                    <form action="management" method="post">
+                        <input type="hidden" name="command" value="update-faculty-points">
+                        <input type="hidden" name="facultyID" value="${faculty.id}">
+                        <input type="hidden" name="freeQuota" value="${faculty.freeQuota}">
+                        <input type="hidden" name="paidQuota" value="${faculty.paidQuota}">
+                        <button class="btn btn-raised btn-default">Update points</button>
+                    </form>
+                    <form action="management" method="post">
+                        <input type="hidden" name="command" value="confirm-faculty-applications">
+                        <input type="hidden" name="facultyID" value="${faculty.id}">
+                        <input type="hidden" name="freeQuota" value="${faculty.freeQuota}">
+                        <input type="hidden" name="paidQuota" value="${faculty.paidQuota}">
+                        <button class="btn btn-raised btn-default">Apply</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
       data-content="One or more records are incorrect" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
