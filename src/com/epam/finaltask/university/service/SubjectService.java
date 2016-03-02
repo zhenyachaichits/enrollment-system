@@ -54,7 +54,7 @@ public class SubjectService {
         }
     }
 
-    public boolean checkUpdateAvaliability(Subject subject) throws ServiceException {
+    public boolean checkUpdateAvailability(Subject subject) throws ServiceException {
         try {
             SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
 

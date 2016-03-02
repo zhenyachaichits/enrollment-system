@@ -43,6 +43,7 @@ public final class RequestParameterName {
     public static final String PROFILE = "profile";
     public static final String APPLICATION = "application";
 
+    public static final String FACULTY = "faculty";
     public static final String FACULTY_NAME = "facultyName";
     public static final String FREE_QUOTA = "freeQuota";
     public static final String PAID_QUOTA = "paidQuota";

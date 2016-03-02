@@ -49,6 +49,7 @@ public class CommandHelper {
         commandMap.put(CommandName.GO_FACULTY_MANAGEMENT, new GoFacultyManagementCommand());
         commandMap.put(CommandName.GO_SUBJECT_MANAGEMENT, new GoSubjectManagementCommand());
         commandMap.put(CommandName.GO_TERMS_MANAGEMENT, new GoTermsManagementCommand());
+        commandMap.put(CommandName.GO_FACULTY_DATA, new GoFacutyDataCommand());
 
         commandMap.put(CommandName.SEARCH_PROFILE_BY_PASSPORT, new FindProfileByPassportIdCommand());
         commandMap.put(CommandName.SEARCH_PROFILES_BY_LAST_NAME, new FindProfilesByLastNameCommand());
@@ -61,12 +62,14 @@ public class CommandHelper {
         commandMap.put(CommandName.UPDATE_PROFILE, new UpdateProfileCommand());
         commandMap.put(CommandName.UPDATE_STUDENT_DATA, new UpdateStudentDataCommand());
         commandMap.put(CommandName.UPDATE_USER, new UpdateUserDataCommand());
+        commandMap.put(CommandName.UPDATE_FACULTY_DATA, new UpdateFacultyDataCommand());
         commandMap.put(CommandName.UPDATE_SUBJECT, new UpdateSubjectDataCommand());
         commandMap.put(CommandName.UPDATE_TERMS, new UpdateTermsCommand());
 
         commandMap.put(CommandName.DELETE_APPLICATION, new DeleteApplicationCommand());
         commandMap.put(CommandName.DELETE_PROFILE, new DeleteProfileCommand());
         commandMap.put(CommandName.DELETE_USER, new DeleteUserCommand());
+        commandMap.put(CommandName.DELETE_FACULTY, new DeleteFacultyCommand());
         commandMap.put(CommandName.DELETE_SUBJECT, new DeleteSubjectCommand());
         commandMap.put(CommandName.DELETE_TERMS, new DeleteTermsCommand());
 

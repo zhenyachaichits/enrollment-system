@@ -51,7 +51,7 @@ public class LockingSubjectService {
 
     public Subject updateSubject(Subject subject) throws ServiceException {
         SubjectService subjectService = SubjectService.getInstance();
-        if(SubjectValidator.validateSubject(subject) && subjectService.checkUpdateAvaliability(subject)) {
+        if(SubjectValidator.validateSubject(subject) && subjectService.checkUpdateAvailability(subject)) {
             lock.lock();
             try {
                 SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();

@@ -42,16 +42,23 @@ public class SqlFacultyDaoImpl implements FacultyDao {
             "WHERE faculty.status = 'ACTIVE' AND faculty_has_subject.status = 'ACTIVE'";
     private static final String FIND_FACULTY_BY_NAME_QUERY = "SELECT faculty.*, faculty_has_subject.* FROM faculty  " +
             "INNER JOIN faculty_has_subject ON faculty.faculty_id = faculty_has_subject.faculty_faculty_id " +
-            "WHERE name = ? AND faculty.status = 'ACTIVE' AND faculty_has_subject.status = 'ACTIVE'";
+            "WHERE faculty.name = ? AND faculty.status = 'ACTIVE' AND faculty_has_subject.status = 'ACTIVE'";
+    private static final String FIND_FACULTY_BY_ID_QUERY = "SELECT faculty.*, faculty_has_subject.* FROM faculty  " +
+            "INNER JOIN faculty_has_subject ON faculty.faculty_id = faculty_has_subject.faculty_faculty_id " +
+            "WHERE faculty.faculty_id = ? AND faculty.status = 'ACTIVE' AND faculty_has_subject.status = 'ACTIVE'";
     private static final String ADD_FACULTY_QUERY = "INSERT INTO faculty (name, free_quota, paid_quota, terms_terms_id) " +
             "VALUES (?, ?, ?, ?)";
     private static String ADD_FACULTY_SUBJECT_QUERY = "INSERT INTO faculty_has_subject (faculty_faculty_id, " +
             "subject_subject_id) VALUES (?, ?)";
-
-
+    private static final String CHECK_UPDATE_AVAILABILITY = "SELECT * FROM faculty WHERE faculty_id <> ? " +
+            "AND name = ?";
+    private static final String UPDATE_FACULTY_QUERY = "UPDATE faculty SET name = ?, free_quota = ?, paid_quota = ?, " +
+            "terms_terms_id = ? WHERE faculty_id = ? AND status = 'ACTIVE'";
+    private static final String DELETE_FACULTY_BY_ID_QUERY = "UPDATE faculty SET status = 'DELETED' " +
+            "WHERE faculty_id = ?";
+    private static final String DELETE_FACULTY_BY_NAME_QUERY = "UPDATE faculty SET status = 'DELETED' WHERE name = ?";
     @Override
     public Faculty add(Faculty faculty) throws DaoException {
-
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
@@ -136,13 +143,46 @@ public class SqlFacultyDaoImpl implements FacultyDao {
     }
 
     @Override
-    public Faculty update(Faculty entity) throws DaoException {
-        return null;
+    public Faculty update(Faculty faculty) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(UPDATE_FACULTY_QUERY);
+        ) {
+            statement.setString(1, faculty.getName());
+            statement.setInt(2, faculty.getFreeQuota());
+            statement.setInt(3, faculty.getPaidQuota());
+            statement.setLong(4, faculty.getTermsId());
+            statement.setLong(5, faculty.getId());
+
+            int result = statement.executeUpdate();
+
+            return result != 0 ? faculty : null;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     @Override
     public Faculty delete(String name) throws DaoException {
-        return null;
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(DELETE_FACULTY_BY_NAME_QUERY);
+        ) {
+            statement.setString(1, name);
+
+            int result = statement.executeUpdate();
+
+            if (result != 0) {
+               Faculty faculty = new Faculty();
+                faculty.setName(name);
+
+                return faculty;
+            } else {
+                return null;
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     @Override
@@ -163,6 +203,60 @@ public class SqlFacultyDaoImpl implements FacultyDao {
             return faculties;
 
         } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+
+    @Override
+    public Faculty find(long facultyId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(FIND_FACULTY_BY_ID_QUERY);
+        ) {
+            statement.setLong(1, facultyId);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                FacultyDaoBeanFactory factory = FacultyDaoBeanFactory.getInstance();
+
+                return factory.construct(resultSet);
+            } else {
+                return null;
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean checkUpdateAvailability(Faculty faculty) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVAILABILITY);
+        ) {
+            statement.setLong(1, faculty.getId());
+            statement.setString(2, faculty.getName());
+
+            ResultSet resultSet = statement.executeQuery();
+            return !resultSet.next();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean delete(long facultyId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(DELETE_FACULTY_BY_ID_QUERY);
+        ) {
+            statement.setLong(1, facultyId);
+
+            int result = statement.executeUpdate();
+
+            return result != 0;
+        } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }
     }

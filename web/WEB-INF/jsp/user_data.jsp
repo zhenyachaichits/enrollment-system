@@ -40,7 +40,7 @@
                         <div class="row-content">
                             <h4 class="list-group-item-heading">Email</h4>
                             <p class="list-group-item-text">
-                            <div class="form-group">
+                            <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
                                     <input type="email" name="email" class="form-control" id="newEmail"
                                            value="${user.email}" placeholder="Email">
@@ -57,7 +57,7 @@
                         <div class="row-content">
                             <h4 class="list-group-item-heading">Password</h4>
                             <p class="list-group-item-text">
-                            <div class="form-group">
+                            <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
                                     <input type="password" name="password" class="form-control" id="password"
                                            placeholder="Password">
@@ -80,7 +80,7 @@
                                     <input type="hidden" name="role" value="STUDENT">
                                 </c:when>
                                 <c:otherwise>
-                            <div class="form-group">
+                            <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
                                     <div class="radio radio-primary">
                                         <label>

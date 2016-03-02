@@ -52,4 +52,35 @@ public class LockingFacultyService {
             throw new InvalidServiceDataException("Invalid faculty data. Operation Stopped");
         }
     }
+
+    public Faculty updateFaculty(Faculty faculty) throws ServiceException {
+        FacultyService service = FacultyService.getInstance();
+        if(FacultyValidator.validateFaculty(faculty) && service.checkUpdateAvailability(faculty)) {
+            lock.lock();
+            try {
+                FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
+
+                return dao.update(faculty);
+            } catch (DaoFactoryException | DaoException e) {
+                throw new ServiceException("Couldn't provide faculty updating service");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new InvalidServiceDataException("Invalid faculty data. Operation Stopped");
+        }
+    }
+
+    public boolean deleteFaculty(long facultyId) throws ServiceException {
+        lock.lock();
+        try {
+            FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
+
+            return dao.delete(facultyId);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide subject deletion service");
+        } finally {
+            lock.unlock();
+        }
+    }
 }

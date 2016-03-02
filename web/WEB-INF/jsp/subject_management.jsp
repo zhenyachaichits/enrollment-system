@@ -105,8 +105,8 @@
                                             </td>
                                             <td>
                                                 <div class="form-group" style="margin: 7px 0 0 0">
-                                                    <input class="form-control point" name="minPoint"
-                                                           value="${subject.minPoint}"/>
+                                                    <input type="number" min="1" max="80" class="form-control point"
+                                                           name="minPoint" value="${subject.minPoint}"/>
                                                 </div>
                                             </td>
 

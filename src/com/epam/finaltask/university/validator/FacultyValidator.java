@@ -27,7 +27,7 @@ public class FacultyValidator {
         if (!validateNumber(faculty.getTermsId())) {
             return false;
         }
-        if (!validateSubjects(faculty.getSubjects())) {
+        if (faculty.getSubjects() != null && !validateSubjects(faculty.getSubjects())) {
             return false;
         }
 

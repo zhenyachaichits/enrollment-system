@@ -272,7 +272,7 @@
                                     <div class="col-md-8">
                                         <label for="faculty" class="col-md-3 control-label">Faculty</label>
                                         <div class="col-md-8">
-                                            <select name="facultyID" id="faculty" class="form-control" readonly="">
+                                            <select name="facultyID" id="faculty" class="form-control select-dropdown" readonly="">
                                                 <option disabled selected>Choose faculty</option>
                                                 <c:forEach var="faculty" items="${faculties}">
                                                     <option value="${faculty.id}"
@@ -295,57 +295,56 @@
                                 </div>
                             </div>
 
+                            <div id="subjects">
+                                <div class="form-group" id="subject1Group" style="display: none">
+                                    <label for="subject1" id="label1" class="col-md-5 control-label">
 
-                            <div id="subjects"></div><div id="subjects">
-                            <div class="form-group" id="subject1Group" style="display: none">
-                                <label for="subject1" id="label1" class="col-md-5 control-label">
+                                    </label>
 
-                                </label>
-
-                                <div class="col-md-4">
-                                    <input type="number" min="0" max="100" class="form-control point"
-                                           id="subject1"
-                                           placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
-                                           pattern="\d{1,3}">
-                                    <p class="help-block" id="help1">Minimal point for this subjest is: </p>
+                                    <div class="col-md-4">
+                                        <input type="number" min="0" max="100" class="form-control point"
+                                               id="subject1"
+                                               placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
+                                               pattern="\d{1,3}">
+                                        <p class="help-block" id="help1">Minimal point for this subjest is: </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group" id="subject2Group" style="display: none">
-                                <label for="subject2" id="label2" class="col-md-5 control-label">
+                                <div class="form-group" id="subject2Group" style="display: none">
+                                    <label for="subject2" id="label2" class="col-md-5 control-label">
 
-                                </label>
+                                    </label>
 
-                                <div class="col-md-4">
-                                    <input type="number" min="0" max="100" class="form-control point"
-                                           id="subject2"
-                                           placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
-                                           pattern="\d{1,3}">
-                                    <p class="help-block" id="help2">Minimal point for this subjest is: </p>
+                                    <div class="col-md-4">
+                                        <input type="number" min="0" max="100" class="form-control point"
+                                               id="subject2"
+                                               placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
+                                               pattern="\d{1,3}">
+                                        <p class="help-block" id="help2">Minimal point for this subjest is: </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group" id="subject3Group" style="display: none">
-                                <label for="subject3" id="label3" class="col-md-5 control-label">
-                                </label>
+                                <div class="form-group" id="subject3Group" style="display: none">
+                                    <label for="subject3" id="label3" class="col-md-5 control-label">
+                                    </label>
 
-                                <div class="col-md-4">
-                                    <input type="number" min="0" max="100" class="form-control point"
-                                           id="subject3"
-                                           placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
-                                           pattern="\d{1,3}">
-                                    <p class="help-block" id="help3">Minimal point for this subjest is: </p>
+                                    <div class="col-md-4">
+                                        <input type="number" min="0" max="100" class="form-control point"
+                                               id="subject3"
+                                               placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
+                                               pattern="\d{1,3}">
+                                        <p class="help-block" id="help3">Minimal point for this subjest is: </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="gpa" class="col-md-5 control-label">GPA</label>
+                                <div class="form-group">
+                                    <label for="gpa" class="col-md-5 control-label">GPA</label>
 
-                                <div class="col-md-4">
-                                    <input type="number" min="30" max="100" class="form-control point" id="gpa"
-                                           placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
-                                           pattern="\d{1,3}">
+                                    <div class="col-md-4">
+                                        <input type="number" min="30" max="100" class="form-control point" id="gpa"
+                                               placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
+                                               pattern="\d{1,3}">
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div>
+                            </div>
 
                             <div class="form-group">
                                 <label for="totalPoints" class="col-md-5 control-label">Total:</label>

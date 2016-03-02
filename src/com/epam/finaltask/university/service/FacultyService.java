@@ -40,7 +40,26 @@ public class FacultyService {
             FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
 
             return dao.find(name) != null;
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide faculties searching service", e);
+        }
+    }
 
+    public boolean checkUpdateAvailability(Faculty faculty) throws ServiceException {
+        try {
+            FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
+
+            return dao.checkUpdateAvailability(faculty);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide faculties searching service", e);
+        }
+    }
+
+    public Faculty findFacultyById(long facultyId) throws ServiceException {
+        try {
+            FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
+
+            return dao.find(facultyId);
         } catch (DaoFactoryException | DaoException e) {
             throw new ServiceException("Couldn't provide faculties searching service", e);
         }

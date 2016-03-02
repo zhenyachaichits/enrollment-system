@@ -136,7 +136,7 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach var="faculty" items="${faculties}">
-                                    <form action="management" name="goApplyForm" method="post">
+                                    <form action="management" name="goFacultyDataForm" method="post">
                                         <input type="hidden" name="command" value="go-faculty-data">
                                         <tr>
                                             <td>
@@ -157,7 +157,7 @@
                                                 </c:forEach>
                                             </td>
                                             <td>
-                                                <button name="userID" value="${faculty.id}"
+                                                <button name="facultyID" value="${faculty.id}"
                                                         class="btn btn-primary">
                                                     More
                                                 </button>

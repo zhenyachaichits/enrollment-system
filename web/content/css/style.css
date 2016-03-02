@@ -61,3 +61,7 @@
 body {
     overflow-x: hidden;
 }
+
+.dropdownjs {
+    z-index: 999;
+}

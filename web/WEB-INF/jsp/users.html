@@ -25,25 +25,24 @@
 
 <jsp:include page="included/navbar.jsp"/>
 
-
 <div class="container">
-    <form action="search" name="deleteApplication" method="post">
-        <input type="hidden" name="command" value="delete-application">
-        <input type="hidden" name="userID" value="${user.id}">
-        <div class="well col-md-6 col-md-offset-3" id="confirmForm">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="list-group">
+    <div class="well col-md-6 col-md-offset-3" id="confirmForm">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="list-group">
+                <form action="management" name="updateFaculty" method="post">
+                    <input type="hidden" name="command" value="update-faculty">
+                    <input type="hidden" name="facultyID" value="${faculty.id}">
                     <div class="list-group-item">
                         <div class="row-action-primary">
-                            <i style="font-size:36px" class="material-icons">contact_mail</i>
+                            <i style="font-size:36px" class="material-icons">location_city</i>
                         </div>
                         <div class="row-content">
-                            <h4 class="list-group-item-heading">Email</h4>
+                            <h4 class="list-group-item-heading">Name</h4>
                             <p class="list-group-item-text">
-                            <div class="form-group">
+                            <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
-                                    <input type="email" class="form-control" id="email"
-                                           value="${user.email}" placeholder="Email">
+                                    <input type="text" name="facultyName" class="form-control" id="facultyName"
+                                           value="${faculty.name}" placeholder="Email" required>
                                 </div>
                             </div>
                             </p>
@@ -52,15 +51,24 @@
                     <div class="list-group-separator"></div>
                     <div class="list-group-item">
                         <div class="row-action-primary">
-                            <i style="font-size:36px" class="material-icons">more_horiz</i>
+                            <i style="font-size:36px" class="material-icons">date_range</i>
                         </div>
                         <div class="row-content">
-                            <h4 class="list-group-item-heading">Password</h4>
+                            <h4 class="list-group-item-heading">Terms</h4>
                             <p class="list-group-item-text">
-                            <div class="form-group">
+                            <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
-                                    <input type="email" class="form-control" id="password"
-                                           value="${user.email}" placeholder="Email">
+                                    <select id="terms" name="termsID" class="form-control select-dropdown">
+                                        <c:forEach var="terms" items="${termsList}">
+                                            <option value="${terms.id}">
+                                                <fmt:formatDate pattern="dd.MM.yyyy"
+                                                                value="${terms.startDate.time}"/>
+                                                -
+                                                <fmt:formatDate
+                                                        pattern="dd.MM.yyyy" value="${terms.endDate.time}"/>
+                                            </option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                             </div>
                             </p>
@@ -69,47 +77,49 @@
                     <div class="list-group-separator"></div>
                     <div class="list-group-item">
                         <div class="row-action-primary">
-                            <i style="font-size:36px" class="material-icons">group</i>
+                            <i style="font-size:36px" class="material-icons">compare_arrows</i>
                         </div>
                         <div class="row-content">
-                            <h4 class="list-group-item-heading">Role</h4>
+                            <h4 class="list-group-item-heading">Quota</h4>
                             <p class="list-group-item-text">
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <div class="radio radio-primary">
-                                        <label>
-                                            <input type="radio" name="role" id="supportRole" value="SUPPORT" checked="">
-                                            Support
-                                        </label>
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <div class="form-group label-floating" style="margin: 7px 0 0 0">
+                                        <label class="control-label" for="freeQuota">Free Quota</label>
+
+                                        <input type="number" name="freeQuota" class="form-control" id="freeQuota"
+                                               value="${faculty.freeQuota}" min="1" max="999"
+                                               placeholder="Free Quota">
                                     </div>
-                                    <div class="radio radio-primary">
-                                        <label>
-                                            <input type="radio" name="role" id="adminRole" value="ADMIN">
-                                            Admin
-                                        </label>
+                                    <div class="form-group label-floating" style="margin: 7px 0 0 0">
+                                        <label class="control-label col-md-offset-6" for="paidQuota">Paid Quota</label>
+                                        <input type="number" name="paidQuota" class="form-control" id="paidQuota"
+                                               value="${faculty.paidQuota}" min="1" max="999"
+                                               placeholder="Paid Quota">
                                     </div>
                                 </div>
                             </div>
+
                             </p>
                         </div>
                     </div>
-                    <div class="list-group-separator"></div>
-                    <div class="form-group">
-                        <div class="col-md-12 col-md-offset-6">
-                            <form name="deleteUser" action="management" method="post">
-                                <input type="hidden" name="command" value="delete-user">
-                                <input type="hidden" name="userID" value="${user.id}">
-                            </form>
-                            <a href="javascript:deleteUser.submit()" class="btn btn-raised btn-primary"
-                                    style="background-color: #bd5050;">Delete</a>
-                            <button class="btn btn-raised btn-primary">Save</button>
-                        </div>
+                </form>
+                <div class="form-group">
+                    <div class="col-md-12 col-md-offset-6">
+                        <form name="deleteFaculty" action="management" method="post" hidden>
+                            <input type="hidden" name="command" value="delete-faculty">
+                            <input type="hidden" name="facultyID" value="${faculty.id}">
+                        </form>
+                        <a href="javascript:deleteFaculty.submit()" class="btn btn-raised btn-primary"
+                           style="background-color: #bd5050;">Delete</a>
+                        <a href="javascript:updateFaculty.submit()" class="btn btn-raised btn-primary">Save</a>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
+
 
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
       data-content="One or more records are incorrect" data-timeout="4000"

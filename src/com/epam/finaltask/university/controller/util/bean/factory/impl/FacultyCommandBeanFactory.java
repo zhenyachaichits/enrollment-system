@@ -28,6 +28,8 @@ public class FacultyCommandBeanFactory implements CommandBeanFactory<Faculty> {
     @Override
     public Faculty constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
         try {
+            Faculty faculty = new Faculty();
+
             String name = request.getParameter(RequestParameterName.FACULTY_NAME);
             String freeQuotaStr = request.getParameter(RequestParameterName.FREE_QUOTA);
             String paidQuotaStr = request.getParameter(RequestParameterName.PAID_QUOTA);
@@ -38,17 +40,19 @@ public class FacultyCommandBeanFactory implements CommandBeanFactory<Faculty> {
             int paidQuota = Integer.parseInt(paidQuotaStr);
             long termsId = Long.parseLong(termsIdStr);
 
-            Set<Long> subjectsId = new HashSet<>(subjects.length);
-            for (String subjectIdStr : subjects) {
-                subjectsId.add(Long.parseLong(subjectIdStr));
+            if (subjects != null) {
+                Set<Long> subjectsId = new HashSet<>(subjects.length);
+                for (String subjectIdStr : subjects) {
+                    subjectsId.add(Long.parseLong(subjectIdStr));
+                }
+
+                faculty.setSubjects(subjectsId);
             }
 
-            Faculty faculty = new Faculty();
             faculty.setName(name);
             faculty.setFreeQuota(freeQuota);
             faculty.setPaidQuota(paidQuota);
             faculty.setTermsId(termsId);
-            faculty.setSubjects(subjectsId);
 
             return faculty;
         } catch (NumberFormatException e) {
