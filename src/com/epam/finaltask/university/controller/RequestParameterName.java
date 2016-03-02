@@ -52,6 +52,9 @@ public final class RequestParameterName {
     public static final String SUBJECT_ID = "subjectID";
     public static final String MIN_POINT = "minPoint";
 
+    public static final String START_DATE = "startDate";
+    public static final String END_DATE = "endDate";
+
     public static final String CURRENT_PAGE = "currentPage";
     public static final String PAGES_NUMBER = "pagesNumber";
     public static final String LOCALE = "locale";

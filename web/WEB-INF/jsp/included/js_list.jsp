@@ -29,6 +29,12 @@
     $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
     $(".select-dropdown").dropdown({"autoinit": "select"});
 
+    $('.date-end').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
+    $('.date-start').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false}).on('change', function(e, date)
+    {
+        $('#date-end').bootstrapMaterialDatePicker('setMinDate', date);
+    });
+
     $(function ($) {
         $(".phone").mask("+999 (99) 999-99-99", {placeholder: "_"});
         $(".score").mask("999", {placeholder: ""});

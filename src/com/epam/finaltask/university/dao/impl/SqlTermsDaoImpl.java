@@ -39,6 +39,10 @@ public class SqlTermsDaoImpl implements TermsDao {
     private static final String UPDATE_TERMS_QUERY = "UPDATE terms SET start_date = ?, end_date = ? " +
             "WHERE terms_id = ? AND status = 'ACTIVE'";
     private static final String DELETE_QUERY = "UPDATE terms SET status = 'DELETED' WHERE terms_id = ?";
+    private static final String CHECK_EXISTENCE_QUERY = "SELECT * FROM terms WHERE start_date = ? AND " +
+            "end_date = ? AND status = 'ACTIVE'";
+    private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT * FROM terms WHERE terms_id <> ? AND " +
+            "start_date = ? AND end_date = ? AND status = 'ACTIVE'";
 
     @Override
     public Terms add(Terms entity) throws DaoException {
@@ -86,21 +90,18 @@ public class SqlTermsDaoImpl implements TermsDao {
     }
 
     @Override
-    public Terms update(Terms entity) throws DaoException {
+    public Terms update(Terms terms) throws DaoException {
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(UPDATE_TERMS_QUERY);
         ) {
-            statement.setDate(1, DateTypeConverter.convertToSqlDate(entity.getStartDate()));
-            statement.setDate(2, DateTypeConverter.convertToSqlDate(entity.getEndDate()));
+            statement.setDate(1, DateTypeConverter.convertToSqlDate(terms.getStartDate()));
+            statement.setDate(2, DateTypeConverter.convertToSqlDate(terms.getEndDate()));
+            statement.setLong(3, terms.getId());
 
             int result = statement.executeUpdate();
 
-            if (result != 0) {
-                return entity;
-            } else {
-                return null;
-            }
+            return result != 0 ? terms : null;
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }
@@ -150,4 +151,41 @@ public class SqlTermsDaoImpl implements TermsDao {
             throw new DaoException("Couldn't process operation", e);
         }
     }
+
+
+    @Override
+    public boolean checkExistence(Terms terms) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_EXISTENCE_QUERY);
+        ) {
+            statement.setDate(1, DateTypeConverter.convertToSqlDate(terms.getStartDate()));
+            statement.setDate(2, DateTypeConverter.convertToSqlDate(terms.getEndDate()));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean checkUpdateAvailability(Terms terms) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVAILABILITY_QUERY);
+        ) {
+            statement.setLong(1, terms.getId());
+            statement.setDate(2, DateTypeConverter.convertToSqlDate(terms.getStartDate()));
+            statement.setDate(3, DateTypeConverter.convertToSqlDate(terms.getEndDate()));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return !resultSet.next();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
 }

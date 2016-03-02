@@ -33,4 +33,24 @@ public class TermsService {
             throw new ServiceException("Couldn't provide subjects finding service", e);
         }
     }
+
+    public boolean checkTermsExistence(Terms terms) throws ServiceException {
+        try {
+            TermsDao dao = DaoFactory.getDaoFactory().getTermsDao();
+
+            return dao.checkExistence(terms);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide terms checking service", e);
+        }
+    }
+
+    public boolean checkUpdateAvailability(Terms terms) throws ServiceException {
+        try {
+            TermsDao dao = DaoFactory.getDaoFactory().getTermsDao();
+
+            return dao.checkUpdateAvailability(terms);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide terms checking service", e);
+        }
+    }
 }
