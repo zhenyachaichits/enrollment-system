@@ -17,10 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Create application command.
  */
 public class CreateApplicationCommand implements Command {
+    /**
+     * Execute new application creation for selected profile.
+     * Access is allowed for users with status: SUPPORT
+     * @param request
+     * @param response
+     * @return support search page redirection query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

@@ -9,8 +9,9 @@ import com.epam.finaltask.university.service.exception.ServiceException;
 
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 11.02.2016.
+ * Profile service.
  */
 public class ProfileService {
 
@@ -24,6 +25,13 @@ public class ProfileService {
         return ProfileServiceHolder.INSTANCE;
     }
 
+    /**
+     * Check profile with such passport id existence.
+     *
+     * @param passportId the passport id
+     * @return true if exists, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkPassportIdExistence(String passportId) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -34,6 +42,13 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Find profile by passport id.
+     *
+     * @param passportId the passport id
+     * @return the profile
+     * @throws ServiceException the service exception
+     */
     public Profile findProfileByPassportId(String passportId) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -44,6 +59,13 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Find applied profile by passport id.
+     *
+     * @param passportId the passport id
+     * @return the profile
+     * @throws ServiceException the service exception
+     */
     public Profile findAppliedProfileByPassportId(String passportId) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -54,6 +76,13 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Find profile by id.
+     *
+     * @param profileId the profile id
+     * @return the profile
+     * @throws ServiceException the service exception
+     */
     public Profile findProfileById(long profileId) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -64,6 +93,15 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Find profiles by last name list.
+     *
+     * @param lastName     the last name
+     * @param offset       the offset
+     * @param recordsCount the records count
+     * @return the list
+     * @throws ServiceException the service exception
+     */
     public List<Profile> findProfilesByLastName(String lastName, int offset, int recordsCount) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -74,6 +112,15 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Find applied profiles by last name list.
+     *
+     * @param lastName     the last name
+     * @param offset       the offset
+     * @param recordsCount the records count
+     * @return the list
+     * @throws ServiceException the service exception
+     */
     public List<Profile> findAppliedProfilesByLastName(String lastName, int offset, int recordsCount)
             throws ServiceException {
         try {
@@ -85,6 +132,12 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Gets all profiles.
+     *
+     * @return the all profiles
+     * @throws ServiceException the service exception
+     */
     public List<Profile> getAllProfiles() throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -95,6 +148,14 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Gets all profiles.
+     *
+     * @param offset       the offset
+     * @param recordsCount the records count
+     * @return the all profiles
+     * @throws ServiceException the service exception
+     */
     public List<Profile> getAllProfiles(int offset, int recordsCount) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -105,6 +166,14 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Gets all applied profiles.
+     *
+     * @param offset       the offset
+     * @param recordsCount the records count
+     * @return the all applied
+     * @throws ServiceException the service exception
+     */
     public List<Profile> getAllApplied(int offset, int recordsCount) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -115,6 +184,13 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Check update availability.
+     *
+     * @param student the student
+     * @return true if update available, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkUpdateAvailability(Profile student) throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -125,6 +201,12 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Gets current records count.
+     *
+     * @return the current records count
+     * @throws ServiceException the service exception
+     */
     public int getCurrentRecordsCount() throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
@@ -135,6 +217,16 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Gets profiles to apply.
+     *
+     * @param facultyId          the faculty id
+     * @param isFreeForm         the is free form
+     * @param isOutOfCompetition the is out of competition
+     * @param quota              the quota
+     * @return the list of profiles to apply
+     * @throws ServiceException the service exception
+     */
     public List<Profile> getProfilesToApply(long facultyId, boolean isFreeForm, boolean isOutOfCompetition, int quota)
             throws ServiceException {
         try {
@@ -146,6 +238,16 @@ public class ProfileService {
         }
     }
 
+    /**
+     * Gets profiles with same points.
+     *
+     * @param facultyId  the faculty id
+     * @param isFreeForm the is free form
+     * @param points     the points
+     * @param quota      the quota
+     * @return the list of profiles with same points
+     * @throws ServiceException the service exception
+     */
     public List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points, int quota)
             throws ServiceException {
         try {

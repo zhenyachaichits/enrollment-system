@@ -1,13 +1,12 @@
 package com.epam.finaltask.university.bean;
 
 import com.epam.finaltask.university.bean.type.UserType;
-import com.sun.istack.internal.NotNull;
 
 import java.io.Serializable;
 
 
 /**
- * Created by Zheny Chaichits on 31.01.16.
+ * The type User.
  */
 public class User implements Serializable {
     private long id;
@@ -15,7 +14,8 @@ public class User implements Serializable {
     private String password;
     private UserType role;
 
-    public User() {}
+    public User() {
+    }
 
     public long getId() {
         return id;

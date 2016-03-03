@@ -8,12 +8,14 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
- * Created by Zheny Chaichits on 26.02.2016.
+ * Faculty dao bean factory.
  */
 public class FacultyDaoBeanFactory implements DaoBeanFactory<Faculty> {
 
-    private FacultyDaoBeanFactory() { }
+    private FacultyDaoBeanFactory() {
+    }
 
     public static class FacultyDaoConstructorHolder {
         public static final FacultyDaoBeanFactory INSTANCE = new FacultyDaoBeanFactory();
@@ -32,6 +34,13 @@ public class FacultyDaoBeanFactory implements DaoBeanFactory<Faculty> {
     private static final String TERMS_KEY = "terms_terms_id";
     private static final String SUBJECT_ID_KEY = "subject_subject_id";
 
+    /**
+     * Constructs Faculty bean from ResultSet
+     *
+     * @param resultSet the result set
+     * @return created faculty
+     * @throws SQLException
+     */
     @Override
     public Faculty construct(ResultSet resultSet) throws SQLException {
         Faculty faculty = new Faculty();
@@ -48,7 +57,7 @@ public class FacultyDaoBeanFactory implements DaoBeanFactory<Faculty> {
         Set<Long> subjects = new HashSet<>();
         subjects.add(resultSet.getLong(SUBJECT_ID_KEY));
         do {
-            if(facultyId == resultSet.getLong(ID_KEY)) {
+            if (facultyId == resultSet.getLong(ID_KEY)) {
                 subjects.add(resultSet.getLong(SUBJECT_ID_KEY));
             } else {
                 resultSet.previous();

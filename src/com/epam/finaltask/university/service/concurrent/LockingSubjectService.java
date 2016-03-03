@@ -14,7 +14,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Locking subject service.
  */
 public class LockingSubjectService {
 
@@ -31,6 +31,13 @@ public class LockingSubjectService {
 
     private static final Lock lock = new ReentrantLock();
 
+    /**
+     * Create subject.
+     *
+     * @param subject the subject
+     * @return the subject
+     * @throws ServiceException the service exception
+     */
     public Subject createSubject(Subject subject) throws ServiceException {
         SubjectService subjectService = SubjectService.getInstance();
         if(SubjectValidator.validateSubject(subject) && !subjectService.checkSubjectExistence(subject.getName())) {
@@ -49,6 +56,13 @@ public class LockingSubjectService {
         }
     }
 
+    /**
+     * Update subject.
+     *
+     * @param subject the subject
+     * @return the subject
+     * @throws ServiceException the service exception
+     */
     public Subject updateSubject(Subject subject) throws ServiceException {
         SubjectService subjectService = SubjectService.getInstance();
         if(SubjectValidator.validateSubject(subject) && subjectService.checkUpdateAvailability(subject)) {
@@ -67,6 +81,13 @@ public class LockingSubjectService {
         }
     }
 
+    /**
+     * Delete subject boolean.
+     *
+     * @param subjectId the subject id
+     * @return true if deleted, else false
+     * @throws ServiceException the service exception
+     */
     public boolean deleteSubject(long subjectId) throws ServiceException {
         lock.lock();
         try {

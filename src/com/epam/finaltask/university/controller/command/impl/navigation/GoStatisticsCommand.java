@@ -15,10 +15,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * Go statistics command.
  */
 public class GoStatisticsCommand implements Command {
+
+    /**
+     * Execute navigation to statistics
+     *
+     * @param request  the request
+     * @param response the response
+     * @return statis* ticts page name
+     * @throws CommandException
+     */
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

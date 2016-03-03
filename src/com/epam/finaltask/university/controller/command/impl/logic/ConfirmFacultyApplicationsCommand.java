@@ -1,6 +1,5 @@
 package com.epam.finaltask.university.controller.command.impl.logic;
 
-import com.epam.finaltask.university.bean.Application;
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.SessionParameterName;
@@ -9,10 +8,6 @@ import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
-import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
-import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
-import com.epam.finaltask.university.controller.util.bean.factory.impl.ApplicationCommandBeanFactory;
-import com.epam.finaltask.university.service.ApplicationService;
 import com.epam.finaltask.university.service.concurrent.LockingApplicationService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
@@ -20,13 +15,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Confirm faculty applications command.
  */
 public class ConfirmFacultyApplicationsCommand implements Command {
 
     private static final boolean FREE_FORM = true;
 
+    /**
+     * Execute faculty applications confirmation.
+     * Access is allowed for users with status: ADMIN
+     *
+     * @param request  the request
+     * @param response the response
+     * @return current page or home page redirect query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

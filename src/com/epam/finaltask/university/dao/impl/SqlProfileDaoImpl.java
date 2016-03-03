@@ -13,8 +13,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * Sql profile dao.
  */
 public class SqlProfileDaoImpl implements ProfileDao {
 
@@ -64,6 +65,13 @@ public class SqlProfileDaoImpl implements ProfileDao {
             "ORDER BY application.date LIMIT ?";
 
 
+    /**
+     * Add new profile
+     *
+     * @param profile
+     * @return added profile,
+     * @throws DaoException
+     */
     @Override
     public Profile add(Profile profile) throws DaoException {
         try (
@@ -78,16 +86,39 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
+    /**
+     * Searching profile by passport ID
+     *
+     * @param passportId passport ID
+     * @return found profile
+     * @throws DaoException
+     */
     @Override
     public Profile find(String passportId) throws DaoException {
         return findByPassportId(passportId, false);
     }
 
+    /**
+     * Searching profiles by last name with offset.
+     *
+     * @param lastName     last name
+     * @param offset       searching offset
+     * @param recordsCount records count
+     * @return fis of profiles
+     * @throws DaoException
+     */
     @Override
     public List<Profile> findProfileByLastName(String lastName, int offset, int recordsCount) throws DaoException {
-        return  findByLastName(lastName, offset, recordsCount, false);
+        return findByLastName(lastName, offset, recordsCount, false);
     }
 
+    /**
+     * Search profile by profile ID
+     *
+     * @param profileId profile ID
+     * @return found profile or null
+     * @throws DaoException
+     */
     @Override
     public Profile findById(long profileId) throws DaoException {
         try (
@@ -109,6 +140,13 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
+    /**
+     * Updates profile data
+     *
+     * @param profile profile
+     * @return updated profile
+     * @throws DaoException
+     */
     @Override
     public Profile update(Profile profile) throws DaoException {
         try (
@@ -129,6 +167,12 @@ public class SqlProfileDaoImpl implements ProfileDao {
         throw new UnsupportedOperationException("Profile can't be delete without account");
     }
 
+    /**
+     * Gets all profiles
+     *
+     * @return list of profiles
+     * @throws DaoException
+     */
     @Override
     public List<Profile> all() throws DaoException {
         try (
@@ -151,6 +195,13 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
+    /**
+     * Checks update availability
+     *
+     * @param profile profile
+     * @return true if aupdate is available, else false
+     * @throws DaoException
+     */
     @Override
     public boolean checkUpdateAvailability(Profile profile) throws DaoException {
         try (
@@ -167,31 +218,77 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
+    /**
+     * Searching applied application by passport ID
+     *
+     * @param passportId
+     * @return found profile
+     * @throws DaoException
+     */
     @Override
     public Profile findApplied(String passportId) throws DaoException {
         return findByPassportId(passportId, true);
     }
 
+    /**
+     * Search applied applications by last name with offset
+     *
+     * @param lastName     last name
+     * @param offset       offset
+     * @param recordsCount tecords count
+     * @return list of profiles
+     * @throws DaoException
+     */
     @Override
     public List<Profile> findAppliedByLastName(String lastName, int offset, int recordsCount) throws DaoException {
         return findByLastName(lastName, offset, recordsCount, true);
     }
 
+    /**
+     * Searching all applied profiles with offset
+     *
+     * @param offset       offset
+     * @param recordsCount records count
+     * @return
+     * @throws DaoException
+     */
     @Override
     public List<Profile> findAllApplied(int offset, int recordsCount) throws DaoException {
         return findAll(offset, recordsCount, true);
     }
 
+    /**
+     * Search all profiles with offset
+     *
+     * @param offset
+     * @param recordsCount
+     * @return
+     * @throws DaoException
+     */
     @Override
     public List<Profile> findAllProfiles(int offset, int recordsCount) throws DaoException {
-        return findAll(offset,recordsCount, false);
+        return findAll(offset, recordsCount, false);
     }
 
+    /**
+     * Gets records count
+     *
+     * @return int
+     */
     @Override
     public int getRecordsCount() {
         return recordsCount;
     }
 
+    /**
+     * Gets all profiles with offset
+     *
+     * @param offset
+     * @param recordsCount
+     * @param isApplied
+     * @return list of profiles
+     * @throws DaoException
+     */
     private List<Profile> findAll(int offset, int recordsCount, boolean isApplied) throws DaoException {
         String query;
         if (isApplied) {
@@ -217,7 +314,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
             }
 
             resultSet = statement.executeQuery(GET_COUNT_QUERY);
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 this.recordsCount = resultSet.getInt(1);
             }
 
@@ -228,6 +325,14 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
+    /**
+     * Searching profile by passport ID
+     *
+     * @param passportId
+     * @param isApplied
+     * @return found profile or null
+     * @throws DaoException
+     */
     private Profile findByPassportId(String passportId, boolean isApplied) throws DaoException {
         String query;
         if (isApplied) {
@@ -255,6 +360,16 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
+    /**
+     * Searching profiles by last name with offset and application status
+     *
+     * @param lastName
+     * @param offset
+     * @param number
+     * @param isApplied
+     * @return list of profiles
+     * @throws DaoException
+     */
     private List<Profile> findByLastName(String lastName, int offset,
                                          int number, boolean isApplied) throws DaoException {
         String query;
@@ -281,7 +396,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
             }
 
             resultSet = statement.executeQuery(GET_COUNT_QUERY);
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 this.recordsCount = resultSet.getInt(1);
             }
 
@@ -291,6 +406,16 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
+    /**
+     * Gets profiles to apply by faculty ID
+     *
+     * @param facultyId
+     * @param isFreeForm
+     * @param isOutOfCompetition
+     * @param quota
+     * @return list of profiles
+     * @throws DaoException
+     */
     @Override
     public List<Profile> getToApply(long facultyId, boolean isFreeForm, boolean isOutOfCompetition, int quota)
             throws DaoException {
@@ -319,6 +444,15 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
+    /**
+     * Gets profiles with same points
+     * @param facultyId
+     * @param isFreeForm
+     * @param points
+     * @param quota
+     * @return list of profiles
+     * @throws DaoException
+     */
     @Override
     public List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points, int quota) throws DaoException {
         try (

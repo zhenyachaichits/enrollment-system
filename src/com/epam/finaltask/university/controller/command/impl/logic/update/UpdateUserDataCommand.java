@@ -19,10 +19,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 29.02.2016.
+ * Update user data command.
  */
 public class UpdateUserDataCommand implements Command {
+    /**
+     * Execute user data update. In case user try to update his own account, will execute logging out.
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return log out command, home or previous page redirect query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
@@ -49,7 +58,7 @@ public class UpdateUserDataCommand implements Command {
                 return CommandName.LOG_OUT.getQueryString();
             } else {
                 String currentQuery = (String) session.getAttribute(SessionParameterName.CURRENT_PAGE);
-                return currentQuery == null ? CommandName.GO_USER_MANAGEMENT.getQueryString() : currentQuery;
+                return currentQuery == null ? CommandName.GO_HOME.getQueryString() : currentQuery;
             }
 
         } catch (CommandBeanFactoryException | NumberFormatException | ServiceException e) {

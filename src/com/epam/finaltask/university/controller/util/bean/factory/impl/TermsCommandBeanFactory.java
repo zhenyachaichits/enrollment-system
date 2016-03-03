@@ -11,8 +11,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Terms command bean factory.
  */
 public class TermsCommandBeanFactory implements CommandBeanFactory<Terms> {
 
@@ -29,6 +30,13 @@ public class TermsCommandBeanFactory implements CommandBeanFactory<Terms> {
 
     private static final String DATE_FORMAT = "dd.MM.yyyy";
 
+    /**
+     * Creates new terms bean from request parameters
+     *
+     * @param request
+     * @return new terms reference
+     * @throws CommandBeanFactoryException
+     */
     @Override
     public Terms constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
         try {

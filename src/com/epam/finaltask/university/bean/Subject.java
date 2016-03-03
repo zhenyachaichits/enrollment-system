@@ -3,15 +3,15 @@ package com.epam.finaltask.university.bean;
 import java.io.Serializable;
 
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * The type Subject.
  */
 public class Subject implements Serializable {
     private long id;
     private String name;
     private int minPoint;
 
-    public Subject() {}
-
+    public Subject() {
+    }
 
     public String getName() {
         return name;

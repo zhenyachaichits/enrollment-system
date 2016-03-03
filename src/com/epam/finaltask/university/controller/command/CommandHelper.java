@@ -3,7 +3,10 @@ package com.epam.finaltask.university.controller.command;
 
 import com.epam.finaltask.university.controller.command.impl.ajax.*;
 import com.epam.finaltask.university.controller.command.impl.error.NoSuchCommand;
-import com.epam.finaltask.university.controller.command.impl.logic.*;
+import com.epam.finaltask.university.controller.command.impl.logic.AuthenticateCommand;
+import com.epam.finaltask.university.controller.command.impl.logic.ConfirmFacultyApplicationsCommand;
+import com.epam.finaltask.university.controller.command.impl.logic.LogOutCommand;
+import com.epam.finaltask.university.controller.command.impl.logic.SetLocaleCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.creation.*;
 import com.epam.finaltask.university.controller.command.impl.logic.deletion.*;
 import com.epam.finaltask.university.controller.command.impl.logic.search.*;
@@ -14,6 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * The type Command helper.
+ */
 public class CommandHelper {
 
     private static final String EMPTY_COMMAND_NAME = "";
@@ -49,7 +55,7 @@ public class CommandHelper {
         commandMap.put(CommandName.GO_FACULTY_MANAGEMENT, new GoFacultyManagementCommand());
         commandMap.put(CommandName.GO_SUBJECT_MANAGEMENT, new GoSubjectManagementCommand());
         commandMap.put(CommandName.GO_TERMS_MANAGEMENT, new GoTermsManagementCommand());
-        commandMap.put(CommandName.GO_FACULTY_DATA, new GoFacutyDataCommand());
+        commandMap.put(CommandName.GO_FACULTY_DATA, new GoFacultyDataCommand());
 
         commandMap.put(CommandName.SEARCH_PROFILE_BY_PASSPORT, new FindProfileByPassportIdCommand());
         commandMap.put(CommandName.SEARCH_PROFILES_BY_LAST_NAME, new FindProfilesByLastNameCommand());
@@ -87,11 +93,22 @@ public class CommandHelper {
         commandMap.put(CommandName.SET_LOCALE, new SetLocaleCommand());
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static CommandHelper getInstance() {
         return instance;
     }
 
 
+    /**
+     * Gets command.
+     *
+     * @param commandName the command name
+     * @return the command
+     */
     public Command getCommand(String commandName) {
         try {
             commandName = prepareCommandName(commandName);
@@ -105,6 +122,12 @@ public class CommandHelper {
         }
     }
 
+    /**
+     * Prepares and formats command name string.
+     *
+     * @param commandName
+     * @return prepared string
+     */
     private String prepareCommandName(String commandName) {
         if (commandName == null) {
             commandName = EMPTY_COMMAND_NAME;

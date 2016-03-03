@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.dao.connection.exception;
 
+
 /**
- * Created by Zheny Chaichits on 01.02.16.
+ * Resource manager exception.
  */
 public class ResourceManagerException extends Exception {
     public ResourceManagerException() {

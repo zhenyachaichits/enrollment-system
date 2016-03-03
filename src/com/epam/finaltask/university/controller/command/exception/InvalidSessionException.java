@@ -1,7 +1,7 @@
 package com.epam.finaltask.university.controller.command.exception;
 
 /**
- * Created by Zheny Chaichits on 20.02.2016.
+ * The type Invalid session exception.
  */
 public class InvalidSessionException extends CommandException {
 

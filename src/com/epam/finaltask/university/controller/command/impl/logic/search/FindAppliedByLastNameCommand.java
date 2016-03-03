@@ -17,10 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 26.02.2016.
+ * Find applied by last name command.
  */
 public class FindAppliedByLastNameCommand implements Command {
+    /**
+     * Execute searching applied profiles by last name.
+     * Access is allowed for users with status: SUPPORT
+     * @param request
+     * @param response
+     * @return support search page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

@@ -1,9 +1,8 @@
 package com.epam.finaltask.university.controller.command.exception;
 
-import com.epam.finaltask.university.controller.command.Command;
 
 /**
- * Created by Zheny Chaichits on 22.02.2016.
+ * The type Access denied exception.
  */
 public class AccessDeniedException extends CommandException {
 

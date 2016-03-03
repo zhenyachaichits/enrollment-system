@@ -2,17 +2,17 @@ package com.epam.finaltask.university.bean;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * The type Terms.
  */
 public class Terms implements Serializable {
     private long id;
     private Calendar startDate;
     private Calendar endDate;
 
-    public Terms() {}
+    public Terms() {
+    }
 
     public long getId() {
         return id;

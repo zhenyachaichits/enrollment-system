@@ -6,8 +6,9 @@ import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolExce
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+
 /**
- * Created by Zheny Chaichits on 04.02.16.
+ * Servlet listener.
  */
 public class ServletListener implements ServletContextListener {
 
@@ -18,13 +19,12 @@ public class ServletListener implements ServletContextListener {
 
             connectionPool.init();
         } catch (ConnectionPoolException e) {
-            e.printStackTrace();  //todo: logging ect
+            //todo: logging ect
         }
     }
 
     public void contextDestroyed(ServletContextEvent arg) {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
-
         connectionPool.destroy();
     }
 }

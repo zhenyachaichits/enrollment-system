@@ -17,10 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 29.02.2016.
+ * Find users by role command.
  */
 public class FindUsersByRoleCommand implements Command {
+    /**
+     * Execute searching users by selected role with pagination.
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return user management page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

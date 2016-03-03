@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * User dao bean factory.
  */
 public class UserDaoBeanFactory implements DaoBeanFactory<User> {
 
@@ -29,6 +29,13 @@ public class UserDaoBeanFactory implements DaoBeanFactory<User> {
     private static final String PASSWORD_HASH_KEY = "password_hash";
     private static final String ROLE_KEY = "role";
 
+    /**
+     * Constructs User bean from ResultSet
+     *
+     * @param resultSet the result set
+     * @return
+     * @throws SQLException
+     */
     @Override
     public User construct(ResultSet resultSet) throws SQLException {
         User user = new User();

@@ -9,8 +9,9 @@ import com.epam.finaltask.university.service.exception.ServiceException;
 
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 16.02.2016.
+ * Faculty service.
  */
 public class FacultyService {
 
@@ -24,6 +25,12 @@ public class FacultyService {
         return FacultyServiceHolder.INSTANCE;
     }
 
+    /**
+     * Gets all faculties.
+     *
+     * @return the all faculties
+     * @throws ServiceException the service exception
+     */
     public List<Faculty> getAllFaculties() throws ServiceException {
         try {
             FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
@@ -35,6 +42,13 @@ public class FacultyService {
         }
     }
 
+    /**
+     * Check faculty existence.
+     *
+     * @param name the name
+     * @return true if exists, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkFacultyExistence(String name) throws ServiceException {
         try {
             FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
@@ -45,6 +59,13 @@ public class FacultyService {
         }
     }
 
+    /**
+     * Check update availability.
+     *
+     * @param faculty the faculty
+     * @return true if available, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkUpdateAvailability(Faculty faculty) throws ServiceException {
         try {
             FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
@@ -55,6 +76,13 @@ public class FacultyService {
         }
     }
 
+    /**
+     * Find faculty by id.
+     *
+     * @param facultyId the faculty id
+     * @return the faculty
+     * @throws ServiceException the service exception
+     */
     public Faculty findFacultyById(long facultyId) throws ServiceException {
         try {
             FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();

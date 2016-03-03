@@ -3,8 +3,9 @@ package com.epam.finaltask.university.filter;
 import javax.servlet.*;
 import java.io.IOException;
 
+
 /**
- * Created by Zheny Chaichits on 06.02.16.
+ * Charset filter.
  */
 public class CharsetFilter implements Filter {
 

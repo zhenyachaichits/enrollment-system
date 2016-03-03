@@ -19,10 +19,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Update student data command.
  */
 public class UpdateStudentDataCommand implements Command {
+    /**
+     * Execute student data updating.
+     * Access is allowed for users with status: SUPPORT
+     * @param request
+     * @param response
+     * @return home page or previous page redirect query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
@@ -45,7 +54,7 @@ public class UpdateStudentDataCommand implements Command {
 
             String currentQuery = (String) session.getAttribute(SessionParameterName.CURRENT_PAGE);
 
-            return currentQuery == null ? CommandName.GO_APPLY_FORM.getQueryString() : currentQuery;
+            return currentQuery == null ? CommandName.GO_HOME.getQueryString() : currentQuery;
 
         } catch (CommandBeanFactoryException | NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't process profile update command");

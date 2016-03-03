@@ -22,10 +22,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 26.02.2016.
+ * Go application command.
  */
 public class GoApplicationCommand implements Command {
+    /**
+     * Execute navigation to application page.
+     * Access is allowed for users with status: SUPPORT
+     *
+     * @param request  the request
+     * @param response the response
+     * @return application page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

@@ -7,8 +7,9 @@ import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
+
 /**
- * Created by Zheny Chaichits on 18.02.2016.
+ * Student service.
  */
 public class StudentService {
 
@@ -22,6 +23,13 @@ public class StudentService {
         return StudentServiceHolder.INSTANCE;
     }
 
+    /**
+     * Check student existence.
+     *
+     * @param student the student
+     * @return true if exists, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkStudentExistence(Student student) throws ServiceException {
         try {
             StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();
@@ -32,6 +40,13 @@ public class StudentService {
         }
     }
 
+    /**
+     * Check update availability.
+     *
+     * @param student the student
+     * @return true if available, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkUpdateAvailability(Student student) throws ServiceException {
         try {
             StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();
@@ -42,6 +57,13 @@ public class StudentService {
         }
     }
 
+    /**
+     * Gets student by email.
+     *
+     * @param email the email
+     * @return the student by email
+     * @throws ServiceException the service exception
+     */
     public Student getStudentByEmail(String email) throws ServiceException {
         try {
             StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();

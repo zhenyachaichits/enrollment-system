@@ -22,10 +22,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 27.02.2016.
+ * Go application data command.
  */
 public class GoApplicationDataCommand implements Command {
+    /**
+     * Execute navigation to application data
+     * Access is allowed for users with status: STUDENT
+     *
+     * @param request  the request
+     * @param response the response
+     * @return application data page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

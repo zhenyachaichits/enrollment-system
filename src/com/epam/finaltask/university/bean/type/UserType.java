@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.bean.type;
 
+
 /**
- * Created by Zheny Chaichits on 04.02.16.
+ * The enum User type.
  */
 public enum UserType {
     STUDENT,

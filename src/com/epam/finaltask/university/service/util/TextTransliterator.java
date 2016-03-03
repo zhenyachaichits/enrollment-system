@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.service.util;
 
+
 /**
- * Created by Zheny Chaichits on 16.02.2016.
+ * Text transliterator.
  */
 public class TextTransliterator {
 
@@ -51,6 +52,12 @@ public class TextTransliterator {
         }
     }
 
+    /**
+     * Translitetare string.
+     *
+     * @param text the text
+     * @return the transliterated string
+     */
     public static String translitetare(String text) {
         char charBuffer[] = text.toCharArray();
         StringBuilder sb = new StringBuilder(text.length());

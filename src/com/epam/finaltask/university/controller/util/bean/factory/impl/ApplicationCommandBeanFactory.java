@@ -8,8 +8,9 @@ import com.epam.finaltask.university.controller.util.bean.factory.exception.Comm
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Application command bean factory.
  */
 public class ApplicationCommandBeanFactory implements CommandBeanFactory<Application> {
 
@@ -24,8 +25,17 @@ public class ApplicationCommandBeanFactory implements CommandBeanFactory<Applica
         return ApplicationCompilerHolder.INSTANCE;
     }
 
+    /**
+     * Parameter means that checkbox is checked
+     */
     private static final String CHECKED = "on";
 
+    /**
+     * Creates new application bean from request parameters
+     * @param request
+     * @return new application bean reference
+     * @throws CommandBeanFactoryException
+     */
     @Override
     public Application constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
         try {

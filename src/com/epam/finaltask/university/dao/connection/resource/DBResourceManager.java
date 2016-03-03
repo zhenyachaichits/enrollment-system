@@ -1,12 +1,10 @@
 package com.epam.finaltask.university.dao.connection.resource;
 
-import com.epam.finaltask.university.dao.connection.exception.ResourceManagerException;
-
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+
 /**
- * Created by Zheny Chaichits on 01.02.16.
+ * Database resource manager.
  */
 public class DBResourceManager {
 
@@ -24,13 +22,13 @@ public class DBResourceManager {
         return instance;
     }
 
+    /**
+     * Gets parameter.
+     *
+     * @param name the name
+     * @return the parameter
+     */
     public String getParameter(String name) /*throws ResourceManagerException*/ {
         return bundle.getString(name);
-
-        /*try {
-        return bundle.getString(name);
-        } catch (MissingResourceException e) {
-            throw new ResourceManagerException("Couldn't find parameter by name", e);
-        }*/
     }
 }

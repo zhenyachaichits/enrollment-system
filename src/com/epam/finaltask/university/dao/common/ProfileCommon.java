@@ -7,8 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 /**
- * Created by Zheny Chaichits on 18.02.2016.
+ * Profile common methods which can be used for transactions ect..
  */
 public class ProfileCommon {
 
@@ -41,6 +42,14 @@ public class ProfileCommon {
     private static final String DELETE_PROFILE_QUERY = "UPDATE profile SET status = 'DELETED' " +
             "WHERE user_user_id = ?";
 
+    /**
+     * Create new profile.
+     *
+     * @param profile    the profile
+     * @param connection the connection
+     * @return new profile or null in case of failure
+     * @throws SQLException the sql exception
+     */
     public Profile createProfile(Profile profile, Connection connection) throws SQLException {
         String query;
 
@@ -64,6 +73,14 @@ public class ProfileCommon {
         }
     }
 
+    /**
+     * Update profile.
+     *
+     * @param profile    the profile
+     * @param connection the connection
+     * @return the profile or null in case of failure
+     * @throws SQLException the sql exception
+     */
     public Profile updateProfile(Profile profile, Connection connection) throws SQLException {
         String query;
 
@@ -86,6 +103,14 @@ public class ProfileCommon {
         }
     }
 
+    /**
+     * Delete profile boolean.
+     *
+     * @param userId     the user id
+     * @param connection the connection
+     * @return true if deletion successful, false if not
+     * @throws SQLException the sql exception
+     */
     public boolean deleteProfile(Long userId, Connection connection) throws SQLException {
         try (
                 PreparedStatement statement = connection.prepareStatement(DELETE_PROFILE_QUERY);
@@ -97,6 +122,14 @@ public class ProfileCommon {
         }
     }
 
+    /**
+     * Update profile application status boolean.
+     *
+     * @param profile    the profile
+     * @param connection the connection
+     * @return true if update successful, false if not
+     * @throws SQLException the sql exception
+     */
     public boolean updateProfileApplicationStatus(Profile profile, Connection connection) throws SQLException {
         try (
                 PreparedStatement statement = connection.prepareStatement(UPDATE_APPLICATION_STATUS_QUERY);
@@ -110,6 +143,13 @@ public class ProfileCommon {
         }
     }
 
+    /**
+     * Fill statement with needed profile values
+     *
+     * @param statement the statement
+     * @param profile   the profile
+     * @throws SQLException the sql exception
+     */
     private void fillInStatement(PreparedStatement statement, Profile profile) throws SQLException {
         int i = MIN_PARAMETER_INDEX;
 

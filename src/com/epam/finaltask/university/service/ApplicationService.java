@@ -8,8 +8,9 @@ import com.epam.finaltask.university.dao.exception.DaoFactoryException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Application service.
  */
 public class ApplicationService {
 
@@ -25,6 +26,13 @@ public class ApplicationService {
 
     private static final boolean OUT_COMPETITION = true;
 
+    /**
+     * Check profile id existence.
+     *
+     * @param profileId the profile id
+     * @return true if exists, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkProfileIdExistence(long profileId) throws ServiceException {
         try {
             ApplicationDao dao = DaoFactory.getDaoFactory().getApplicationDao();
@@ -35,6 +43,13 @@ public class ApplicationService {
         }
     }
 
+    /**
+     * Find applications by profile id.
+     *
+     * @param profileId the profile id
+     * @return the application
+     * @throws ServiceException the service exception
+     */
     public Application findApplicationByProfileId(long profileId) throws ServiceException {
         try {
             ApplicationDao dao = DaoFactory.getDaoFactory().getApplicationDao();
@@ -66,6 +81,15 @@ public class ApplicationService {
         }
     }
 
+    /**
+     * Find passing points.
+     *
+     * @param facultyId  the faculty id
+     * @param isFreeForm the is free form
+     * @param quota      the quota
+     * @return current passing point
+     * @throws ServiceException the service exception
+     */
     public int findPassingPoints(long facultyId, boolean isFreeForm, int quota) throws ServiceException {
         int outCompetition = findOutCompetitionNumber(facultyId, true);
 

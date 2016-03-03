@@ -1,8 +1,6 @@
 package com.epam.finaltask.university.controller.command.impl.navigation;
 
-import com.epam.finaltask.university.bean.Faculty;
 import com.epam.finaltask.university.bean.User;
-import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.RequestParameterName;
@@ -12,20 +10,27 @@ import com.epam.finaltask.university.controller.command.exception.CommandExcepti
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
 import com.epam.finaltask.university.controller.util.UrlBuilder;
-import com.epam.finaltask.university.service.FacultyService;
-import com.epam.finaltask.university.service.StudentService;
 import com.epam.finaltask.university.service.UserService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+
 
 /**
- * Created by Zheny Chaichits on 29.02.2016.
+ * Go user data command.
  */
 public class GoUserDataCommand implements Command {
+    /**
+     * Go user fata.
+     * Access is allowed for users with status: ADMIN
+     *
+     * @param request  the request
+     * @param response the response
+     * @return Udate
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

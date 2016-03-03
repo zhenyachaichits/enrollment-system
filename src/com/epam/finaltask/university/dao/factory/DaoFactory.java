@@ -8,8 +8,9 @@ import com.epam.finaltask.university.dao.type.DaoType;
 
 import java.util.ResourceBundle;
 
+
 /**
- * Created by Zheny Chaichits on 24.01.16.
+ * Dao factory.
  */
 public abstract class DaoFactory {
 

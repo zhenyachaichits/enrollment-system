@@ -1,25 +1,20 @@
 package com.epam.finaltask.university.dao.impl;
 
 import com.epam.finaltask.university.bean.Faculty;
-import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.User;
-import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.dao.FacultyDao;
-import com.epam.finaltask.university.dao.common.FacultyCommon;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.FacultyDaoBeanFactory;
-import com.epam.finaltask.university.dao.util.bean.factory.impl.ProfileDaoBeanFactory;
-import com.epam.finaltask.university.dao.util.bean.factory.impl.UserDaoBeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * Sql faculty dao.
  */
 public class SqlFacultyDaoImpl implements FacultyDao {
 
@@ -60,6 +55,13 @@ public class SqlFacultyDaoImpl implements FacultyDao {
     private static final String UPDATE_POINTS_QUERY = "UPDATE faculty SET free_point = ?, paid_point = ? " +
             "WHERE faculty_id = ? AND status = 'ACTIVE'";
 
+    /**
+     * Creates new faculty.
+     *
+     * @param faculty
+     * @return added faculty in case of success, else false
+     * @throws DaoException
+     */
     @Override
     public Faculty add(Faculty faculty) throws DaoException {
         Connection connection = null;
@@ -84,7 +86,7 @@ public class SqlFacultyDaoImpl implements FacultyDao {
                 }
                 statement = connection.prepareStatement(ADD_FACULTY_SUBJECT_QUERY);
 
-                for(Long subjectId : faculty.getSubjects()) {
+                for (Long subjectId : faculty.getSubjects()) {
                     statement.setLong(1, faculty.getId());
                     statement.setLong(2, subjectId);
 
@@ -124,6 +126,13 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         }
     }
 
+    /**
+     * Search faculty by name
+     *
+     * @param name faculty name
+     * @return found faculty or null if faculty was not found
+     * @throws DaoException
+     */
     @Override
     public Faculty find(String name) throws DaoException {
         try (
@@ -145,6 +154,13 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         }
     }
 
+    /**
+     * Update faculty data.
+     *
+     * @param faculty
+     * @return updated faculty or null if couldn't update
+     * @throws DaoException
+     */
     @Override
     public Faculty update(Faculty faculty) throws DaoException {
         try (
@@ -165,6 +181,13 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         }
     }
 
+    /**
+     * Deleting faculty by name
+     *
+     * @param name faculty name
+     * @return deleted faculty or null if couldn't delete
+     * @throws DaoException
+     */
     @Override
     public Faculty delete(String name) throws DaoException {
         try (
@@ -176,7 +199,7 @@ public class SqlFacultyDaoImpl implements FacultyDao {
             int result = statement.executeUpdate();
 
             if (result != 0) {
-               Faculty faculty = new Faculty();
+                Faculty faculty = new Faculty();
                 faculty.setName(name);
 
                 return faculty;
@@ -188,6 +211,12 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         }
     }
 
+    /**
+     * Gets all faculties
+     *
+     * @return list of faculties
+     * @throws DaoException
+     */
     @Override
     public List<Faculty> all() throws DaoException {
         try (
@@ -210,7 +239,13 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         }
     }
 
-
+    /**
+     * Searching faculties by faculty ID
+     *
+     * @param facultyId faculty ID
+     * @return found faculty or null if couldn't find
+     * @throws DaoException
+     */
     @Override
     public Faculty find(long facultyId) throws DaoException {
         try (
@@ -232,6 +267,13 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         }
     }
 
+    /**
+     * Checks faculte update availability
+     *
+     * @param faculty faculty
+     * @return true if update is available, else false
+     * @throws DaoException
+     */
     @Override
     public boolean checkUpdateAvailability(Faculty faculty) throws DaoException {
         try (
@@ -248,6 +290,13 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         }
     }
 
+    /**
+     * Delete faculty by faculty ID
+     *
+     * @param facultyId faculty ID
+     * @return true if faculty is deleted, else false
+     * @throws DaoException
+     */
     @Override
     public boolean delete(long facultyId) throws DaoException {
         try (
@@ -264,6 +313,14 @@ public class SqlFacultyDaoImpl implements FacultyDao {
         }
     }
 
+    /**
+     * Updates faculty points by faculty ID
+     * @param facultyId faculty ID
+     * @param freePoint free form points
+     * @param paidPoint paid form points
+     * @return true if updated, else false
+     * @throws DaoException
+     */
     @Override
     public boolean updatePoints(long facultyId, int freePoint, int paidPoint) throws DaoException {
         try (

@@ -16,16 +16,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by Zheny Chaichits on 04.02.16.
+ * Authenticate command.
  */
 public class AuthenticateCommand implements Command {
 
     private static final String ID_COOKIE = "university_user_id";
-    private static final int COOKIE_AGE = 2_592_000; // 30 days
+    /**
+     * Constant equals 30 days
+     */
+    private static final int COOKIE_AGE = 2_592_000;
     private static final String COOKIE_PATH = "/";
 
     private static final String REMEMBERED_CHECKED = "on";
 
+    /**
+     * Execute user authentication. If needed, current user data will be saved in cookies.
+     * By default, user data will be saved in current session.
+     * @param request
+     * @param response
+     * @return home page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
@@ -58,6 +69,11 @@ public class AuthenticateCommand implements Command {
         }
     }
 
+    /**
+     * Saves user data in cookies
+     * @param user
+     * @param response
+     */
     private void saveInCookies(User user, HttpServletResponse response) {
         String id = String.valueOf(user.getId());
 
@@ -69,6 +85,11 @@ public class AuthenticateCommand implements Command {
         response.addCookie(idCookie);
     }
 
+    /**
+     * Saves user data in session
+     * @param user
+     * @param request
+     */
     private void saveInSession(User user, HttpServletRequest request) {
         HttpSession session = request.getSession(true);
 

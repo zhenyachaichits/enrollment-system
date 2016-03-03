@@ -4,11 +4,18 @@ import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.User;
 
+
 /**
- * Created by Zheny Chaichits on 18.02.2016.
+ * Student validator.
  */
 public class StudentValidator {
 
+    /**
+     * Validate student.
+     *
+     * @param student the student
+     * @return true if valid, else false
+     */
     public static boolean validateStudent(Student student) {
         User user = student.getUser();
         Profile profile = student.getProfile();
@@ -19,6 +26,12 @@ public class StudentValidator {
         return isUserValid && isProfileValid;
     }
 
+    /**
+     * Validate student for update.
+     *
+     * @param student the student
+     * @return true if valid, else false
+     */
     public static boolean validateStudentForUpdate(Student student) {
         User user = student.getUser();
         Profile profile = student.getProfile();

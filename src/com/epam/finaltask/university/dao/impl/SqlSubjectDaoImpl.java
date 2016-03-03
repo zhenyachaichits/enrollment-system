@@ -12,8 +12,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * Sql subject dao.
  */
 public class SqlSubjectDaoImpl implements SubjectDao {
 
@@ -45,9 +46,16 @@ public class SqlSubjectDaoImpl implements SubjectDao {
             "WHERE name = ? ";
     private static final String DELETE_SUBJECT_BY_ID_QUERY = "UPDATE subject SET status = 'DELETED' " +
             "WHERE subject_id = ? ";
-    private static final String CHECK_UPDATE_AVALIABILITY_QUERY = "SELECT * FROM subject WHERE subject_id <> ? AND " +
+    private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT * FROM subject WHERE subject_id <> ? AND " +
             "name = ? AND status = 'ACTIVE'";
 
+    /**
+     * Gets all subjects by faculty ID
+     *
+     * @param facultyId
+     * @return list of subjects
+     * @throws DaoException
+     */
     @Override
     public List<Subject> getSubjectsByFacultyId(long facultyId) throws DaoException {
         try (
@@ -72,6 +80,13 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         }
     }
 
+    /**
+     * Gets subject by ID
+     *
+     * @param id subject ID
+     * @return subject or null, if couldn't find
+     * @throws DaoException
+     */
     @Override
     public Subject getSubjectById(long id) throws DaoException {
         try (
@@ -98,6 +113,13 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         }
     }
 
+    /**
+     * Delete subject by ID
+     *
+     * @param id subject ID
+     * @return true if deleted, else false
+     * @throws DaoException
+     */
     @Override
     public boolean delete(long id) throws DaoException {
         try (
@@ -114,11 +136,18 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         }
     }
 
+    /**
+     * Checks subject's update availability
+     *
+     * @param subject
+     * @return true if update available, else false
+     * @throws DaoException
+     */
     @Override
     public boolean checkUpdateAvailability(Subject subject) throws DaoException {
         try (
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVALIABILITY_QUERY);
+                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVAILABILITY_QUERY);
         ) {
             statement.setLong(1, subject.getId());
             statement.setString(2, subject.getName());
@@ -131,6 +160,13 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         }
     }
 
+    /**
+     * Creates new subject
+     *
+     * @param subject
+     * @return created subject or null if wasn't created
+     * @throws DaoException
+     */
     @Override
     public Subject add(Subject subject) throws DaoException {
         try (
@@ -149,6 +185,13 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         }
     }
 
+    /**
+     * Search subject by name
+     *
+     * @param name subject name
+     * @return found subject or null
+     * @throws DaoException
+     */
     @Override
     public Subject find(String name) throws DaoException {
         try (
@@ -172,6 +215,13 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         }
     }
 
+    /**
+     * Updates subject data
+     *
+     * @param subject
+     * @return updated subject or null if couldn't update
+     * @throws DaoException
+     */
     @Override
     public Subject update(Subject subject) throws DaoException {
         try (
@@ -191,6 +241,13 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         }
     }
 
+    /**
+     * Delete subject by name
+     *
+     * @param name
+     * @return deleted subject or null if was not deleted
+     * @throws DaoException
+     */
     @Override
     public Subject delete(String name) throws DaoException {
         try (
@@ -211,6 +268,12 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         }
     }
 
+    /**
+     * Gets all subjects
+     *
+     * @return list of subjects
+     * @throws DaoException
+     */
     @Override
     public List<Subject> all() throws DaoException {
         try (

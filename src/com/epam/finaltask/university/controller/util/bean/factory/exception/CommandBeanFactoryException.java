@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.controller.util.bean.factory.exception;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Command bean factory exception.
  */
 public class CommandBeanFactoryException extends Exception {
 

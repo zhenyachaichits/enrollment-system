@@ -7,8 +7,9 @@ import com.epam.finaltask.university.controller.util.bean.factory.exception.Comm
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Subject command bean factory.
  */
 public class SubjectCommandBeanFactory implements CommandBeanFactory<Subject> {
 
@@ -23,7 +24,13 @@ public class SubjectCommandBeanFactory implements CommandBeanFactory<Subject> {
         return SubjectBeanFactoryHolder.INSTANCE;
     }
 
-
+    /**
+     * Creates new subject bean from request parameters
+     *
+     * @param request
+     * @return new subject reference
+     * @throws CommandBeanFactoryException
+     */
     @Override
     public Subject constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
         try {
@@ -37,7 +44,7 @@ public class SubjectCommandBeanFactory implements CommandBeanFactory<Subject> {
             subject.setMinPoint(minPoint);
 
             return subject;
-        }  catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new CommandBeanFactoryException("Couldn't build subject bean", e);
         }
     }

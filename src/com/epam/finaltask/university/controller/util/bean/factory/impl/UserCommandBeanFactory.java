@@ -8,8 +8,9 @@ import com.epam.finaltask.university.controller.util.bean.factory.exception.Comm
 
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * User command bean factory.
  */
 public class UserCommandBeanFactory implements CommandBeanFactory<User> {
 
@@ -24,6 +25,13 @@ public class UserCommandBeanFactory implements CommandBeanFactory<User> {
         return UserBeanFactoryHolder.INSTANCE;
     }
 
+    /**
+     * Creates new user bean from request parameters
+     *
+     * @param request
+     * @return new user reference
+     * @throws CommandBeanFactoryException
+     */
     @Override
     public User constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
         try {

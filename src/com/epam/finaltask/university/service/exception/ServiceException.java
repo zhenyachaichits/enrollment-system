@@ -2,7 +2,7 @@ package com.epam.finaltask.university.service.exception;
 
 
 /**
- * Created by Zheny Chaichits on 04.02.16.
+ * Service exception.
  */
 public class ServiceException extends Exception {
     public ServiceException() {

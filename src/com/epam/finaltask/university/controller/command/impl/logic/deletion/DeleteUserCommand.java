@@ -16,10 +16,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 01.03.2016.
+ * Delete user command.
  */
 public class DeleteUserCommand implements Command {
+    /**
+     * Execute deletion of user account by user ID. In case user is trying to delete his/her
+     * own account, account will be deleted and user will be redirected to log out command .
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return log out command or user management page redirection query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

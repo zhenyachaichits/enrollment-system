@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
- * Created by Zheny Chaichits on 01.03.2016.
+ * Faculty command bean factory.
  */
 public class FacultyCommandBeanFactory implements CommandBeanFactory<Faculty> {
 
@@ -25,6 +26,12 @@ public class FacultyCommandBeanFactory implements CommandBeanFactory<Faculty> {
         return FacultyBeanFactoryHolder.INSTANCE;
     }
 
+    /**
+     * Creates new faculty bean from request parameters
+     * @param request
+     * @return new faculty bean reference
+     * @throws CommandBeanFactoryException
+     */
     @Override
     public Faculty constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
         try {

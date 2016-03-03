@@ -13,13 +13,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 11.02.2016.
+ * Command Authenticate with cookie.
  */
 public class AuthenticateWithCookieCommand implements Command {
 
     private static final String COOKIE_ID_NAME = "university_user_id";
 
+    /**
+     * Execute authentication with cookie command
+     * @param request
+     * @param response
+     * @return constant from class AjaxResponseValue
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         Cookie[] cookies = request.getCookies();
@@ -38,6 +46,13 @@ public class AuthenticateWithCookieCommand implements Command {
         return AjaxResponseValue.NEGATIVE;
     }
 
+
+    /**
+     * Add found by ID from cookie to current session
+     * @param cookie
+     * @param session
+     * @throws CommandException
+     */
     private void addFoundToSession(Cookie cookie, HttpSession session) throws CommandException {
         try {
             UserService service = UserService.getInstance();

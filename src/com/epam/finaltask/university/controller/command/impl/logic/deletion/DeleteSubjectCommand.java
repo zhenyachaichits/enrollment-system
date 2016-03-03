@@ -14,10 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Delete subject command.
  */
 public class DeleteSubjectCommand implements Command {
+    /**
+     * Execute subject deletion by subject ID.
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return subject management page redirection query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

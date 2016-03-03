@@ -13,8 +13,9 @@ import com.epam.finaltask.university.validator.ProfileValidator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
- * Created by Zheny Chaichits on 14.02.2016.
+ * Locking profile service.
  */
 public class LockingProfileService {
     private LockingProfileService() {
@@ -30,6 +31,13 @@ public class LockingProfileService {
 
     private static final Lock lock = new ReentrantLock();
 
+    /**
+     * Create new profile.
+     *
+     * @param profile the profile
+     * @return the profile
+     * @throws ServiceException the service exception
+     */
     public Profile createNewProfile(Profile profile) throws ServiceException {
         ProfileService profileService = ProfileService.getInstance();
 
@@ -52,6 +60,13 @@ public class LockingProfileService {
         }
     }
 
+    /**
+     * Update profile.
+     *
+     * @param profile the profile
+     * @return the profile
+     * @throws ServiceException the service exception
+     */
     public Profile updateProfile(Profile profile) throws ServiceException {
         ProfileService profileService = ProfileService.getInstance();
 

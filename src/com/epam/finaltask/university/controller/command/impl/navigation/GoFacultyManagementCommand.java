@@ -21,10 +21,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 01.03.2016.
+ * Go faculty management command.
  */
 public class GoFacultyManagementCommand implements Command {
+    /**
+     * Execute navigation to faculty management
+     *
+     * @param request  the request
+     * @param response the response
+     * @return faculty management page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

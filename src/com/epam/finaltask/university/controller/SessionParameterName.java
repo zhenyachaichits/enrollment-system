@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.controller;
 
+
 /**
- * Created by Zheny Chaichits on 18.02.2016.
+ * Session parameter name constants holder.
  */
 public final class SessionParameterName {
     private SessionParameterName() {}

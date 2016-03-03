@@ -17,10 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Create terms command.
  */
 public class CreateTermsCommand implements Command {
+    /**
+     * Execute creation of new terms.
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return terms management page name redirection query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

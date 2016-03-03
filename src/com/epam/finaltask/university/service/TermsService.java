@@ -9,8 +9,9 @@ import com.epam.finaltask.university.service.exception.ServiceException;
 
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 01.03.2016.
+ * Terms service.
  */
 public class TermsService {
 
@@ -24,6 +25,12 @@ public class TermsService {
         return TermsServiceHolder.INSTANCE;
     }
 
+    /**
+     * Gets all terms.
+     *
+     * @return the all terms
+     * @throws ServiceException the service exception
+     */
     public List<Terms> getAllTerms() throws ServiceException {
         try {
             TermsDao dao = DaoFactory.getDaoFactory().getTermsDao();
@@ -34,6 +41,13 @@ public class TermsService {
         }
     }
 
+    /**
+     * Check terms existence.
+     *
+     * @param terms the terms
+     * @return true if exists, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkTermsExistence(Terms terms) throws ServiceException {
         try {
             TermsDao dao = DaoFactory.getDaoFactory().getTermsDao();
@@ -44,6 +58,13 @@ public class TermsService {
         }
     }
 
+    /**
+     * Check update availability.
+     *
+     * @param terms the terms
+     * @return true if available, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkUpdateAvailability(Terms terms) throws ServiceException {
         try {
             TermsDao dao = DaoFactory.getDaoFactory().getTermsDao();

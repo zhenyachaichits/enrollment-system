@@ -7,8 +7,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.IOException;
 
+
 /**
- * Created by Zheny Chaichits on 16.02.2016.
+ * Transliteration tag.
  */
 public class TransliterationTag extends BodyTagSupport {
 

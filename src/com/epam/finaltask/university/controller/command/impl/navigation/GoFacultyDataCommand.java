@@ -1,7 +1,6 @@
 package com.epam.finaltask.university.controller.command.impl.navigation;
 
 import com.epam.finaltask.university.bean.Faculty;
-import com.epam.finaltask.university.bean.Subject;
 import com.epam.finaltask.university.bean.Terms;
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.JspPageName;
@@ -12,7 +11,6 @@ import com.epam.finaltask.university.controller.command.exception.CommandExcepti
 import com.epam.finaltask.university.controller.util.AccessManager;
 import com.epam.finaltask.university.controller.util.UrlBuilder;
 import com.epam.finaltask.university.service.FacultyService;
-import com.epam.finaltask.university.service.SubjectService;
 import com.epam.finaltask.university.service.TermsService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
@@ -21,10 +19,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Go facuty data command.
  */
-public class GoFacutyDataCommand implements Command {
+public class GoFacultyDataCommand implements Command {
+    /**
+     * Execute navigation to faculty data page
+     * Access is allowed for users with status: ADMIN;
+     *
+     * @param request  the request
+     * @param response the response
+     * @return faculty data page
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

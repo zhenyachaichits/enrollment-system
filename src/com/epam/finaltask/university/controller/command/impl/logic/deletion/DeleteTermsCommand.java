@@ -15,9 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Delete terms command.
  */
 public class DeleteTermsCommand implements Command {
+    /**
+     * Execute terns deletion by terms ID.
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return terms management page redirection query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

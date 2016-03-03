@@ -1,10 +1,8 @@
 package com.epam.finaltask.university.controller.command.impl.logic.update;
 
-import com.epam.finaltask.university.bean.Subject;
 import com.epam.finaltask.university.bean.Terms;
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.RequestParameterName;
-import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
@@ -13,7 +11,6 @@ import com.epam.finaltask.university.controller.util.AccessManager;
 import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
 import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
 import com.epam.finaltask.university.controller.util.bean.factory.impl.TermsCommandBeanFactory;
-import com.epam.finaltask.university.service.concurrent.LockingSubjectService;
 import com.epam.finaltask.university.service.concurrent.LockingTermsService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
@@ -21,10 +18,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Update terms command.
  */
 public class UpdateTermsCommand implements Command {
+    /**
+     * Execute update of terms by terms ID.
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return terms management page redirect query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

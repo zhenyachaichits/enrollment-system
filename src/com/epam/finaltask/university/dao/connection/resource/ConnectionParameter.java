@@ -1,9 +1,8 @@
 package com.epam.finaltask.university.dao.connection.resource;
 
-import com.epam.finaltask.university.dao.connection.exception.ResourceManagerException;
 
 /**
- * Created by Zheny Chaichits on 01.02.16.
+ * Connection parameter.
  */
 public class ConnectionParameter {
 
@@ -29,6 +28,7 @@ public class ConnectionParameter {
         password = rm.getParameter(PASSWORD);
         poolsize = rm.getParameter(POOL_SIZE);
     }
+
 
     public String getDriver() {
         return driver;

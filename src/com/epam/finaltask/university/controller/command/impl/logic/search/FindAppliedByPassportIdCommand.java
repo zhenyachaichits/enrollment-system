@@ -16,13 +16,23 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 26.02.2016.
+ * Find applied by passport id command.
  */
 public class FindAppliedByPassportIdCommand implements Command {
 
     private static final int LIST_SIZE = 1;
 
+    /**
+     * Execute searching applied profiles by passport ID.
+     * Access is allowed for users with status: SUPPORT
+     *
+     * @param request
+     * @param response
+     * @throws CommandException
+     * @returnsupport search page name
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

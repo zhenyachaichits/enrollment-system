@@ -18,8 +18,9 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Locking application service.
  */
 public class LockingApplicationService {
 
@@ -38,6 +39,13 @@ public class LockingApplicationService {
 
     private static final boolean OUT_COMPETITION = true;
 
+    /**
+     * Create new application.
+     *
+     * @param application the application
+     * @return the application
+     * @throws ServiceException the service exception
+     */
     public Application createNewApplication(Application application) throws ServiceException {
         ApplicationService applicationService = ApplicationService.getInstance();
 
@@ -61,6 +69,13 @@ public class LockingApplicationService {
         }
     }
 
+    /**
+     * Delete application by profile id.
+     *
+     * @param profileId the profile id
+     * @return true if deleted, else false
+     * @throws ServiceException the service exception
+     */
     public boolean deleteApplicationByProfileId(long profileId) throws ServiceException {
         lock.lock();
         try {
@@ -74,6 +89,13 @@ public class LockingApplicationService {
         }
     }
 
+    /**
+     * Confirm application(change application status).
+     *
+     * @param profileId the profile id
+     * @return the boolean
+     * @throws ServiceException the service exception
+     */
     public boolean confirmApplication(long profileId) throws ServiceException {
         lock.lock();
         try {
@@ -87,6 +109,15 @@ public class LockingApplicationService {
         }
     }
 
+    /**
+     * Confirm faculty applications.
+     *
+     * @param facultyId  the faculty id
+     * @param isFreeForm the is free form
+     * @param quota      the quota
+     * @return true if confirmed, else false
+     * @throws ServiceException the service exception
+     */
     public boolean confirmFacultyApplications(long facultyId, boolean isFreeForm, int quota) throws ServiceException {
         lock.lock();
         try {

@@ -7,8 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 /**
- * Created by Zheny Chaichits on 28.02.2016.
+ * Faculty common  methods which can be used for transactions ect..
  */
 public class FacultyCommon {
     private FacultyCommon() {
@@ -25,6 +26,14 @@ public class FacultyCommon {
     private static final String ADD_FACULTY_QUERY = "INSERT INTO faculty (name, free_quota, paid_quota, terms_terms_id) " +
             "VALUES (?, ?, ?, ?)";
 
+    /**
+     * Create new faculty.
+     *
+     * @param faculty    the faculty
+     * @param connection the connection
+     * @return created faculty
+     * @throws SQLException the sql exception
+     */
     public Faculty createFaculty(Faculty faculty, Connection connection) throws SQLException {
         try (
                 PreparedStatement statement = connection.prepareStatement(ADD_FACULTY_QUERY);

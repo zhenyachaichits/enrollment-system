@@ -1,22 +1,21 @@
 package com.epam.finaltask.university.service.util;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * Created by Zheny Chaichits on 04.02.16.
- */
 
+/**
+ * Data MD5 encrypter.
+ */
 public class DataEncrypter {
 
     private static final String MD5 = "MD5";
 
+    /**
+     * Encrypt string.
+     *
+     * @param toEncrypt to encrypt
+     * @return the encrypted string
+     */
     public static String encrypt(String toEncrypt) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance(MD5);

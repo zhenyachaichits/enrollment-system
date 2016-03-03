@@ -12,10 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 22.02.2016.
+ * Go support search command.
  */
 public class GoSupportSearchCommand implements Command {
+    /**
+     * execute navigation to supportSearch
+     *
+     * @param request  the request
+     * @param response the response
+     * @return support search page
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession(false);

@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.controller.command.exception;
 
+
 /**
- * Created by Zheny Chaichits on 11.02.2016.
+ * The type Invalid data exception.
  */
 public class InvalidDataException extends CommandException {
 

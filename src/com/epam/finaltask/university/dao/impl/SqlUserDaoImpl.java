@@ -3,18 +3,19 @@ package com.epam.finaltask.university.dao.impl;
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.dao.UserDao;
+import com.epam.finaltask.university.dao.common.UserCommon;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
-import com.epam.finaltask.university.dao.common.UserCommon;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.UserDaoBeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 05.02.16.
+ * Sql user dao.
  */
 public class SqlUserDaoImpl implements UserDao {
 
@@ -45,6 +46,14 @@ public class SqlUserDaoImpl implements UserDao {
             "WHERE user_id <> ? AND email = ? AND status = 'ACTIVE'";
     private static final String GET_COUNT_QUERY = "SELECT FOUND_ROWS()";
 
+    /**
+     * Search user for authentication
+     *
+     * @param email        user email
+     * @param passwordHash user password
+     * @return user or null, if couldn't find
+     * @throws DaoException
+     */
     @Override
     public User findUserToLogIn(String email, String passwordHash) throws DaoException {
         try (
@@ -67,6 +76,13 @@ public class SqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Search user by ID
+     *
+     * @param id user ID
+     * @return found user or null, if couldn't find
+     * @throws DaoException
+     */
     @Override
     public User findUserById(long id) throws DaoException {
         try (
@@ -90,6 +106,15 @@ public class SqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Search users by role
+     *
+     * @param role         user role
+     * @param offset       offset
+     * @param recordsCount records count
+     * @return list of found users
+     * @throws DaoException
+     */
     @Override
     public List<User> findUsersByRole(UserType role, int offset, int recordsCount) throws DaoException {
         try (
@@ -109,7 +134,7 @@ public class SqlUserDaoImpl implements UserDao {
             }
 
             resultSet = statement.executeQuery(GET_COUNT_QUERY);
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 this.recordsCount = resultSet.getInt(1);
             }
 
@@ -120,6 +145,13 @@ public class SqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Checks user's update availability
+     *
+     * @param user
+     * @return true if update is available, else false
+     * @throws DaoException
+     */
     @Override
     public boolean checkUpdateAvailability(User user) throws DaoException {
         try (
@@ -137,11 +169,23 @@ public class SqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Gets records count
+     *
+     * @return records count
+     */
     @Override
     public int getRecordsCount() {
         return recordsCount;
     }
 
+    /**
+     * Delete user by ID
+     *
+     * @param id user ID
+     * @return true if deleted, else false
+     * @throws DaoException
+     */
     @Override
     public boolean deleteById(long id) throws DaoException {
         try (
@@ -155,7 +199,13 @@ public class SqlUserDaoImpl implements UserDao {
         }
     }
 
-
+    /**
+     * Creates new user
+     *
+     * @param user
+     * @return created user
+     * @throws DaoException
+     */
     @Override
     public User add(User user) throws DaoException {
         try (
@@ -170,6 +220,13 @@ public class SqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Search user by Email
+     *
+     * @param email user email
+     * @return found user or null
+     * @throws DaoException
+     */
     @Override
     public User find(String email) throws DaoException {
         try (
@@ -179,7 +236,7 @@ public class SqlUserDaoImpl implements UserDao {
             statement.setString(1, email);
 
             ResultSet resultSet = statement.executeQuery();
-            
+
             if (resultSet.next()) {
                 UserDaoBeanFactory constructor = UserDaoBeanFactory.getInstance();
 
@@ -193,6 +250,13 @@ public class SqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Update user data
+     *
+     * @param user
+     * @return updated user or null if couldn't update
+     * @throws DaoException
+     */
     @Override
     public User update(User user) throws DaoException {
         try (
@@ -212,6 +276,12 @@ public class SqlUserDaoImpl implements UserDao {
         throw new UnsupportedOperationException("Deleting user by email unsupported");
     }
 
+    /**
+     * Gets all users
+     *
+     * @return list of users
+     * @throws DaoException
+     */
     @Override
     public List<User> all() throws DaoException {
         try (

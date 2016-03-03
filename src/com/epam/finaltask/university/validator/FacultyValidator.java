@@ -4,8 +4,9 @@ import com.epam.finaltask.university.bean.Faculty;
 
 import java.util.Set;
 
+
 /**
- * Created by Zheny Chaichits on 01.03.2016.
+ * Faculty validator.
  */
 public class FacultyValidator {
 
@@ -14,6 +15,12 @@ public class FacultyValidator {
 
     private static final String NAME_PATTERN = ".{2,}";
 
+    /**
+     * Validate faculty.
+     *
+     * @param faculty the faculty
+     * @return true if valid, else false
+     */
     public static boolean validateFaculty(Faculty faculty) {
         if (!validateName(faculty.getName())) {
             return false;
@@ -35,14 +42,32 @@ public class FacultyValidator {
     }
 
 
+    /**
+     * Validate name.
+     *
+     * @param name the name
+     * @return true if valid, else false
+     */
     public static boolean validateName(String name) {
         return name.matches(NAME_PATTERN);
     }
 
+    /**
+     * Validate number.
+     *
+     * @param number the number
+     * @return true if valid, else false
+     */
     public static boolean validateNumber(long number) {
         return number >= MIN_NUMBER;
     }
 
+    /**
+     * Validate subjects.
+     *
+     * @param subjects the subjects
+     * @return true if valid, else false
+     */
     public static boolean validateSubjects(Set<Long> subjects) {
         return subjects.size() == SUBJECTS_NUMBER;
     }

@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * The type Profile.
  */
 public class Profile implements Serializable {
     private long id;

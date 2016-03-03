@@ -12,14 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 15.02.2016.
+ * Get faculty subjects command.
  */
 public class GetFacultySubjectsCommand implements Command {
 
-
     private static final String CONTENT_TYPE = "application/xml";
 
+    /**
+     * Execute getting matching subjects for selected faculty with AJAX
+     * @param request
+     * @param response
+     * @return JSP page generating XML name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

@@ -5,8 +5,9 @@ import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.factory.DaoFactory;
 import com.epam.finaltask.university.dao.impl.*;
 
+
 /**
- * Created by Zheny Chaichits on 22.01.16.
+ * Sql dao factory. Contains methods returning Dao implementation instances.
  */
 public class SqlDaoFactory extends DaoFactory {
     private static final SqlDaoFactory instance = new SqlDaoFactory();

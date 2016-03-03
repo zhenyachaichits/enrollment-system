@@ -12,10 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 29.02.2016.
+ * Go user management command.
  */
 public class GoUserManagementCommand implements Command {
+    /**
+     * Execute navigation To Nude
+     * @param request  the request
+     * @param response the response
+     *
+     * @return user management page
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 

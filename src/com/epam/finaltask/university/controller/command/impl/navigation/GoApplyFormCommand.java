@@ -11,19 +11,28 @@ import com.epam.finaltask.university.controller.command.exception.CommandExcepti
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
 import com.epam.finaltask.university.controller.util.UrlBuilder;
-import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.FacultyService;
 import com.epam.finaltask.university.service.ProfileService;
+import com.epam.finaltask.university.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Go apply form command.
  */
 public class GoApplyFormCommand implements Command {
+    /**
+     * Execute navigation to apply form.
+     *
+     * @param request  the request
+     * @param response the response
+     * @return apply form page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

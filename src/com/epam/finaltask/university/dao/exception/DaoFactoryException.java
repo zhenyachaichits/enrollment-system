@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.dao.exception;
 
+
 /**
- * Created by Zheny Chaichits on 26.01.16.
+ * Dao factory exception.
  */
 public class DaoFactoryException extends Exception {
     public DaoFactoryException(){

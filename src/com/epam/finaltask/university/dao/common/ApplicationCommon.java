@@ -7,8 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Application dao common methods which can be used for transactions ect..
  */
 public class ApplicationCommon {
 
@@ -16,6 +17,7 @@ public class ApplicationCommon {
     }
 
     public static class ApplicationCommonHolder {
+
         public static final ApplicationCommon INSTANCE = new ApplicationCommon();
     }
 
@@ -29,6 +31,14 @@ public class ApplicationCommon {
             "profile_profile_id = ?";
 
 
+    /**
+     * Create application.
+     *
+     * @param application the application
+     * @param connection  the connection
+     * @return the application
+     * @throws SQLException the sql exception
+     */
     public Application createApplication(Application application, Connection connection) throws SQLException {
         try (
                 PreparedStatement statement = connection.prepareStatement(ADD_APPLICATION_QUERY);
@@ -49,6 +59,14 @@ public class ApplicationCommon {
         }
     }
 
+    /**
+     * Delete application.
+     *
+     * @param profileId  the profile id
+     * @param connection the connection
+     * @return true if application was deleted, false if not
+     * @throws SQLException the sql exception
+     */
     public boolean deleteApplication(Long profileId, Connection connection) throws SQLException {
         try (
                 PreparedStatement statement = connection.prepareStatement(DELETE_APPLICATION_QUERY);

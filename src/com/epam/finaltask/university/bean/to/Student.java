@@ -7,7 +7,7 @@ import com.epam.finaltask.university.bean.type.UserType;
 import java.io.Serializable;
 
 /**
- * Created by Zheny Chaichits on 18.02.2016.
+ * The type Student.
  */
 public class Student implements Serializable {
     private User user;

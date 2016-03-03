@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.controller;
 
+
 /**
- * Created by Zheny Chaichits on 22.01.16.
+ * Request parameter name constants holder.
  */
 public final class RequestParameterName {
 

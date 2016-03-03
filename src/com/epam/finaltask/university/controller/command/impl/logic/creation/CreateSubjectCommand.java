@@ -17,10 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Create subject command.
  */
 public class CreateSubjectCommand implements Command {
+    /**
+     *  Execute creation of new subject
+     * @param request
+     * @param response
+     * @return subject management page name redirection query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

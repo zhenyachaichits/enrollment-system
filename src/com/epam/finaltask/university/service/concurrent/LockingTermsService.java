@@ -13,8 +13,9 @@ import com.epam.finaltask.university.validator.TermsValidator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Locking terms service.
  */
 public class LockingTermsService {
 
@@ -31,6 +32,13 @@ public class LockingTermsService {
 
     private static final Lock lock = new ReentrantLock();
 
+    /**
+     * Create terms.
+     *
+     * @param terms the terms
+     * @return the terms
+     * @throws ServiceException the service exception
+     */
     public Terms createTerms(Terms terms) throws ServiceException {
         TermsService service = TermsService.getInstance();
 
@@ -50,6 +58,13 @@ public class LockingTermsService {
         }
     }
 
+    /**
+     * Update terms.
+     *
+     * @param terms the terms
+     * @return the terms
+     * @throws ServiceException the service exception
+     */
     public Terms updateTerms(Terms terms) throws ServiceException {
         TermsService service = TermsService.getInstance();
 
@@ -69,6 +84,13 @@ public class LockingTermsService {
         }
     }
 
+    /**
+     * Delete terms.
+     *
+     * @param termsId the terms id
+     * @return true if deleted, else false
+     * @throws ServiceException the service exception
+     */
     public boolean deleteTerms(long termsId) throws ServiceException {
         lock.lock();
         try {

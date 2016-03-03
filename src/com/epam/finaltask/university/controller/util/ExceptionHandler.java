@@ -8,8 +8,9 @@ import com.epam.finaltask.university.controller.command.exception.InvalidSession
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 /**
- * Created by Zheny Chaichits on 22.02.2016.
+ * Controller exception handler.
  */
 public class ExceptionHandler {
 
@@ -17,21 +18,46 @@ public class ExceptionHandler {
 
     private static final String ERROR_MESSAGE = "ERROR";
 
+    /**
+     * Handle access exception string.
+     *
+     * @param e the exception
+     * @return the access error page name
+     */
     public static String handleAccessException(AccessDeniedException e) {
         LOG.error("User access level is not enough", e);
         return JspPageName.ACCESS_ERROR_PAGE;
     }
 
+    /**
+     * Handle session exception string.
+     *
+     * @param e the exception
+     * @return the session error page name
+     */
     public static String handleSessionException(InvalidSessionException e) {
         LOG.error("Session invalidated", e);
         return JspPageName.SESSION_ERROR_PAGE;
     }
 
+    /**
+     * Handle data exception string.
+     *
+     * @param e the exception
+     * @return the data error page name
+     */
     public static String handleDataException(InvalidDataException e) {
         LOG.error("User data is invalid", e);
         return JspPageName.DATA_ERROR_PAGE;
     }
 
+    /**
+     * Handle command exception string.
+     *
+     * @param e      the exception
+     * @param isAjax the is request ajax
+     * @return the command error page name
+     */
     public static String handleCommandException(CommandException e, boolean isAjax) {
         LOG.error("Couldn't execute command", e);
         if (isAjax) {

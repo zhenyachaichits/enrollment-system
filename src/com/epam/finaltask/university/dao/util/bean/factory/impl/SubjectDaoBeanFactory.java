@@ -6,12 +6,14 @@ import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by Zheny Chaichits on 27.02.2016.
- */
-public class SubjectDaoBeanFactory implements DaoBeanFactory<Subject>{
 
-    private SubjectDaoBeanFactory() { }
+/**
+ * Subject dao bean factory.
+ */
+public class SubjectDaoBeanFactory implements DaoBeanFactory<Subject> {
+
+    private SubjectDaoBeanFactory() {
+    }
 
     public static class SubjectDaoBeanFactoryHolder {
         public static final SubjectDaoBeanFactory INSTANCE = new SubjectDaoBeanFactory();
@@ -25,6 +27,13 @@ public class SubjectDaoBeanFactory implements DaoBeanFactory<Subject>{
     private static final String NAME_KEY = "name";
     private static final String MIN_POINTS_KEY = "min_points";
 
+    /**
+     * Constructs Subject bean from ResultSet
+     *
+     * @param resultSet the result set
+     * @return created subject
+     * @throws SQLException
+     */
     @Override
     public Subject construct(ResultSet resultSet) throws SQLException {
         Subject subject = new Subject();

@@ -10,10 +10,18 @@ import com.epam.finaltask.university.service.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
- * Created by Zheny Chaichits on 14.02.2016.
+ * Check passport id existence command.
  */
 public class CheckPassportIdExistenceCommand implements Command {
+    /**
+     * Execute passport ID checking to restrict creating profile with existing passport  data
+     * @param request
+     * @param response
+     * @return constant from class AjaxResponseValue
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

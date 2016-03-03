@@ -8,12 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Application dao bean factory.
  */
 public class ApplicationDaoBeanFactory implements DaoBeanFactory<Application> {
 
-    private ApplicationDaoBeanFactory() { }
+    private ApplicationDaoBeanFactory() {
+    }
 
     public static class ApplicationDaoConstructorHolder {
         public static final ApplicationDaoBeanFactory INSTANCE = new ApplicationDaoBeanFactory();
@@ -30,6 +32,13 @@ public class ApplicationDaoBeanFactory implements DaoBeanFactory<Application> {
     private static final String PROFILE_ID_KEY = "profile_profile_id";
     private static final String FACULTY_ID_KEY = "profile_faculty_faculty_id";
 
+    /**
+     * Constructs Application bean from ResultSet
+     *
+     * @param resultSet the result set
+     * @return created application
+     * @throws SQLException
+     */
     @Override
     public Application construct(ResultSet resultSet) throws SQLException {
         Application application = new Application();

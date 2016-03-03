@@ -12,9 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by Zheny Chaichits on 06.02.16.
+ * Command Check account.
  */
 public class CheckAccountCommand implements Command {
+    /**
+     * Execute checking user data validity befote authentication
+     * @param request
+     * @param response
+     * @return constant from class AjaxResponseValue
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

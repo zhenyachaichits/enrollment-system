@@ -9,11 +9,12 @@ import java.sql.SQLException;
 import java.util.Calendar;
 
 /**
- * Created by Zheny Chaichits on 28.02.2016.
+ * Terms dao bean factory.
  */
 public class TermsDaoBeanFactory implements DaoBeanFactory<Terms> {
 
-    private TermsDaoBeanFactory() { }
+    private TermsDaoBeanFactory() {
+    }
 
     public static class TermsDaoBeanFactoryHolder {
         public static final TermsDaoBeanFactory INSTANCE = new TermsDaoBeanFactory();
@@ -26,6 +27,14 @@ public class TermsDaoBeanFactory implements DaoBeanFactory<Terms> {
     private static final String ID_KEY = "terms_id";
     private static final String START_DATE_KEY = "start_date";
     private static final String END_DATE_KEY = "end_date";
+
+    /**
+     * Constructs Terms bean from ResultSet
+     *
+     * @param resultSet the result set
+     * @return created terms
+     * @throws SQLException
+     */
     @Override
     public Terms construct(ResultSet resultSet) throws SQLException {
         Terms terms = new Terms();

@@ -14,10 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Delete faculty command.
  */
 public class DeleteFacultyCommand implements Command {
+    /**
+     * Execute deletion of existing faculty by faculty ID .
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return faculty management page redirection query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

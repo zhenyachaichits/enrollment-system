@@ -10,8 +10,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 
+
 /**
- * Created by Zheny Chaichits on 22.11.2015.
+ * Connection pool.
  */
 public class ConnectionPool {
     private BlockingQueue<Connection> freeConnectionQueue;
@@ -35,6 +36,11 @@ public class ConnectionPool {
         return instance;
     }
 
+    /**
+     * Connection pool initialization.
+     *
+     * @throws ConnectionPoolException the connection pool exception
+     */
     public void init() throws ConnectionPoolException {
         try {
             Class.forName(parameter.getDriver());
@@ -57,6 +63,12 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     * @throws ConnectionPoolException the connection pool exception
+     */
     public Connection getConnection() throws ConnectionPoolException {
         try {
             Connection connection = freeConnectionQueue.take();
@@ -69,6 +81,11 @@ public class ConnectionPool {
 
     }
 
+    /**
+     * Close connection pool connection.
+     *
+     * @param connection the connection
+     */
     public void closeConnection(Connection connection) {
         try {
             connection.close();
@@ -77,6 +94,12 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Close connection pool connection.
+     *
+     * @param connection the connection
+     * @param statement  the statement
+     */
     public void closeConnection(Connection connection, Statement statement) {
         try {
             connection.close();
@@ -89,6 +112,13 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Close connection pool connection connection.
+     *
+     * @param connection the connection
+     * @param statement  the statement
+     * @param resultSet  the result set
+     */
     public void closeConnection(Connection connection, Statement statement, ResultSet resultSet) {
         try {
             connection.close();
@@ -107,6 +137,9 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Destroy connection pool.
+     */
     public void destroy() {
         try {
             closeConnectionQueue(freeConnectionQueue);
@@ -130,6 +163,11 @@ public class ConnectionPool {
     private class PoolConnection implements Connection {
         private Connection connection;
 
+        /**
+         * Instantiates a new Pool connection.
+         *
+         * @param connection the connection
+         */
         public PoolConnection(Connection connection) {
             this.connection = connection;
             try {
@@ -138,6 +176,11 @@ public class ConnectionPool {
             }
         }
 
+        /**
+         * Completely close connection.
+         *
+         * @throws SQLException the sql exception
+         */
         public void fullClose() throws SQLException {
             connection.close();
         }

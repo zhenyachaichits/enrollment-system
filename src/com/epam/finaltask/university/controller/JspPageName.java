@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.controller;
 
+
 /**
- * Created by Zheny Chaichits on 22.01.16.
+ * Jsp page name constants holder.
  */
 public final class JspPageName {
     private JspPageName() {}

@@ -10,14 +10,14 @@ import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolExce
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.ApplicationDaoBeanFactory;
-import com.epam.finaltask.university.dao.util.bean.factory.impl.ProfileDaoBeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * Sql application dao.
  */
 public class SqlApplicationDaoImpl implements ApplicationDao {
 
@@ -54,6 +54,13 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
     private static final String CONFIRM_APPLICATION_QUERY = "UPDATE application SET confirmed = TRUE WHERE " +
             "profile_profile_id = ? AND status = 'ACTIVE'";
 
+    /**
+     * Add new application and set profile applied status
+     *
+     * @param application
+     * @return application reference if application created or null if not
+     * @throws DaoException
+     */
     @Override
     public Application add(Application application) throws DaoException {
 
@@ -100,6 +107,13 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
         }
     }
 
+    /**
+     * Search application by profile ID
+     *
+     * @param profileId
+     * @return application reference or null if application was not found
+     * @throws DaoException
+     */
     @Override
     public Application find(Long profileId) throws DaoException {
         try (
@@ -126,6 +140,13 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
         throw new UnsupportedOperationException("Application can't be updated");
     }
 
+    /**
+     * Delete application by profile ID
+     *
+     * @param profileId profile ID
+     * @return deleted application or null if application was not deleted
+     * @throws DaoException
+     */
     @Override
     public Application delete(Long profileId) throws DaoException {
         Connection connection = null;
@@ -174,6 +195,12 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
         }
     }
 
+    /**
+     * Get all applications
+     *
+     * @return list of applications
+     * @throws DaoException
+     */
     @Override
     public List<Application> all() throws DaoException {
         try (
@@ -196,6 +223,14 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
         }
     }
 
+    /**
+     * Search number of students out of competition
+     *
+     * @param facultyId  faculty ID
+     * @param isFreeForm is free form
+     * @return number of students who is under of competition
+     * @throws DaoException
+     */
     @Override
     public int findOutCompetitionNumber(long facultyId, boolean isFreeForm) throws DaoException {
         try (
@@ -213,6 +248,16 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
         }
     }
 
+    /**
+     * Searching minimal points for selected faculty and form with quota
+     *
+     * @param facultyId          faculty ID
+     * @param quota              application quota
+     * @param isOutOfCompetition is out of competition
+     * @param isFreeForm         form of education
+     * @return minimal point found for students
+     * @throws DaoException
+     */
     @Override
     public int findMinPoints(long facultyId, int quota, boolean isOutOfCompetition, boolean isFreeForm)
             throws DaoException {
@@ -236,13 +281,21 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
         }
     }
 
+    /**
+     * Confirms application with profile ID
+     *
+     * @param profileId
+     * @return true if application confirmed, else false
+     * @throws DaoException
+     */
     @Override
     public boolean confirmApplication(long profileId) throws DaoException {
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(CONFIRM_APPLICATION_QUERY);
         ) {
-            statement.setLong(1, profileId);;
+            statement.setLong(1, profileId);
+            ;
 
             int result = statement.executeUpdate();
 

@@ -1,8 +1,8 @@
 package com.epam.finaltask.university.dao.impl;
 
 import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.User;
+import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.dao.StudentDao;
 import com.epam.finaltask.university.dao.common.ProfileCommon;
 import com.epam.finaltask.university.dao.common.UserCommon;
@@ -12,11 +12,15 @@ import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.ProfileDaoBeanFactory;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.UserDaoBeanFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 18.02.2016.
+ * Sql student dao.
  */
 public class SqlStudentDaoImpl implements StudentDao {
 
@@ -44,6 +48,13 @@ public class SqlStudentDaoImpl implements StudentDao {
             "user.user_id = profile.user_user_id WHERE user.email = ? AND user.status = 'ACTIVE' " +
             "AND profile.status = 'ACTIVE'";
 
+    /**
+     * Checks student existence
+     *
+     * @param student
+     * @return true if student exists, else false
+     * @throws DaoException
+     */
     @Override
     public boolean checkStudentExistence(Student student) throws DaoException {
         try (
@@ -59,6 +70,13 @@ public class SqlStudentDaoImpl implements StudentDao {
         }
     }
 
+    /**
+     * Checks student update availability
+     *
+     * @param student
+     * @return true if update available, else false
+     * @throws DaoException
+     */
     @Override
     public boolean checkUpdateAvailability(Student student) throws DaoException {
         try (
@@ -76,6 +94,13 @@ public class SqlStudentDaoImpl implements StudentDao {
         }
     }
 
+    /**
+     * Creates new student: add user and corresponding profile.
+     *
+     * @param student
+     * @return created student or
+     * @throws DaoException
+     */
     @Override
     public Student add(Student student) throws DaoException {
         Connection connection = null;
@@ -128,6 +153,13 @@ public class SqlStudentDaoImpl implements StudentDao {
         }
     }
 
+    /**
+     * Searching student by email
+     *
+     * @param email user email
+     * @return user or null, uf user wasn't found
+     * @throws DaoException
+     */
     @Override
     public Student find(String email) throws DaoException {
         try (
@@ -153,6 +185,13 @@ public class SqlStudentDaoImpl implements StudentDao {
         }
     }
 
+    /**
+     * Updates student data
+     *
+     * @param student
+     * @return student or null if couldn't update
+     * @throws DaoException
+     */
     @Override
     public Student update(Student student) throws DaoException {
         Connection connection = null;
@@ -177,7 +216,8 @@ public class SqlStudentDaoImpl implements StudentDao {
                 connection.commit();
 
                 student.setUser(user);
-                student.setProfile(profile);;
+                student.setProfile(profile);
+                ;
                 return student;
             } else {
                 connection.rollback();
@@ -210,6 +250,13 @@ public class SqlStudentDaoImpl implements StudentDao {
         throw new UnsupportedOperationException("This operation is unsupported");
     }
 
+    /**
+     * Delete student by user ID
+     *
+     * @param userId
+     * @return true if student was deleted, else false
+     * @throws DaoException
+     */
     @Override
     public boolean delete(long userId) throws DaoException {
         Connection connection = null;

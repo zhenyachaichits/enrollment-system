@@ -16,13 +16,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Update faculty points command.
  */
 public class UpdateFacultyPointsCommand implements Command {
 
     private static final boolean FREE_FORM = true;
 
+    /**
+     * Execute faculty update.
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return previous page or home page redirect query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

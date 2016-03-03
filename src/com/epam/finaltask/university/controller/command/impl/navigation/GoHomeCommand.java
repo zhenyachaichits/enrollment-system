@@ -10,10 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 06.02.16.
+ * Go home command.
  */
 public class GoHomeCommand implements Command {
+    /**
+     *
+     * @param request  the request
+     * @param response the response
+     * @return home page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 

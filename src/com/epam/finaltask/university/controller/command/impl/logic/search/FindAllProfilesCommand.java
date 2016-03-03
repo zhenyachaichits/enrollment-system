@@ -17,10 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 28.02.2016.
+ * Find all profiles command.
  */
 public class FindAllProfilesCommand implements Command {
+    /**
+     * Execute searching all profiles with negative application status with pagination.
+     * Access is allowed for users with status: SUPPORT
+     * @param request
+     * @param response
+     * @return support search page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

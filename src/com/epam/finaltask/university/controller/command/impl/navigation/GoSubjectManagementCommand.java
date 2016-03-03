@@ -17,10 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 01.03.2016.
+ * Subject management command.
  */
 public class GoSubjectManagementCommand implements Command {
+    /**
+     * Execute navigation tosubject management
+     *
+     * @param request  the request
+     * @param response the response
+     * @return
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.dao.type;
 
+
 /**
- * Created by Zheny Chaichits on 24.01.16.
+ * The enum Dao type.
  */
 public enum  DaoType {
     SQL

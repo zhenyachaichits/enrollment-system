@@ -6,8 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Set;
 
+
 /**
- * Created by Zheny Chaichits on 18.02.2016.
+ * Url builder.
  */
 public class UrlBuilder {
 
@@ -17,6 +18,12 @@ public class UrlBuilder {
     private static final String PARAM_DELIMITER = "&";
     private static final String PARAM_VALUE_DELIMITER = "=";
 
+    /**
+     * Build url string from request including parameters.
+     *
+     * @param request the request
+     * @return the url string
+     */
     public static String build(HttpServletRequest request) {
         String uri = request.getRequestURI();
 

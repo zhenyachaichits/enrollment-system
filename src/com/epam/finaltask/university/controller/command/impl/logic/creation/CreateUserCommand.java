@@ -1,10 +1,7 @@
 package com.epam.finaltask.university.controller.command.impl.logic.creation;
 
-import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.User;
-import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.type.UserType;
-import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
@@ -12,9 +9,7 @@ import com.epam.finaltask.university.controller.command.exception.InvalidDataExc
 import com.epam.finaltask.university.controller.util.AccessManager;
 import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFactory;
 import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
-import com.epam.finaltask.university.controller.util.bean.factory.impl.ProfileCommandBeanFactory;
 import com.epam.finaltask.university.controller.util.bean.factory.impl.UserCommandBeanFactory;
-import com.epam.finaltask.university.service.concurrent.LockingStudentService;
 import com.epam.finaltask.university.service.concurrent.LockingUserService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
@@ -22,10 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 29.02.2016.
+ * Create user command.
  */
 public class CreateUserCommand implements Command {
+    /**
+     * Execute new user creation.
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return user management page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

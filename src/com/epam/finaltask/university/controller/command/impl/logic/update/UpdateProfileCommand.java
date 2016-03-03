@@ -22,10 +22,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 20.02.2016.
+ * Update profile command.
  */
 public class UpdateProfileCommand implements Command {
+    /**
+     * Execute current user profile update.
+     * Access is allowed for users with status: STUDENT
+     * @param request
+     * @param response
+     * @return current page or home pare redirection query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

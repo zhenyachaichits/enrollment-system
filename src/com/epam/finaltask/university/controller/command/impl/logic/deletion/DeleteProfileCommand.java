@@ -15,9 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by Zheny Chaichits on 27.02.2016.
+ * Delete profile command.
  */
 public class DeleteProfileCommand implements Command {
+    /**
+     * Execute deletion of current user account.
+     * Access is allowed for users with status: STUDENT
+     * @param request
+     * @param response
+     * @return logging out command redirection query
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

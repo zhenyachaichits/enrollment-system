@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.validator.exception;
 
+
 /**
- * Created by Zheny Chaichits on 10.02.2016.
+ * Validator exception.
  */
 public class ValidatorException extends Exception {
 

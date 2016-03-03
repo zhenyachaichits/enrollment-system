@@ -14,8 +14,9 @@ import com.epam.finaltask.university.validator.UserValidator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
- * Created by Zheny Chaichits on 14.02.2016.
+ * Locking user service.
  */
 public class LockingUserService {
 
@@ -32,6 +33,13 @@ public class LockingUserService {
 
     private static final Lock lock = new ReentrantLock();
 
+    /**
+     * Create user.
+     *
+     * @param user the user
+     * @return the user
+     * @throws ServiceException the service exception
+     */
     public User createUser(User user) throws ServiceException {
         UserService userService = UserService.getInstance(); // TODO: ask about it
 
@@ -54,6 +62,13 @@ public class LockingUserService {
         }
     }
 
+    /**
+     * Update user.
+     *
+     * @param user the user
+     * @return the user
+     * @throws ServiceException the service exception
+     */
     public User updateUser(User user) throws ServiceException {
         UserService service = UserService.getInstance();
 
@@ -80,6 +95,13 @@ public class LockingUserService {
         }
     }
 
+    /**
+     * Delete user.
+     *
+     * @param userId the user id
+     * @return true if deleted, else false
+     * @throws ServiceException the service exception
+     */
     public boolean deleteUser(long userId) throws ServiceException {
         lock.lock();
         try {

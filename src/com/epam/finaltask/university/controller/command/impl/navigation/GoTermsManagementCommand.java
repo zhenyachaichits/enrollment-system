@@ -17,10 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Go terms management command.
  */
 public class GoTermsManagementCommand implements Command {
+    /**
+     * Execute navigation to terms
+     *
+     * @param request  the request
+     * @param response the response
+     * @return terms management page
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

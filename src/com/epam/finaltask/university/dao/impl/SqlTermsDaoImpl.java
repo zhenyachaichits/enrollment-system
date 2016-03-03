@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * Sql terms dao.
  */
 public class SqlTermsDaoImpl implements TermsDao {
 
@@ -44,20 +44,27 @@ public class SqlTermsDaoImpl implements TermsDao {
     private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT * FROM terms WHERE terms_id <> ? AND " +
             "start_date = ? AND end_date = ? AND status = 'ACTIVE'";
 
+    /**
+     * Creates new terms
+     *
+     * @param terms terms
+     * @return terms or null if not created
+     * @throws DaoException
+     */
     @Override
-    public Terms add(Terms entity) throws DaoException {
+    public Terms add(Terms terms) throws DaoException {
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(ADD_TERMS_QUERY);
         ) {
-            statement.setDate(1, DateTypeConverter.convertToSqlDate(entity.getStartDate()));
-            statement.setDate(2, DateTypeConverter.convertToSqlDate(entity.getEndDate()));
+            statement.setDate(1, DateTypeConverter.convertToSqlDate(terms.getStartDate()));
+            statement.setDate(2, DateTypeConverter.convertToSqlDate(terms.getEndDate()));
             ;
 
             int result = statement.executeUpdate();
 
             if (result != 0) {
-                return entity;
+                return terms;
             } else {
                 return null;
             }
@@ -66,6 +73,13 @@ public class SqlTermsDaoImpl implements TermsDao {
         }
     }
 
+    /**
+     * Search terms by ID
+     *
+     * @param id terms ID
+     * @return terms or null if couldn't find
+     * @throws DaoException
+     */
     @Override
     public Terms find(Long id) throws DaoException {
         try (
@@ -89,6 +103,13 @@ public class SqlTermsDaoImpl implements TermsDao {
         }
     }
 
+    /**
+     * Update terms data
+     *
+     * @param terms
+     * @return updated terms or null if couldn't update
+     * @throws DaoException
+     */
     @Override
     public Terms update(Terms terms) throws DaoException {
         try (
@@ -107,6 +128,13 @@ public class SqlTermsDaoImpl implements TermsDao {
         }
     }
 
+    /**
+     * Delete terms by ID
+     *
+     * @param id terms ID
+     * @return deleted terms or null
+     * @throws DaoException
+     */
     @Override
     public Terms delete(Long id) throws DaoException {
         try (
@@ -130,6 +158,12 @@ public class SqlTermsDaoImpl implements TermsDao {
         }
     }
 
+    /**
+     * Gets all terms
+     *
+     * @return list of terms
+     * @throws DaoException
+     */
     @Override
     public List<Terms> all() throws DaoException {
         try (
@@ -152,7 +186,13 @@ public class SqlTermsDaoImpl implements TermsDao {
         }
     }
 
-
+    /**
+     * Checks terms existence
+     *
+     * @param terms
+     * @return true if terms already exists, else false
+     * @throws DaoException
+     */
     @Override
     public boolean checkExistence(Terms terms) throws DaoException {
         try (
@@ -170,6 +210,13 @@ public class SqlTermsDaoImpl implements TermsDao {
         }
     }
 
+    /**
+     * Checks terms update availability
+     *
+     * @param terms
+     * @return true if update is avaliable, else false
+     * @throws DaoException
+     */
     @Override
     public boolean checkUpdateAvailability(Terms terms) throws DaoException {
         try (

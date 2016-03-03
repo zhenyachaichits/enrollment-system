@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * The type Application.
  */
 public class Application implements Serializable {
     private long id;

@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.service.exception;
 
+
 /**
- * Created by Zheny Chaichits on 10.02.2016.
+ * Invalid service data exception.
  */
 public class InvalidServiceDataException extends ServiceException {
     public InvalidServiceDataException() {

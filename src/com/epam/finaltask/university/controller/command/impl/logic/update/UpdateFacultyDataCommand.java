@@ -19,10 +19,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 02.03.2016.
+ * Update faculty data command.
  */
 public class UpdateFacultyDataCommand implements Command {
+    /**
+     * Execute faculty update with faculty id.
+     * Access is allowed for users with status: ADMIN
+     * @param request
+     * @param response
+     * @return
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

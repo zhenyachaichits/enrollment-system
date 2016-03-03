@@ -4,8 +4,9 @@ import com.epam.finaltask.university.bean.User;
 
 import java.sql.*;
 
+
 /**
- * Created by Zheny Chaichits on 18.02.2016.
+ * User common methods which can be used for transactions ect..
  */
 public class UserCommon {
 
@@ -30,6 +31,14 @@ public class UserCommon {
             "role = ? WHERE user_id = ?";
     private static final String DELETE_USER_QUERY = "UPDATE user SET status = 'DELETED' WHERE user_id = ?";
 
+    /**
+     * Create new user.
+     *
+     * @param user       the user
+     * @param connection the connection
+     * @return the user or null in case of error
+     * @throws SQLException the sql exception
+     */
     public User createUser(User user, Connection connection) throws SQLException {
         String query;
 
@@ -64,6 +73,14 @@ public class UserCommon {
         }
     }
 
+    /**
+     * Update user data.
+     *
+     * @param user       the user
+     * @param connection the connection
+     * @return the user or null in  case of error
+     * @throws SQLException the sql exception
+     */
     public User updateUser(User user, Connection connection) throws SQLException {
         String query;
         String password = user.getPassword();
@@ -98,6 +115,14 @@ public class UserCommon {
         }
     }
 
+    /**
+     * Delete user.
+     *
+     * @param id         the id
+     * @param connection the connection
+     * @return true or false if user was not deleted
+     * @throws SQLException the sql exception
+     */
     public boolean deleteUser(Long id, Connection connection) throws SQLException {
         try (
                 PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY,

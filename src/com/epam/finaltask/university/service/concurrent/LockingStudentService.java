@@ -15,7 +15,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by Zheny Chaichits on 18.02.2016.
+ * Locking student service.
  */
 public class LockingStudentService {
     private LockingStudentService() {
@@ -31,7 +31,14 @@ public class LockingStudentService {
 
     private static final Lock lock = new ReentrantLock();
 
-    public Student createNewAccount(Student student) throws InvalidServiceDataException, ServiceException {
+    /**
+     * Create new account student.
+     *
+     * @param student the student
+     * @return the student
+     * @throws ServiceException the service exception
+     */
+    public Student createNewAccount(Student student) throws ServiceException {
         StudentService studentService = StudentService.getInstance();
 
         if (StudentValidator.validateStudent(student) && !studentService.checkStudentExistence(student)) {
@@ -53,6 +60,13 @@ public class LockingStudentService {
         }
     }
 
+    /**
+     * Update student profile.
+     *
+     * @param student the student
+     * @return the student
+     * @throws ServiceException the service exception
+     */
     public Student updateStudentProfile(Student student) throws ServiceException {
         StudentService studentService = StudentService.getInstance();
 
@@ -77,6 +91,13 @@ public class LockingStudentService {
         }
     }
 
+    /**
+     * Delete account.
+     *
+     * @param userId the user id
+     * @return true if deleted, else false
+     * @throws ServiceException the service exception
+     */
     public boolean deleteAccount(long userId) throws ServiceException {
         lock.lock();
         try {

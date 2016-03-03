@@ -11,9 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * Command Check email existence.
  */
 public class CheckEmailExistenceCommand implements Command {
+    /**
+     * Execute AJAX email existence checking to restrict creating user which already exists
+     * @param request
+     * @param response
+     * @return constant from class AjaxResponseValue
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

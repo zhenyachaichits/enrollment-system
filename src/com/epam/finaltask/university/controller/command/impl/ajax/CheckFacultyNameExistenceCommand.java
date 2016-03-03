@@ -11,9 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by Zheny Chaichits on 01.03.2016.
+ * Check faculty name existence command.
  */
 public class CheckFacultyNameExistenceCommand implements Command{
+    /**
+     * Execute AJAX faculty name checking to restrict creating faculty with existing name
+     * @param request
+     * @param response
+     * @return constant from class AjaxResponseValue
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

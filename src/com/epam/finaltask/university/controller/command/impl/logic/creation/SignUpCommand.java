@@ -19,11 +19,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 11.02.2016.
+ * Sign up command.
  */
 public class SignUpCommand implements Command {
-
+    /**
+     * Execute creation of the new Student account and logging in as just created student.
+     * Access is allowed for all users.
+     * @param request
+     * @param response
+     * @return home page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

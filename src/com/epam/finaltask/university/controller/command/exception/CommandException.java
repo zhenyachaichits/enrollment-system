@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.controller.command.exception;
 
+
 /**
- * Created by Zheny Chaichits on 25.12.2015.
+ * The type Command exception.
  */
 public class CommandException extends Exception {
 

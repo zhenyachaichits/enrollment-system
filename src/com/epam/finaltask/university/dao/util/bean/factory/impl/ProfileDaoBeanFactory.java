@@ -8,12 +8,14 @@ import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Profile dao bean factory.
  */
 public class ProfileDaoBeanFactory implements DaoBeanFactory<Profile> {
 
-    private ProfileDaoBeanFactory() { }
+    private ProfileDaoBeanFactory() {
+    }
 
     public static class ProfileDaoConstructorHolder {
         public static final ProfileDaoBeanFactory INSTANCE = new ProfileDaoBeanFactory();
@@ -39,6 +41,13 @@ public class ProfileDaoBeanFactory implements DaoBeanFactory<Profile> {
     private static final String FACULTY_ID_KEY = "faculty_faculty_id";
     private static final String USER_ID_KEY = "user_user_id";
 
+    /**
+     * Constructs Profile bean from ResultSet
+     *
+     * @param resultSet the result set
+     * @return created faculty
+     * @throws SQLException
+     */
     @Override
     public Profile construct(ResultSet resultSet) throws SQLException {
         Profile profile = new Profile();

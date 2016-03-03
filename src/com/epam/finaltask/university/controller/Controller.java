@@ -16,8 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 /**
- * Created by Zheny Chaichits on 21.01.16.
+ * Controller.
  */
 public final class Controller extends HttpServlet {
 
@@ -30,10 +31,16 @@ public final class Controller extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //processRequest(request, response);
-        doPost(request, response);
+        processRequest(request, response);;
     }
 
+    /**
+     * Process request, execute command and forward or redirect
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String responseString;
@@ -59,6 +66,14 @@ public final class Controller extends HttpServlet {
 
     }
 
+    /**
+     * Executes command and handle exceptions
+     * @param request
+     * @param response
+     * @param command
+     * @param isAjax
+     * @return response string
+     */
     private String getResponseString(HttpServletRequest request, HttpServletResponse response,
                                      Command command, boolean isAjax) {
         String responseString;
@@ -79,6 +94,14 @@ public final class Controller extends HttpServlet {
         return responseString;
     }
 
+    /**
+     * Forward request to new page
+     * @param request
+     * @param response
+     * @param page
+     * @throws ServletException
+     * @throws IOException
+     */
     private void forwardPage(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher(page);
         if (dispatcher != null) {
@@ -88,6 +111,12 @@ public final class Controller extends HttpServlet {
         }
     }
 
+    /**
+     * Write data to response body
+     * @param response
+     * @param message
+     * @throws IOException
+     */
     private void writeToResponse(HttpServletResponse response, String message) throws IOException {
         response.setContentType(CONTENT_TYPE);
         response.getWriter().println(message);

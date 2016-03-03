@@ -8,11 +8,20 @@ import com.epam.finaltask.university.controller.command.exception.InvalidSession
 
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 22.02.2016.
+ * Access manager.
  */
 public class AccessManager {
 
+    /**
+     * Manage access to command by checking session existence and access level.
+     *
+     * @param session     the session
+     * @param accessLevel the access level
+     * @throws AccessDeniedException   the access denied exception
+     * @throws InvalidSessionException the invalid session exception
+     */
     public static void manageAccess(HttpSession session, UserType accessLevel)
             throws AccessDeniedException, InvalidSessionException {
 

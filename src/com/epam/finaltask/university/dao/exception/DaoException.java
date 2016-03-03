@@ -1,7 +1,8 @@
 package com.epam.finaltask.university.dao.exception;
 
+
 /**
- * Created by Zheny Chaichits on 22.01.16.
+ * Dao exception.
  */
 public class DaoException extends Exception {
     public DaoException(){

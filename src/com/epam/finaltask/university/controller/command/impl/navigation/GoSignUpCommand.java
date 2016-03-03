@@ -15,13 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 /**
- * Created by Zheny Chaichits on 07.02.16.
+ * Go sign up command.
  */
 public class GoSignUpCommand implements Command {
-
-
-
+    /**
+     * Execute navigation to sign up!
+     *
+     * @param request  the request
+     * @param response the response
+     * @return sign up page
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {

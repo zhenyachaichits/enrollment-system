@@ -1,7 +1,6 @@
 package com.epam.finaltask.university.controller.command.impl.logic;
 
 import com.epam.finaltask.university.controller.JspPageName;
-import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
@@ -11,13 +10,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 06.02.16.
+ * Log out command.
  */
 public class LogOutCommand implements Command {
 
     private static final String COOKIE_ID = "university_user_id";
 
+    /**
+     * Execute logging out: deletion data from session and cookies;
+     * Access is allowed all users.
+     *
+     * @param request  the request
+     * @param response the response
+     * @return home page name
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession();

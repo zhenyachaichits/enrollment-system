@@ -13,8 +13,9 @@ import com.epam.finaltask.university.validator.FacultyValidator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+
 /**
- * Created by Zheny Chaichits on 01.03.2016.
+ * Locking faculty service.
  */
 public class LockingFacultyService {
 
@@ -31,6 +32,13 @@ public class LockingFacultyService {
 
     private static final Lock lock = new ReentrantLock();
 
+    /**
+     * Create faculty.
+     *
+     * @param faculty the faculty
+     * @return the faculty
+     * @throws ServiceException the service exception
+     */
     public Faculty createFaculty(Faculty faculty) throws ServiceException {
         FacultyService service = FacultyService.getInstance();
 
@@ -53,6 +61,13 @@ public class LockingFacultyService {
         }
     }
 
+    /**
+     * Update faculty.
+     *
+     * @param faculty the faculty
+     * @return the faculty
+     * @throws ServiceException the service exception
+     */
     public Faculty updateFaculty(Faculty faculty) throws ServiceException {
         FacultyService service = FacultyService.getInstance();
         if(FacultyValidator.validateFaculty(faculty) && service.checkUpdateAvailability(faculty)) {
@@ -71,6 +86,13 @@ public class LockingFacultyService {
         }
     }
 
+    /**
+     * Delete faculty.
+     *
+     * @param facultyId the faculty id
+     * @return true if deleted, else false
+     * @throws ServiceException the service exception
+     */
     public boolean deleteFaculty(long facultyId) throws ServiceException {
         lock.lock();
         try {
@@ -84,6 +106,15 @@ public class LockingFacultyService {
         }
     }
 
+    /**
+     * Update points.
+     *
+     * @param facultyId the faculty id
+     * @param freePoint the free point
+     * @param paidPoint the paid point
+     * @return true if updated, else false
+     * @throws ServiceException the service exception
+     */
     public boolean updatePoints(long facultyId, int freePoint, int paidPoint) throws ServiceException {
         lock.lock();
         try {

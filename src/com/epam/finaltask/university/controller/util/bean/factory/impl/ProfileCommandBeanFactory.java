@@ -12,8 +12,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+
 /**
- * Created by Zheny Chaichits on 25.02.2016.
+ * Profile command bean factory.
  */
 public class ProfileCommandBeanFactory implements CommandBeanFactory<Profile> {
 
@@ -29,8 +30,18 @@ public class ProfileCommandBeanFactory implements CommandBeanFactory<Profile> {
     }
 
     private static final String DATE_FORMAT = "dd.MM.yyyy";
+    /**
+     * Parameter means that checkbox is checked
+     */
     private static final String CHECKED = "on";
 
+    /**
+     * Creates new profile bean from request parameters
+     *
+     * @param request
+     * @return new profile reference
+     * @throws CommandBeanFactoryException
+     */
     @Override
     public Profile constructBean(HttpServletRequest request) throws CommandBeanFactoryException {
         try {
@@ -40,7 +51,7 @@ public class ProfileCommandBeanFactory implements CommandBeanFactory<Profile> {
             String firstName = request.getParameter(RequestParameterName.FIRST_NAME).trim();
             String middleName = request.getParameter(RequestParameterName.MIDDLE_NAME).trim();
             String lastName = request.getParameter(RequestParameterName.LAST_NAME).trim();
-            Calendar birthDate  = Calendar.getInstance();
+            Calendar birthDate = Calendar.getInstance();
             birthDate.setTime(formatter.parse(request.getParameter(RequestParameterName.BIRTH_DATE)));
             long facultyId = Long.parseLong(request.getParameter(RequestParameterName.FACULTY_ID));
             boolean isFree = CHECKED.equals(request.getParameter(RequestParameterName.FREE_FORM));

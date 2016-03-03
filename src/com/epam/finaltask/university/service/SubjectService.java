@@ -10,7 +10,7 @@ import com.epam.finaltask.university.service.exception.ServiceException;
 import java.util.List;
 
 /**
- * Created by Zheny Chaichits on 15.02.2016.
+ * Subject service.
  */
 public class SubjectService {
 
@@ -24,6 +24,13 @@ public class SubjectService {
         return SubjectServiceHolder.INSTANCE;
     }
 
+    /**
+     * Gets subjects by faculty id.
+     *
+     * @param facultyId the faculty id
+     * @return the subjects by faculty id
+     * @throws ServiceException the service exception
+     */
     public List<Subject> getSubjectsByFacultyId(long facultyId) throws ServiceException {
         try {
             SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
@@ -34,6 +41,12 @@ public class SubjectService {
         }
     }
 
+    /**
+     * Gets all subjects.
+     *
+     * @return the all subjects
+     * @throws ServiceException the service exception
+     */
     public List<Subject> getAllSubjects() throws ServiceException {
         try {
             SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
@@ -44,6 +57,13 @@ public class SubjectService {
         }
     }
 
+    /**
+     * Check subject existence.
+     *
+     * @param name the name
+     * @return true if exists, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkSubjectExistence(String name) throws ServiceException {
         try {
             SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
@@ -54,6 +74,13 @@ public class SubjectService {
         }
     }
 
+    /**
+     * Check update availability.
+     *
+     * @param subject the subject
+     * @return true if available, else false
+     * @throws ServiceException the service exception
+     */
     public boolean checkUpdateAvailability(Subject subject) throws ServiceException {
         try {
             SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();

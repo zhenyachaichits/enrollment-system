@@ -1,11 +1,10 @@
 package com.epam.finaltask.university.bean;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Zheny Chaichits on 08.02.2016.
+ * The type Faculty.
  */
 public class Faculty implements Serializable {
     private long id;

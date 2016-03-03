@@ -2,8 +2,9 @@ package com.epam.finaltask.university.validator;
 
 import com.epam.finaltask.university.bean.User;
 
+
 /**
- * Created by Zheny Chaichits on 10.02.2016.
+ * User validator.
  */
 public class UserValidator {
 
@@ -11,6 +12,12 @@ public class UserValidator {
 
     private static final String EMAIL_PATTERN = "[a-zA-Z0-9_\\.]+@[a-zA-Z]+(\\..*)?";
 
+    /**
+     * Validate user.
+     *
+     * @param user the user
+     * @return true if valid, else false
+     */
     public static boolean validateUser(User user) {
         if (!validateEmail(user.getEmail())) {
             return false;
@@ -22,6 +29,12 @@ public class UserValidator {
         return true;
     }
 
+    /**
+     * Validate user for update.
+     *
+     * @param user the user
+     * @return true if valid, else false
+     */
     public static boolean validateUserForUpdate(User user) {
         if (!validateEmail(user.getEmail())) {
             return false;
@@ -34,10 +47,22 @@ public class UserValidator {
         return true;
     }
 
+    /**
+     * Validate email.
+     *
+     * @param email the email
+     * @return true if valid, else false
+     */
     public static boolean validateEmail(String email) {
         return email.matches(EMAIL_PATTERN);
     }
 
+    /**
+     * Validate password.
+     *
+     * @param password the password
+     * @return true if valid, else false
+     */
     public static boolean validatePassword(String password) {
         return password.length() >= MIN_PASSWORD_LENGTH;
     }

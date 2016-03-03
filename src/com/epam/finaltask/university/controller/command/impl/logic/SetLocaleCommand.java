@@ -10,11 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
- * Created by Zheny Chaichits on 07.02.16.
+ * Set locale command.
  */
 public class SetLocaleCommand implements Command {
 
+    /**
+     * Execute changing locale
+     *
+     * @param request  the request
+     * @param response the response
+     * @return home or previous page redirect command
+     * @throws CommandException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
