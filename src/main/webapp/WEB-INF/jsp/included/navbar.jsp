@@ -13,7 +13,7 @@
 
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
+<fmt:setBundle basename="locale" var="loc"/>
 <fmt:message bundle="${loc}" key="locale.navigation.brand" var="brand"/>
 <fmt:message bundle="${loc}" key="locale.navigation.statistics" var="statistics"/>
 <fmt:message bundle="${loc}" key="locale.navigation.signin" var="signIn"/>

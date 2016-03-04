@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
+<fmt:setBundle basename="locale" var="loc"/>
 <fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
 <fmt:message bundle="${loc}" key="locale.page.index.header" var="divHeader"/>
 <fmt:message bundle="${loc}" key="locale.page.index.description" var="description"/>

@@ -10,7 +10,7 @@ public class DBResourceManager {
 
     public static final DBResourceManager instance = new DBResourceManager();
 
-    private static final String CONFIG = "resources.db_config";
+    private static final String CONFIG = "db_config";
 
     private ResourceBundle bundle;
 

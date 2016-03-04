@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
  */
 public abstract class DaoFactory {
 
-    private static final String CONFIG = "resources.dao_config";
+    private static final String CONFIG = "dao_config";
     private static final String TYPE = "dao.type";
 
     public static DaoFactory getDaoFactory() throws DaoFactoryException {
