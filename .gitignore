@@ -2,6 +2,8 @@
 /lib
 /Final.iml
 /.idea
+/target
+/logs
 
 ### Java template
 *.class
