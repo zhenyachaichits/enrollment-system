@@ -2,7 +2,7 @@
 <Configuration>
 
     <Appenders>
-        <File name="FILE" fileName="logs/task4.log" append="true">
+        <File name="FILE" fileName="logs/university.log" append="true">
             <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} - %m%n"/>
         </File>
         <Console name="CONSOLE" target="SYSTEM_OUT">

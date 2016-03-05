@@ -45,6 +45,7 @@ public class SqlUserDaoImpl implements UserDao {
     private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT * FROM user " +
             "WHERE user_id <> ? AND email = ? AND status = 'ACTIVE'";
     private static final String GET_COUNT_QUERY = "SELECT FOUND_ROWS()";
+    private static final String DELETE_USER_BY_EMAIL = "UPDATE user SET status = 'DELETED' WHERE email = ? AND status = 'ACTIVE'";
 
     /**
      * Search user for authentication
@@ -271,9 +272,29 @@ public class SqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Delete user by email
+     * @param email
+     * @return null if user wasn't deleted, else user with such email
+     * @throws DaoException
+     */
     @Override
     public User delete(String email) throws DaoException {
-        throw new UnsupportedOperationException("Deleting user by email unsupported");
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(DELETE_USER_BY_EMAIL);
+        ) {
+            User user = new User();
+            user.setEmail(email);
+            statement.setString(1, email);
+
+            int result = statement.executeUpdate();
+
+            return result == 0 ? null : user;
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     /**
