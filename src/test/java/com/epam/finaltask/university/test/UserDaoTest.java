@@ -8,12 +8,11 @@ import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
-import com.epam.finaltask.university.dao.factory.DaoFactory;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import com.epam.finaltask.university.dao.impl.SqlUserDaoImpl;
+import com.epam.finaltask.university.test.helper.TestHelper;
+import org.junit.*;
 
+import java.sql.*;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -23,17 +22,21 @@ public class UserDaoTest {
     private static UserDao dao;
     private static User testUser;
 
-    private static final String EMAIL = "test@test.com";
+    private static final String EMAIL = "test";
     private static final String PASSWORD = "test";
     private static final String UPDATED_PASSWORD = "upd_test";
     private static final int OFFSET = 0;
 
+    private static final String CREATE_TEST_USER_QUERY = "INSERT INTO user (email, password_hash, role) VALUES " +
+            "('test', 'test', 'SUPPORT')";
+    private static final String DELETE_TEST_USER_QUERY = "DELETE FROM user WHERE email = 'test'";
+
     @BeforeClass
-    public static void init() throws ConnectionPoolException, DaoFactoryException, DaoException {
+    public static void init() throws ConnectionPoolException, DaoFactoryException, DaoException, SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         pool.init();
 
-        dao = DaoFactory.getDaoFactory().getUserDao();
+        dao = SqlUserDaoImpl.getInstance();
 
         testUser = new User();
         testUser.setEmail(EMAIL);
@@ -41,11 +44,28 @@ public class UserDaoTest {
         testUser.setRole(UserType.SUPPORT);
     }
 
+    @AfterClass
+    public static void destroy() throws ConnectionPoolException, SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        pool.destroy();
+    }
+
+    @Before
+    public void createRecord() throws ConnectionPoolException, SQLException {
+        long id = TestHelper.executeDBAction(CREATE_TEST_USER_QUERY);
+        testUser.setId(id);
+    }
+
+    @After
+    public void deleteRecord() throws ConnectionPoolException, SQLException {
+        TestHelper.executeDBAction(DELETE_TEST_USER_QUERY);
+    }
+
     @Test
     public void testAdd() throws DaoException {
-        testUser = dao.add(testUser);
+        User added = dao.add(testUser);
 
-        assertNotNull(testUser);
+        assertNotNull(added);
     }
 
     @Test
@@ -69,7 +89,6 @@ public class UserDaoTest {
         User found = dao.findUserById(testUser.getId());
 
         assertNotNull(found);
-        assertEquals(testUser, found);
     }
 
     @Test
@@ -87,13 +106,9 @@ public class UserDaoTest {
         assertTrue(result);
     }
 
-    @Before
-    public void beforeTestUpdate() {
-        testUser.setPassword(UPDATED_PASSWORD);
-    }
-
     @Test
     public void testUpdate() throws DaoException {
+        testUser.setPassword(UPDATED_PASSWORD);
         User updated = dao.update(testUser);
 
         assertNotNull(updated);
@@ -113,12 +128,4 @@ public class UserDaoTest {
 
         assertNotNull(deleted);
     }
-
-
-    @AfterClass
-    public static void destroy() {
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-        connectionPool.destroy();
-    }
-
 }

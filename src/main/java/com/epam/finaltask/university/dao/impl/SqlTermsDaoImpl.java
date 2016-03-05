@@ -55,7 +55,8 @@ public class SqlTermsDaoImpl implements TermsDao {
     public Terms add(Terms terms) throws DaoException {
         try (
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(ADD_TERMS_QUERY);
+                PreparedStatement statement = connection.prepareStatement(ADD_TERMS_QUERY,
+                        Statement.RETURN_GENERATED_KEYS);
         ) {
             statement.setDate(1, DateTypeConverter.convertToSqlDate(terms.getStartDate()));
             statement.setDate(2, DateTypeConverter.convertToSqlDate(terms.getEndDate()));
@@ -64,6 +65,10 @@ public class SqlTermsDaoImpl implements TermsDao {
             int result = statement.executeUpdate();
 
             if (result != 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    terms.setId(generatedKeys.getLong(1));
+                }
                 return terms;
             } else {
                 return null;
