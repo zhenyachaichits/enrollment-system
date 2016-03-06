@@ -19,12 +19,12 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TermsDaoTest {
 
     private static final int YEAR = 2016;
     private static final int MONTH = 2;
     private static final int DAY = 5;
+
     private static TermsDao dao;
     private static Terms testTerms;
 

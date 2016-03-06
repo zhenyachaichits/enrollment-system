@@ -108,7 +108,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
      * @throws DaoException
      */
     @Override
-    public List<Profile> findProfileByLastName(String lastName, int offset, int recordsCount) throws DaoException {
+    public List<Profile> findProfilesByLastName(String lastName, int offset, int recordsCount) throws DaoException {
         return findByLastName(lastName, offset, recordsCount, false);
     }
 

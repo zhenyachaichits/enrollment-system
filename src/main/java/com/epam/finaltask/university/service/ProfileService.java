@@ -106,7 +106,7 @@ public class ProfileService {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
 
-            return dao.findProfileByLastName(lastName, offset, recordsCount);
+            return dao.findProfilesByLastName(lastName, offset, recordsCount);
         } catch (DaoFactoryException | DaoException e) {
             throw new ServiceException("Couldn't provide profile finding service", e);
         }

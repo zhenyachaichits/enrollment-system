@@ -1,30 +1,28 @@
 package com.epam.finaltask.university.test;
 
 import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.User;
-import com.epam.finaltask.university.bean.to.Student;
 import com.epam.finaltask.university.bean.type.MedalType;
-import com.epam.finaltask.university.bean.type.UserType;
-import com.epam.finaltask.university.dao.StudentDao;
+import com.epam.finaltask.university.dao.ProfileDao;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.exception.DaoFactoryException;
-import com.epam.finaltask.university.dao.impl.SqlStudentDaoImpl;
+import com.epam.finaltask.university.dao.impl.SqlProfileDaoImpl;
 import com.epam.finaltask.university.test.helper.TestHelper;
 import org.junit.*;
 
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 
-public class StudentDaoTest {
+public class ProfileDaoTest {
 
-    private static StudentDao dao;
-    private static Student testStudent;
+    private static ProfileDao dao;
+    private static Profile testProfile;
 
     private static final String TEST = "test";
     private static final String UPDATE = "update";
@@ -48,33 +46,28 @@ public class StudentDaoTest {
     private static final String DELETE_TEST_TERMS_QUERY = "DELETE FROM terms WHERE start_date = '2016-03-05' " +
             "AND end_date = '2016-03-05'";
 
+    private static final String UPDATE_TEST_PROFILE_APPLIED_QUERY = "UPDATE profile SET applied = TRUE WHERE " +
+            "passport_id = 'test'";
+
     @BeforeClass
     public static void init() throws ConnectionPoolException, DaoFactoryException, DaoException {
         ConnectionPool pool = ConnectionPool.getInstance();
         pool.init();
 
-        dao = SqlStudentDaoImpl.getInstance();
+        dao = SqlProfileDaoImpl.getInstance();
 
-        User user = new User();
-        user.setEmail(TEST);
-        user.setPassword(TEST);
-        user.setRole(UserType.STUDENT);
-
-        Profile profile = new Profile();
-        profile.setPassportId(TEST);
-        profile.setFirstName(TEST);
-        profile.setMiddleName(TEST);
-        profile.setLastName(TEST);
+        testProfile = new Profile();
+        testProfile.setPassportId(TEST);
+        testProfile.setFirstName(TEST);
+        testProfile.setMiddleName(TEST);
+        testProfile.setLastName(TEST);
         Calendar birthDate = new GregorianCalendar(YEAR, MONTH, DAY);
-        profile.setBirthDate(birthDate);
-        profile.setPhone(TEST);
-        profile.setAddress(TEST);
-        profile.setPoints(POINTS);
-        profile.setMedalType(MedalType.NONE);
-        profile.setFreeForm(true);
-
-        testStudent = new Student(user, profile);
-
+        testProfile.setBirthDate(birthDate);
+        testProfile.setPhone(TEST);
+        testProfile.setAddress(TEST);
+        testProfile.setPoints(POINTS);
+        testProfile.setMedalType(MedalType.NONE);
+        testProfile.setFreeForm(true);
     }
 
     @AfterClass
@@ -88,11 +81,10 @@ public class StudentDaoTest {
         long termsId = TestHelper.executeDBAction(CREATE_TEST_TERMS_QUERY);
         long facultyId = TestHelper.executeDBAction(CREATE_TEST_FACULTY_QUERY + termsId + ")");
         long userId = TestHelper.executeDBAction(CREATE_TEST_USER_QUERY);
-        testStudent.getUser().setId(userId);
-        testStudent.getProfile().setUserId(userId);
-        testStudent.getProfile().setFacultyId(facultyId);
+        testProfile.setUserId(userId);
+        testProfile.setFacultyId(facultyId);
         long profileId = TestHelper.executeDBAction(CREATE_TEST_PROFILE_QUERY + facultyId + "," + userId + ")");
-        testStudent.getProfile().setId(profileId);
+        testProfile.setId(profileId);
     }
 
     @After
@@ -102,45 +94,99 @@ public class StudentDaoTest {
         TestHelper.executeDBAction(DELETE_TEST_FACULTY_QUERY);
         TestHelper.executeDBAction(DELETE_TEST_TERMS_QUERY);
 
+        testProfile.setApplied(false);
     }
 
     @Test
     public void testAdd() throws DaoException {
-        Student added = dao.add(testStudent);
+        Profile added = dao.add(testProfile);
 
         assertNotNull(added);
-        assertEquals(testStudent, added);
+        assertEquals(testProfile, added);
     }
 
     @Test
     public void testFind() throws DaoException {
-        Student found = dao.find(testStudent.getUser().getEmail());
+        Profile found = dao.find(testProfile.getPassportId());
 
         assertNotNull(found);
-        assertEquals(testStudent, found);
+        assertEquals(testProfile, found);
     }
 
     @Test
     public void testUpdate() throws DaoException {
-        testStudent.getProfile().setFirstName(UPDATE);
-        Student updated = dao.update(testStudent);
+        testProfile.setFirstName(UPDATE);
+        Profile updated = dao.update(testProfile);
 
         assertNotNull(updated);
-        assertEquals(testStudent, updated);
+        assertEquals(testProfile, updated);
     }
 
     @Test
-    public void testCheckStudentExistence() throws DaoException {
-        boolean result = dao.checkStudentExistence(testStudent);
+    public void testAll() throws DaoException {
+        List<Profile> profiles = dao.all();
 
-        assertTrue(result);
+        assertTrue(profiles.contains(testProfile));
+    }
+
+    @Test
+    public void testFindProfilesByLastName() throws DaoException {
+        int possibleNumber = (int) testProfile.getId();
+        List<Profile> profiles = dao.findProfilesByLastName(testProfile.getLastName(), 0, possibleNumber);
+
+        assertTrue(profiles.contains(testProfile));
+    }
+
+    @Test
+    public void testFindById() throws DaoException {
+        Profile found = dao.findById(testProfile.getId());
+
+        assertNotNull(found);
+        assertEquals(testProfile, found);
     }
 
     @Test
     public void testCheckUpdateAvailability() throws DaoException {
-        boolean result = dao.checkUpdateAvailability(testStudent);
+        boolean result = dao.checkUpdateAvailability(testProfile);
 
         assertTrue(result);
     }
 
+    @Test
+    public void testFindAppliedById() throws DaoException, ConnectionPoolException, SQLException {
+        TestHelper.executeDBAction(UPDATE_TEST_PROFILE_APPLIED_QUERY);
+        testProfile.setApplied(true);
+        Profile found = dao.findApplied(testProfile.getPassportId());
+
+        assertNotNull(found);
+        assertEquals(testProfile, found);
+    }
+
+    @Test
+    public void testFindAppliedByLastName() throws DaoException, ConnectionPoolException, SQLException {
+        TestHelper.executeDBAction(UPDATE_TEST_PROFILE_APPLIED_QUERY);
+        testProfile.setApplied(true);
+        int possibleNumber = (int) testProfile.getId();
+        List<Profile> profiles = dao.findAppliedByLastName(testProfile.getLastName(), 0, possibleNumber);
+
+        assertTrue(profiles.contains(testProfile));
+    }
+
+    @Test
+    public void testFindAllProfiles() throws DaoException {
+        int possibleNumber = (int) testProfile.getId();
+        List<Profile> profiles = dao.findAllProfiles(0, possibleNumber);
+
+        assertTrue(profiles.contains(testProfile));
+    }
+
+    @Test
+    public void testFindAllApplied() throws DaoException, ConnectionPoolException, SQLException {
+        TestHelper.executeDBAction(UPDATE_TEST_PROFILE_APPLIED_QUERY);
+        testProfile.setApplied(true);
+        int possibleNumber = (int) testProfile.getId();
+        List<Profile> profiles = dao.findAllApplied(0, possibleNumber);
+
+        assertTrue(profiles.contains(testProfile));
+    }
 }

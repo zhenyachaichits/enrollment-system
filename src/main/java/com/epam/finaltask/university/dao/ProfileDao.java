@@ -19,7 +19,7 @@ public interface ProfileDao extends EntityDao<String, Profile> {
      * @return the list of profiles
      * @throws DaoException the dao exception
      */
-    List<Profile> findProfileByLastName(String lastName, int offset, int recordsCount) throws DaoException;
+    List<Profile> findProfilesByLastName(String lastName, int offset, int recordsCount) throws DaoException;
 
     /**
      * Find by id profile.

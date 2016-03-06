@@ -21,8 +21,6 @@ public class UserCommon {
         return UserCommonHolder.INSTANCE;
     }
 
-    private static final int MIN_PARAMETER_INDEX = 1;
-
     private static final String ADD_USER_QUERY = "INSERT INTO user (email, password_hash) values (?, ?)";
     private static final String ADD_USER_WITH_ROLE_QUERY = "INSERT INTO user (email, password_hash, role) values (?, ?, ?)";
 

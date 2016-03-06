@@ -14,7 +14,7 @@ public class TestHelper {
 
         Connection connection = ConnectionPool.getInstance().getConnection();
         PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        statement.executeUpdate();
+        int result = statement.executeUpdate();
         ResultSet generatedKeys = statement.getGeneratedKeys();
         if (generatedKeys.next()) {
             key = generatedKeys.getLong(1);
