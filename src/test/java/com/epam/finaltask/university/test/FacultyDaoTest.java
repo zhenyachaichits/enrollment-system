@@ -1,8 +1,6 @@
 package com.epam.finaltask.university.test;
 
 import com.epam.finaltask.university.bean.Faculty;
-import com.epam.finaltask.university.bean.Profile;
-import com.epam.finaltask.university.bean.type.MedalType;
 import com.epam.finaltask.university.dao.FacultyDao;
 import com.epam.finaltask.university.dao.connection.ConnectionPool;
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
@@ -13,20 +11,21 @@ import com.epam.finaltask.university.test.helper.TestHelper;
 import org.junit.*;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Zheny Chaichits on 06.03.2016.
- */
+
 public class FacultyDaoTest {
 
     private static FacultyDao dao;
     private static Faculty testFaculty;
 
     private static final String TEST = "test";
-    private static final int UPDATE_QUOTA = 10;
+    private static final int UPDATED = 10;
+    private static final int POINTS = 0;
     private static final int QUOTA = 5;
 
     private static final String CREATE_TEST_TERMS_QUERY = "INSERT INTO terms (start_date, end_date) VALUES " +
@@ -43,7 +42,6 @@ public class FacultyDaoTest {
     private static final String DELETE_TEST_FACULTY_QUERY = "DELETE FROM faculty WHERE name = 'test'";
     private static final String DELETE_TEST_TERMS_QUERY = "DELETE FROM terms WHERE start_date = '2016-03-05' " +
             "AND end_date = '2016-03-05'";
-
 
 
     @BeforeClass
@@ -87,6 +85,9 @@ public class FacultyDaoTest {
         TestHelper.executeDBAction(DELETE_TEST_FACULTY_QUERY);
         TestHelper.executeDBAction(DELETE_TEST_SUBJECT_QUERY);
         TestHelper.executeDBAction(DELETE_TEST_TERMS_QUERY);
+
+        testFaculty.setFreePoint(POINTS);
+        testFaculty.setPaidPoint(POINTS);
     }
 
     @Test
@@ -98,7 +99,7 @@ public class FacultyDaoTest {
     }
 
     @Test
-    public void testFind() throws DaoException {
+    public void testFindByName() throws DaoException {
         Faculty found = dao.find(testFaculty.getName());
 
         assertNotNull(found);
@@ -106,8 +107,16 @@ public class FacultyDaoTest {
     }
 
     @Test
+    public void testFindById() throws DaoException {
+        Faculty found = dao.find(testFaculty.getId());
+
+        assertNotNull(found);
+        assertEquals(testFaculty, found);
+    }
+
+    @Test
     public void testUpdate() throws DaoException {
-        testFaculty.setFreeQuota(UPDATE_QUOTA);
+        testFaculty.setFreeQuota(UPDATED);
         Faculty updated = dao.update(testFaculty);
 
         assertNotNull(updated);
@@ -121,4 +130,33 @@ public class FacultyDaoTest {
         assertTrue(faculties.contains(testFaculty));
     }
 
+    @Test
+    public void testDeleteByName() throws DaoException {
+        Faculty deleted = dao.delete(testFaculty.getName());
+
+        assertNotNull(deleted);
+    }
+
+    @Test
+    public void testDeleteById() throws DaoException {
+        boolean result = dao.delete(testFaculty.getId());
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void testCheckUpdateAvailability() throws DaoException {
+        boolean result = dao.checkUpdateAvailability(testFaculty);
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void testUpdatePoints() throws DaoException {
+        testFaculty.setFreePoint(UPDATED);
+        testFaculty.setPaidPoint(UPDATED);
+        boolean result = dao.updatePoints(testFaculty.getId(), UPDATED, UPDATED);
+
+        assertTrue(result);
+    }
 }
