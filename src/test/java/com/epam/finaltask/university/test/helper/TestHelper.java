@@ -5,9 +5,7 @@ import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolExce
 
 import java.sql.*;
 
-/**
- * Created by Zheny Chaichits on 05.03.2016.
- */
+
 public class TestHelper {
     public static long executeDBAction(String query) throws ConnectionPoolException, SQLException {
         long key = 0;

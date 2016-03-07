@@ -43,7 +43,7 @@ $("#faculty").change(function () {
             $(responseXml).find("data").find("subject").each(function () {
                 $("#label" + i).text($(this).find("name").text());
                 $("#subject" + i).attr('min', $(this).find("minPoint").text());
-                $("#help" + i).text('Minimal point for this subjest is: ' + $(this).find("minPoint").text());
+                $("#help" + i).text($("#subjectMessage").text() + $(this).find("minPoint").text());
                 $("#subject" + i + "Group").show("fast");
                 i++;
             });

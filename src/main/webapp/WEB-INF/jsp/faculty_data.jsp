@@ -61,12 +61,12 @@
                             <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
                                     <select id="terms" name="termsID" class="form-control select-dropdown">
-                                        <c:forEach var="terms" items="${termsList}">
-                                            <option value="${terms.id}"
-                                                    <c:if test="${terms.id eq faculty.termsId}"> selected </c:if> >
+                                        <c:forEach var="termsLabel" items="${termsList}">
+                                            <option value="${termsLabel.id}"
+                                                    <c:if test="${termsLabel.id eq faculty.termsId}"> selected </c:if> >
                                                 <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                value="${terms.startDate.time}"/>-<fmt:formatDate
-                                                    pattern="dd.MM.yyyy" value="${terms.endDate.time}"/>
+                                                                value="${termsLabel.startDate.time}"/>-<fmt:formatDate
+                                                    pattern="dd.MM.yyyy" value="${termsLabel.endDate.time}"/>
                                             </option>
                                         </c:forEach>
                                     </select>

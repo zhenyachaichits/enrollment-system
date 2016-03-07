@@ -14,12 +14,18 @@
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.navigation.brand" var="brand"/>
-<fmt:message bundle="${loc}" key="locale.navigation.statistics" var="statistics"/>
-<fmt:message bundle="${loc}" key="locale.navigation.signin" var="signIn"/>
-<fmt:message bundle="${loc}" key="locale.navigation.pofile" var="profile"/>
-<fmt:message bundle="${loc}" key="locale.navigation.logout" var="logOut"/>
-<fmt:message bundle="${loc}" key="locale.navigation.language" var="language"/>
+<fmt:message bundle="${loc}" key="locale.navigation.brand" var="brandLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.statistics" var="statisticsLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.signin" var="signInLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.pofile" var="profileLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.application" var="applicationLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.search" var="searchLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.users" var="usersLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.faculties" var="facultiesLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.subjects" var="subjectsLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.terms" var="termsLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.logout" var="logOutLabel"/>
+<fmt:message bundle="${loc}" key="locale.navigation.language" var="languageLabel"/>
 <fmt:message bundle="${loc}" key="locale.navigation.language.english" var="englishLanguage"/>
 <fmt:message bundle="${loc}" key="locale.navigation.language.russian" var="russianLanguage"/>
 
@@ -45,7 +51,7 @@
             </button>
             <form name="home" action="home" method="post">
                 <input type="hidden" name="command" value="go-home">
-                <a href="javascript:home.submit()" class="navbar-brand">${brand}</a>
+                <a href="javascript:home.submit()" class="navbar-brand">${brandLabel}</a>
             </form>
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
@@ -54,7 +60,7 @@
                 <input type="hidden" name="command" value="go-statistics">
             </form>
             <ul class="nav navbar-nav">
-                <li><a href="javascript:toStatistics.submit();">${statistics}</a></li>
+                <li><a href="javascript:toStatistics.submit();">${statisticsLabel}</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -70,7 +76,7 @@
                                 <form hidden="hidden" name="goUserManagement" action="management" method="post">
                                     <input type="hidden" name="command" value="go-user-management">
                                 </form>
-                                <li><a href="javascript:goUserManagement.submit();">User management</a></li>
+                                <li><a href="javascript:goUserManagement.submit();">${usersLabel}</a></li>
                                 <li class="divider"></li>
                             </c:if>
 
@@ -78,7 +84,7 @@
                                 <form hidden="hidden" name="goFacultyManagement" action="management" method="post">
                                     <input type="hidden" name="command" value="go-faculty-management">
                                 </form>
-                                <li><a href="javascript:goFacultyManagement.submit();">Faculty management</a></li>
+                                <li><a href="javascript:goFacultyManagement.submit();">${facultiesLabel}</a></li>
                                 <li class="divider"></li>
                             </c:if>
 
@@ -86,7 +92,7 @@
                                 <form hidden="hidden" name="goSubjectManagement" action="management" method="post">
                                     <input type="hidden" name="command" value="go-subject-management">
                                 </form>
-                                <li><a href="javascript:goSubjectManagement.submit();">Subject management</a></li>
+                                <li><a href="javascript:goSubjectManagement.submit();">${subjectsLabel}</a></li>
                                 <li class="divider"></li>
                             </c:if>
 
@@ -94,7 +100,7 @@
                                 <form hidden="hidden" name="goTermsManagement" action="management" method="post">
                                     <input type="hidden" name="command" value="go-terms-management">
                                 </form>
-                                <li><a href="javascript:goTermsManagement.submit();">Terms management</a></li>
+                                <li><a href="javascript:goTermsManagement.submit();">${termsLabel}</a></li>
                                 <li class="divider"></li>
                             </c:if>
 
@@ -102,7 +108,7 @@
                                 <form hidden="hidden" name="goProfile" action="profile" method="post">
                                     <input type="hidden" name="command" value="go-profile">
                                 </form>
-                                <li><a href="javascript:goProfile.submit();">${profile}</a></li>
+                                <li><a href="javascript:goProfile.submit();">${profileLabel}</a></li>
                                 <li class="divider"></li>
                             </c:if>
 
@@ -110,7 +116,7 @@
                                 <form hidden="hidden" name="goApplicationData" action="profile" method="post">
                                     <input type="hidden" name="command" value="go-application-data">
                                 </form>
-                                <li><a href="javascript:goApplicationData.submit();">Application</a></li>
+                                <li><a href="javascript:goApplicationData.submit();">${applicationLabel}</a></li>
                                 <li class="divider"></li>
                             </c:if>
 
@@ -118,7 +124,7 @@
                                 <form hidden="hidden" name="goProfile" action="search" method="post">
                                     <input type="hidden" name="command" value="go-support-search">
                                 </form>
-                                <li><a href="javascript:goProfile.submit();">Search</a></li>
+                                <li><a href="javascript:goProfile.submit();">${searchLabel}</a></li>
                                 <li class="divider"></li>
                             </c:if>
 
@@ -126,7 +132,7 @@
                                 <input type="hidden" name="command" value="log-out">
                             </form>
                             <li>
-                                <a href="javascript:logout.submit();">${logOut}</a>
+                                <a href="javascript:logout.submit();">${logOutLabel}</a>
                             </li>
                         </ul>
                     </li>
@@ -134,7 +140,7 @@
 
                 <c:if test="${sessionScope.userEmail == null}">
                     <li><a href="javascript:void(0)" onclick="authenticateCookies()" id="signInLink" data-toggle="modal"
-                           data-target="#signIn">${signIn}</a></li>
+                           data-target="#signIn">${signInLabel}</a></li>
                 </c:if>
 
                 <li class="dropdown">
@@ -144,7 +150,7 @@
                         <input id="currentLocale" type="hidden" value="${sessionScope.locale}">
                         <input id="localeValue" type="hidden" name="locale" value="">
                     </form>
-                    <a href="bootstrap-elements.html" class="dropdown-toggle" data-toggle="dropdown">${language}
+                    <a href="bootstrap-elements.html" class="dropdown-toggle" data-toggle="dropdown">${languageLabel}
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a id="enBtn" href="javascript:void(0)"><p id="enLabel">${englishLanguage}</p></a></li>

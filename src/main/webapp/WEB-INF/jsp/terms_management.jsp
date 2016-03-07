@@ -92,17 +92,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="terms" items="${termsList}">
+                                <c:forEach var="termsLabel" items="${termsList}">
                                     <tr>
                                         <form action="management" id="updateTerms" name="updateSubject" method="post">
                                             <input type="hidden" name="command" value="update-terms">
-                                            <input type="hidden" name="termsID" value="${terms.id}">
+                                            <input type="hidden" name="termsID" value="${termsLabel.id}">
                                             <td>
                                                 <div class="form-group" style="margin: 7px 0 0 0">
                                                     <input name="startDate" type="text" class="form-control date-start"
                                                            placeholder="Birth Date"
                                                            value=" <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                    value="${terms.startDate.time}"/>" required>
+                                                                    value="${termsLabel.startDate.time}"/>" required>
                                                 </div>
                                             </td>
                                             <td>
@@ -110,7 +110,7 @@
                                                     <input name="endDate" type="text" class="form-control date-end"
                                                            placeholder="Birth Date"
                                                            value=" <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                    value="${terms.endDate.time}"/>" required>
+                                                                    value="${termsLabel.endDate.time}"/>" required>
                                                 </div>
                                             </td>
 
@@ -124,7 +124,7 @@
                                         <td>
                                             <form action="management" id="deleteTerms" name="deleteSubject" method="post">
                                                 <input type="hidden" name="command" value="delete-terms">
-                                                <input type="hidden" name="termsID" value="${terms.id}">
+                                                <input type="hidden" name="termsID" value="${termsLabel.id}">
                                             </form>
                                             <a href="javascript:void(0)" onclick="$('form#deleteTerms').submit();"
                                                class="btn btn-danger">

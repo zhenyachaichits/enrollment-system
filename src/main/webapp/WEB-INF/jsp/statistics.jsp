@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Zheny Chaichits
-  Date: 08.02.2016
-  Time: 14:04
-  To change this template use File | Settings | File Templates.
---%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
@@ -14,8 +7,16 @@
 <%@taglib prefix="tr" uri="http://epam.com/project/university/transliterate" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.statistics.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.statistics.header" var="headerLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.statistics.table.name" var="nameLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.statistics.table.quota.free" var="freeQuotaLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.statistics.table.quota.paid" var="paidQuotaLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.statistics.table.points.free" var="freePointsLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.statistics.table.points.paid" var="paidPointsLabel"/>
+
+
 
 <html>
 <head>
@@ -32,17 +33,17 @@
 <div class="container">
 
     <div class="panel panel-default">
-        <div class="panel-heading">Faculties statistics</div>
+        <div class="panel-heading">${headerLabel}</div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-striped table-hover ">
                     <thead>
                     <tr>
-                        <th>Faculty</th>
-                        <th>Free Form Quota</th>
-                        <th>Paid Form Quota</th>
-                        <th>Points for Free Form</th>
-                        <th>Points for Paid Form</th>
+                        <th>${nameLabel}</th>
+                        <th>${freeQuotaLabel}</th>
+                        <th>${paidQuotaLabel}</th>
+                        <th>${freePointsLabel}</th>
+                        <th>${paidPointsLabel}</th>
                     </tr>
                     </thead>
                     <tbody>

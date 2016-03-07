@@ -7,6 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.data.current" var="lang"/>
 
 <script src="//code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -26,11 +29,11 @@
 <script>
     $.material.init();
 
-    $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
+    $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: '${lang}', weekStart: 1, time: false});
     $(".select-dropdown").dropdown({"autoinit": "select"});
 
-    $('.date-end').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false});
-    $('.date-start').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: 'en', weekStart: 1, time: false}).on('change', function(e, date)
+    $('.date-end').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: '${lang}', weekStart: 1, time: false});
+    $('.date-start').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: '${lang}', weekStart: 1, time: false}).on('change', function(e, date)
     {
         $('#date-end').bootstrapMaterialDatePicker('setMinDate', date);
     });

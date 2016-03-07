@@ -79,11 +79,11 @@
 
                                     <div class="col-md-8">
                                         <select id="terms" name="termsID" class="form-control select-dropdown">
-                                            <c:forEach var="terms" items="${termsList}">
-                                                <option value="${terms.id}">
+                                            <c:forEach var="termsLabel" items="${termsList}">
+                                                <option value="${termsLabel.id}">
                                                     <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                    value="${terms.startDate.time}"/>-<fmt:formatDate
-                                                        pattern="dd.MM.yyyy" value="${terms.endDate.time}"/>
+                                                                    value="${termsLabel.startDate.time}"/>-<fmt:formatDate
+                                                        pattern="dd.MM.yyyy" value="${termsLabel.endDate.time}"/>
                                                 </option>
                                             </c:forEach>
                                         </select>
@@ -144,14 +144,14 @@
                                                 <tr:transl>${faculty.name}</p></tr:transl>
                                             </td>
                                             <td>
-                                                <c:forEach var="terms" items="${termsList}">
-                                                    <c:if test="${faculty.termsId eq terms.id}">
+                                                <c:forEach var="termsLabel" items="${termsList}">
+                                                    <c:if test="${faculty.termsId eq termsLabel.id}">
                                                         <p class="centred">
                                                             <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                            value="${terms.startDate.time}"/>
+                                                                            value="${termsLabel.startDate.time}"/>
                                                             -
                                                             <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                            value="${terms.endDate.time}"/>
+                                                                            value="${termsLabel.endDate.time}"/>
                                                         </p>
                                                     </c:if>
                                                 </c:forEach>

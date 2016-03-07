@@ -6,8 +6,16 @@
 <%@ taglib prefix="tr" uri="http://epam.com/project/university/transliterate" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.application.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.application.name" var="nameLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.application.faculty" var="facultyLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.application.applied" var="appliedLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.application.confirmed" var="confirmedLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.application.status.yes" var="yesLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.application.status.no" var="noLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.application.competition" var="compeititonLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.application.error" var="errorLabel"/>
 
 <html>
 <head>
@@ -26,7 +34,7 @@
             <div class="well">
                 <div class="horizontal-center">
                     <i class="material-icons" style="font-size: 18em">mood_bad</i>
-                    <h1>You didn't apply yet.</h1>
+                    <h1>${errorLabel}</h1>
                 </div>
             </div>
         </div>
@@ -43,7 +51,7 @@
                                 <i style="font-size:36px" class="material-icons">mood</i>
                             </div>
                             <div class="row-content">
-                                <h4 class="list-group-item-heading">Name</h4>
+                                <h4 class="list-group-item-heading">${nameLabel}</h4>
                                 <p class="list-group-item-text">
                                     <tr:transl>${student.profile.firstName} ${student.profile.middleName}
                                         ${student.profile.lastName}</tr:transl>
@@ -56,7 +64,7 @@
                                 <i style="font-size:36px" class="material-icons">school</i>
                             </div>
                             <div class="row-content">
-                                <h4 class="list-group-item-heading">Faculty</h4>
+                                <h4 class="list-group-item-heading">${facultyLabel}</h4>
                                 <p class="list-group-item-text">
                                     <c:forEach var="faculty" items="${faculties}">
                                         <c:if test="${faculty.id eq student.profile.facultyId}">
@@ -72,7 +80,7 @@
                                 <i style="font-size:36px" class="material-icons">date_range</i>
                             </div>
                             <div class="row-content">
-                                <h4 class="list-group-item-heading">Applied</h4>
+                                <h4 class="list-group-item-heading">${appliedLabel}</h4>
                                 <p class="list-group-item-text">
                                     <fmt:formatDate pattern=" dd.MM.yyyy" value="${application.date.time}"/>
                                 </p>
@@ -84,13 +92,13 @@
                                 <i style="font-size:36px" class="material-icons">assignment_turned_in</i>
                             </div>
                             <div class="row-content">
-                                <h4 class="list-group-item-heading">Applied</h4>
+                                <h4 class="list-group-item-heading">${confirmedLabel}</h4>
                                 <p class="list-group-item-text">
                                     <c:if test="${application.confirmed}">
-                                        Yes
+                                        ${yesLabel}
                                     </c:if>
                                     <c:if test="${not application.confirmed}">
-                                        No
+                                        ${noLabel}
                                     </c:if>
                                 </p>
                             </div>
@@ -103,7 +111,7 @@
                                 </label>
                             </div>
                             <div class="row-content">
-                                <h4 class="list-group-item-heading">Out of competition</h4>
+                                <h4 class="list-group-item-heading">${compeititonLabel}</h4>
 
                                 <p class="list-group-item-text"></p>
                             </div>
