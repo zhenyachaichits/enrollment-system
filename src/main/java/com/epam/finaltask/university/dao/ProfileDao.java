@@ -86,6 +86,8 @@ public interface ProfileDao extends EntityDao<String, Profile> {
      */
     int getRecordsCount();
 
+    long getProfileTermsId(long profileId) throws DaoException;
+
     /**
      * Gets to profiles apply.
      *

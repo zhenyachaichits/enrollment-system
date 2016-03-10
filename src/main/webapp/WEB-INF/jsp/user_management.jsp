@@ -7,13 +7,21 @@
 
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
-<fmt:message bundle="${loc}" key="locale.page.index.header" var="divHeader"/>
-<fmt:message bundle="${loc}" key="locale.page.index.description" var="description"/>
-<fmt:message bundle="${loc}" key="locale.page.index.button.statistics" var="statisticsBtn"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.users.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.users.role" var="roleLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.users.tab.search" var="searchTab"/>
+<fmt:message bundle="${loc}" key="locale.page.users.tab.create" var="createTab"/>
+<fmt:message bundle="${loc}" key="locale.page.users.role.student" var="studentLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.users.role.admin" var="adminLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.users.role.support" var="supportLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.users.button.create" var="createBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.users.button.more" var="moreBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.users.records" var="foundLabel"/>
 
-<fmt:message bundle="${loc}" key="locale.modal.signin.message.error" var="errorMessage"/>
+<fmt:message bundle="${loc}" key="locale.data.personal.email" var="emailLabel"/>
+<fmt:message bundle="${loc}" key="locale.data.personal.password" var="passwordLabel"/>
+
 
 <html>
 <head>
@@ -34,10 +42,10 @@
                 <div class="panel-heading">
                     <ul class="nav nav-tabs searchtab">
                         <li><a href="#findByRole" data-toggle="tab">
-                            <div class="text-muted">Search</div>
+                            <div class="text-muted">${searchTab}</div>
                         </a></li>
                         <li><a href="#addUser" data-toggle="tab">
-                            <div class="text-muted">Create user</div>
+                            <div class="text-muted">${createTab}</div>
                         </a></li>
                     </ul>
                 </div>
@@ -47,16 +55,16 @@
                     <div id="myTabContent" class="tab-content">
                         <div class="tab-pane fade active in" id="findByRole">
                             <div class="row">
-                                <div class="col-md-6 col-md-offset-4">
-                                    <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <div class="form-group horizontal-center">
                                         <form action="search" id="searchUsers" name="searchUsers" method="post"
                                               accept-charset="utf-8">
                                             <input id="findCommand" type="hidden" name="command"
                                                    value="search-users-by-role">
                                             <input id="findRole" type="hidden" name="role" value="">
-                                            <button id="findStudent" class="btn btn-raised">Student</button>
-                                            <button id="findAdmin" class="btn btn-raised">Admin</button>
-                                            <button id="findSupport" class="btn btn-raised">Support</button>
+                                            <button id="findStudent" class="btn btn-raised">${studentLabel}</button>
+                                            <button id="findAdmin" class="btn btn-raised">${adminLabel}</button>
+                                            <button id="findSupport" class="btn btn-raised">${supportLabel}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -70,36 +78,36 @@
                                     <input type="hidden" name="command" value="create-user">
                                     <fieldset>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="newEmail">Email</label>
+                                            <label class="col-md-3 control-label" for="newEmail">${emailLabel}</label>
                                             <div class="col-md-8">
                                                 <input type="email" name="email" id="newEmail" class="form-control"
-                                                       placeholder="Email"
+                                                       placeholder="${emailLabel}"
                                                        required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="newPassword">Name</label>
+                                            <label class="col-md-3 control-label" for="newPassword">${passwordLabel}</label>
                                             <div class="col-md-8">
                                                 <input type="password" name="password" id="newPassword" class="form-control"
-                                                       placeholder="Password"
+                                                       placeholder="${passwordLabel}"
                                                        required>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">Role</label>
+                                            <label class="col-md-3 control-label">${roleLabel}</label>
 
                                             <div class="col-md-8">
                                                 <div class="radio radio-primary">
                                                     <label>
                                                         <input type="radio" name="role" id="supportRole" value="SUPPORT" checked="">
-                                                        Support
+                                                        ${supportLabel}
                                                     </label>
                                                 </div>
                                                 <div class="radio radio-primary">
                                                     <label>
                                                         <input type="radio" name="role" id="adminRole" value="ADMIN">
-                                                        Admin
+                                                        ${adminLabel}
                                                     </label>
                                                 </div>
                                             </div>
@@ -107,7 +115,7 @@
 
                                         <div class="form-group">
                                             <div class="col-md-12 col-md-offset-8">
-                                                <button class="btn btn-primary">Add</button>
+                                                <button class="btn btn-primary">${createBtn}</button>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -128,14 +136,14 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
 
-                        <p class="lead text-muted">Records found: ${fn:length(users)}</p>
+                        <p class="lead text-muted">${foundLabel} ${fn:length(users)}</p>
 
                         <div class="table-responsive">
                             <table class="table table-striped table-hover ">
                                 <thead>
                                 <tr>
-                                    <th>Email</th>
-                                    <th>Access level</th>
+                                    <th>${emailLabel}</th>
+                                    <th>${roleLabel}</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -153,7 +161,7 @@
                                             <td>
                                                 <button name="userID" value="${user.id}"
                                                         class="btn btn-primary">
-                                                    More
+                                                    ${moreBtn}
                                                 </button>
                                             </td>
                                         </tr>

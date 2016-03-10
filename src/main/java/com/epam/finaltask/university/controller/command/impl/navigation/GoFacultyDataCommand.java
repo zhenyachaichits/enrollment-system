@@ -44,12 +44,14 @@ public class GoFacultyDataCommand implements Command {
 
             FacultyService facultyService = FacultyService.getInstance();
             Faculty faculty = facultyService.findFacultyById(facultyId);
+            boolean isDeletable = facultyService.checkDeletionAvailability(facultyId);
 
             TermsService termsService = TermsService.getInstance();
             List<Terms> termsList = termsService.getAllTerms();
 
             request.setAttribute(RequestParameterName.FACULTY, faculty);
             request.setAttribute(RequestParameterName.TERMS_LIST, termsList);
+            request.setAttribute(RequestParameterName.DELETABLE, isDeletable);
 
             session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 

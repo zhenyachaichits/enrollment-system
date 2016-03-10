@@ -49,6 +49,8 @@ public class SqlFacultyDaoImpl implements FacultyDao {
             "AND name = ?";
     private static final String UPDATE_FACULTY_QUERY = "UPDATE faculty SET name = ?, free_quota = ?, paid_quota = ?, " +
             "terms_terms_id = ? WHERE faculty_id = ? AND status = 'ACTIVE'";
+    private static final String CHECK_DELETE_AVAILABILITY = "SELECT faculty.* FROM faculty INNER JOIN profile " +
+            "ON faculty.faculty_id = profile.faculty_faculty_id WHERE faculty.faculty_id = ?";
     private static final String DELETE_FACULTY_BY_ID_QUERY = "UPDATE faculty SET status = 'DELETED' " +
             "WHERE faculty_id = ?";
     private static final String DELETE_FACULTY_BY_NAME_QUERY = "UPDATE faculty SET status = 'DELETED' WHERE name = ?";
@@ -334,6 +336,21 @@ public class SqlFacultyDaoImpl implements FacultyDao {
             int result = statement.executeUpdate();
 
             return result != 0;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean checkDeletionAvailability(long facultyId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_DELETE_AVAILABILITY);
+        ) {
+            statement.setLong(1, facultyId);
+
+            ResultSet resultSet = statement.executeQuery();
+            return !resultSet.next();
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }

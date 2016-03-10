@@ -89,16 +89,21 @@ public class LockingSubjectService {
      * @throws ServiceException the service exception
      */
     public boolean deleteSubject(long subjectId) throws ServiceException {
-        lock.lock();
-        try {
-            SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
+        SubjectService subjectService = SubjectService.getInstance();
+        if(subjectService.checkDeletionAvailability(subjectId)) {
+            lock.lock();
+            try {
+                SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
 
-            return dao.delete(subjectId);
+                return dao.delete(subjectId);
 
-        } catch (DaoFactoryException | DaoException e) {
-            throw new ServiceException("Couldn't provide subject deletion service");
-        } finally {
-            lock.unlock();
+            } catch (DaoFactoryException | DaoException e) {
+                throw new ServiceException("Couldn't provide subject deletion service");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new InvalidServiceDataException("Deletion is not available. Operation Stopped");
         }
     }
 }

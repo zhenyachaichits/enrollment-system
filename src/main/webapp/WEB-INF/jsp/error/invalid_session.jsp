@@ -1,17 +1,19 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Zheny Chaichits
-  Date: 22.02.2016
-  Time: 12:03
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.error.session.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.error.session.header" var="headMessage"/>
+<fmt:message bundle="${loc}" key="locale.page.error.session.message" var="message"/>
+<fmt:message bundle="${loc}" key="locale.page.error.session.back" var="back"/>
 
 
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Error</title>
+    <title>${title}</title>
 
     <%@include file="../included/css_list.jsp" %>
 
@@ -21,18 +23,19 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h1>We're sorry..</h1>
+        <h1>${headMessage}</h1>
 
-        <p>Your session is invalid. Please, sign up and try again.</p>
+        <p>${message}</p>
 
         <form action="home" method="post">
             <input type="hidden" name="command" value="go-home">
             <p>
-                <button type="submit" class="btn btn-primary btn-lg">Back to Home Page</button>
+                <button type="submit" class="btn btn-primary btn-lg">${back}</button>
             </p>
         </form>
     </div>
 </div>
+
 
 <%@include file="../included/js_list.jsp" %>
 <script src="content/js/locale.js"></script>

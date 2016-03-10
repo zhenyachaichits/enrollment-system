@@ -34,6 +34,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
         return ProfileDaoHolder.INSTANCE;
     }
 
+    private static final String TERMS_ID_KEY = "terms_terms_id";
     private static final String FIND_PROFILE_BY_PASSPORT_ID_QUERY = "SELECT * FROM profile " +
             "WHERE passport_id = ? AND status = 'ACTIVE' AND applied = FALSE";
     private static final String FIND_PROFILE_BY_LAST_NAME_QUERY = "SELECT SQL_CALC_FOUND_ROWS * FROM profile " +
@@ -63,7 +64,9 @@ public class SqlProfileDaoImpl implements ProfileDao {
             "application.out_of_competition = FALSE AND profile.points = ? AND profile.faculty_faculty_id = ? " +
             "AND profile.status = 'ACTIVE' AND application.status = 'ACTIVE' " +
             "ORDER BY application.date LIMIT ?";
-
+    private static final String GET_TERMS_ID_QUERY = "SELECT faculty.terms_terms_id FROM profile INNER JOIN faculty " +
+            "ON profile.faculty_faculty_id = faculty.faculty_id WHERE profile.profile_id = ? " +
+            "AND profile.status = 'ACTIVE' AND faculty.status = 'ACTIVE' ";
 
     /**
      * Add new profile
@@ -278,6 +281,25 @@ public class SqlProfileDaoImpl implements ProfileDao {
     @Override
     public int getRecordsCount() {
         return recordsCount;
+    }
+
+    @Override
+    public long getProfileTermsId(long profileId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(GET_TERMS_ID_QUERY);
+        ) {
+            statement.setLong(1, profileId);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getLong(TERMS_ID_KEY);
+            }
+
+            return 0;
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     /**

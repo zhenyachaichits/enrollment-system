@@ -11,6 +11,7 @@ import com.epam.finaltask.university.controller.command.exception.CommandExcepti
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
 import com.epam.finaltask.university.controller.util.UrlBuilder;
+import com.epam.finaltask.university.service.ApplicationService;
 import com.epam.finaltask.university.service.FacultyService;
 import com.epam.finaltask.university.service.ProfileService;
 import com.epam.finaltask.university.service.exception.ServiceException;
@@ -51,7 +52,11 @@ public class GoApplyFormCommand implements Command {
             FacultyService facultyService = FacultyService.getInstance();
             List<Faculty> faculties = facultyService.getAllFaculties();
 
+            ApplicationService applicationService = ApplicationService.getInstance();
+            boolean isApplicable = applicationService.checkApplicability(profileId);
+
             request.setAttribute(RequestParameterName.FACULTIES, faculties);
+            request.setAttribute(RequestParameterName.APPLICABLE, isApplicable);
 
             if (profile != null) {
                 request.setAttribute(RequestParameterName.PROFILE, profile);

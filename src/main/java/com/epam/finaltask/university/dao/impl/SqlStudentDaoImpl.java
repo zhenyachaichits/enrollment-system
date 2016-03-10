@@ -47,6 +47,9 @@ public class SqlStudentDaoImpl implements StudentDao {
     private static final String FIND_STUDENT_QUERY = "SELECT user.*, profile.* FROM user INNER JOIN profile ON " +
             "user.user_id = profile.user_user_id WHERE user.email = ? AND user.status = 'ACTIVE' " +
             "AND profile.status = 'ACTIVE'";
+    private static final String CHECK_DELETE_AVAILABILITY = "SELECT user.* FROM user INNER JOIN profile ON " +
+            "user.user_id = profile.user_user_id WHERE user.user_id = ? AND user.status = 'ACTIVE' " +
+            "AND profile.status = 'ACTIVE' AND profile.applied = TRUE";
 
     /**
      * Checks student existence
@@ -86,6 +89,21 @@ public class SqlStudentDaoImpl implements StudentDao {
             statement.setLong(1, student.getUser().getId());
             statement.setString(2, student.getUser().getEmail());
             statement.setString(3, student.getProfile().getPassportId());
+
+            ResultSet resultSet = statement.executeQuery();
+            return !resultSet.next();
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean checkDeletionAvailability(long userId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_DELETE_AVAILABILITY);
+        ) {
+            statement.setLong(1, userId);
 
             ResultSet resultSet = statement.executeQuery();
             return !resultSet.next();

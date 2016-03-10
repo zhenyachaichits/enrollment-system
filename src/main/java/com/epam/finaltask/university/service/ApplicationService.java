@@ -103,4 +103,25 @@ public class ApplicationService {
         return passingPoint;
     }
 
+    public boolean checkDeletionAvailability(long profileId) throws ServiceException {
+        try {
+            ApplicationDao dao = DaoFactory.getDaoFactory().getApplicationDao();
+
+            return dao.checkDeletionAvailability(profileId);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide deletion availability checking service", e);
+        }
+    }
+
+    public boolean checkApplicability(long profileId) throws ServiceException {
+        ProfileService profileService = ProfileService.getInstance();
+        TermsService termsService = TermsService.getInstance();
+
+        long termsId = profileService.getProfileTermsId(profileId);
+        if (termsId != 0) {
+            return termsService.isCurrentDateInTerms(termsId);
+        } else {
+            throw new ServiceException("Couldn't provide applicability checking service, terms was not found");
+        }
+    }
 }

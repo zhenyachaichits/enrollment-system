@@ -1,17 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Zheny Chaichits
-  Date: 22.02.2016
-  Time: 12:17
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
 
+<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.error.data.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.error.data.header" var="headMessage"/>
+<fmt:message bundle="${loc}" key="locale.page.error.data.message" var="message"/>
+<fmt:message bundle="${loc}" key="locale.page.error.data.back" var="back"/>
 
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Error</title>
+    <title>${title}</title>
 
     <%@include file="../included/css_list.jsp" %>
 
@@ -21,14 +22,14 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h1>We're sorry..</h1>
+        <h1>${headMessage}</h1>
 
-        <p>Data you entered is invalid.</p>
+        <p>${message}</p>
 
         <form action="home" method="post">
-            <input type="hidden" name="command" value="go-home">
+            <input type="hidden" name="command" value="go-back">
             <p>
-                <button type="submit" class="btn btn-primary btn-lg">Back to Home Page</button>
+                <button type="submit" class="btn btn-primary btn-lg">${back}</button>
             </p>
         </form>
     </div>

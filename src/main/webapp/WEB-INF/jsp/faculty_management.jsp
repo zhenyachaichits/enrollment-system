@@ -7,13 +7,18 @@
 
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
-<fmt:message bundle="${loc}" key="locale.page.index.header" var="divHeader"/>
-<fmt:message bundle="${loc}" key="locale.page.index.description" var="description"/>
-<fmt:message bundle="${loc}" key="locale.page.index.button.statistics" var="statisticsBtn"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.header" var="divHeader"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.name" var="nameLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.quota.free" var="freeQuotaLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.quota.paid" var="paidQuotaLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.terms" var="termsLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.subjects" var="subjectsLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.button.more" var="moreBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.button.create" var="createBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.found" var="foundLabel"/>
 
-<fmt:message bundle="${loc}" key="locale.modal.signin.message.error" var="errorMessage"/>
 
 <html>
 <head>
@@ -33,7 +38,7 @@
 
             <div class="panel panel-default clear">
                 <div class="panel-heading">
-                    <h4>Create new faculty</h4>
+                    <p>${divHeader}</p>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -41,41 +46,39 @@
                             <input type="hidden" name="command" value="create-faculty">
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label" for="facultyName">Faculty Name</label>
+                                    <label class="col-md-3 control-label" for="facultyName">${nameLabel}</label>
                                     <div class="col-md-8">
                                         <input type="text" name="facultyName" id="facultyName" class="form-control"
-                                               placeholder="Name"
+                                               placeholder="${nameLabel}"
                                                required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="freeQuota" class="col-md-3 control-label">
-                                        Free Form Quota
+                                        ${freeQuotaLabel}
                                     </label>
 
                                     <div class="col-md-8">
                                         <input type="number" name="freeQuota" min="1" max="999"
                                                class="form-control point"
-                                               id="freeQuota"
-                                               placeholder="Quota" pattern="\d{1,3}">
+                                               id="freeQuota" pattern="\d{1,3}">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="freeQuota" class="col-md-3 control-label">
-                                        Paid Form Quota
+                                        ${paidQuotaLabel}
                                     </label>
 
                                     <div class="col-md-8">
                                         <input type="number" name="paidQuota" min="1" max="999"
                                                class="form-control point"
-                                               id="paidQuota"
-                                               placeholder="Quota" pattern="\d{1,3}">
+                                               id="paidQuota" pattern="\d{1,3}">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="terms" class="col-md-3 control-label">Terms</label>
+                                    <label for="terms" class="col-md-3 control-label">${termsLabel}</label>
 
                                     <div class="col-md-8">
                                         <select id="terms" name="termsID" class="form-control select-dropdown">
@@ -91,7 +94,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="subjects" class="col-md-3 control-label">Subjects</label>
+                                    <label for="subjects" class="col-md-3 control-label">${subjectsLabel}</label>
                                     <div class="col-md-8">
                                         <select id="subjects" name="subjects" class="form-control" multiple>
                                             <c:forEach var="subject" items="${subjects}">
@@ -105,7 +108,7 @@
 
                                 <div class="form-group">
                                     <div class="col-md-12 col-md-offset-8">
-                                        <button class="btn btn-primary">Add</button>
+                                        <button class="btn btn-primary">${createBtn}</button>
                                     </div>
                                 </div>
                             </fieldset>
@@ -123,7 +126,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
 
-                        <p class="lead text-muted">Faculties found: ${fn:length(faculties)}</p>
+                        <p class="lead text-muted">${foundLabel} ${fn:length(faculties)}</p>
 
                         <div class="table-responsive">
                             <table class="table table-striped table-hover ">
@@ -159,7 +162,7 @@
                                             <td>
                                                 <button name="facultyID" value="${faculty.id}"
                                                         class="btn btn-primary">
-                                                    More
+                                                    ${moreBtn}
                                                 </button>
                                             </td>
                                         </tr>

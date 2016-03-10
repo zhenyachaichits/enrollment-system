@@ -15,6 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
+ * -
  * Locking faculty service.
  */
 public class LockingFacultyService {
@@ -70,7 +71,7 @@ public class LockingFacultyService {
      */
     public Faculty updateFaculty(Faculty faculty) throws ServiceException {
         FacultyService service = FacultyService.getInstance();
-        if(FacultyValidator.validateFaculty(faculty) && service.checkUpdateAvailability(faculty)) {
+        if (FacultyValidator.validateFaculty(faculty) && service.checkUpdateAvailability(faculty)) {
             lock.lock();
             try {
                 FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
@@ -94,15 +95,20 @@ public class LockingFacultyService {
      * @throws ServiceException the service exception
      */
     public boolean deleteFaculty(long facultyId) throws ServiceException {
-        lock.lock();
-        try {
-            FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
+        FacultyService service = FacultyService.getInstance();
+        if (service.checkDeletionAvailability(facultyId)) {
+            lock.lock();
+            try {
+                FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
 
-            return dao.delete(facultyId);
-        } catch (DaoFactoryException | DaoException e) {
-            throw new ServiceException("Couldn't provide subject deletion service");
-        } finally {
-            lock.unlock();
+                return dao.delete(facultyId);
+            } catch (DaoFactoryException | DaoException e) {
+                throw new ServiceException("Couldn't provide subject deletion service");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new InvalidServiceDataException("Deletion is not available. Operation Stopped");
         }
     }
 

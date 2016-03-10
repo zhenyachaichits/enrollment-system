@@ -25,4 +25,6 @@ public interface TermsDao extends EntityDao<Long, Terms> {
      * @throws DaoException the dao exception
      */
     boolean checkUpdateAvailability(Terms terms) throws DaoException;
+
+    boolean isCurrentDateInTerms(long termsId) throws DaoException;
 }

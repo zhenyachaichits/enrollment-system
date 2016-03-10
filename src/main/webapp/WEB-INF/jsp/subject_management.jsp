@@ -7,13 +7,15 @@
 
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
-<fmt:message bundle="${loc}" key="locale.page.index.header" var="divHeader"/>
-<fmt:message bundle="${loc}" key="locale.page.index.description" var="description"/>
-<fmt:message bundle="${loc}" key="locale.page.index.button.statistics" var="statisticsBtn"/>
-
-<fmt:message bundle="${loc}" key="locale.modal.signin.message.error" var="errorMessage"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.subjects.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.subjects.header" var="divHeader"/>
+<fmt:message bundle="${loc}" key="locale.page.subjects.name" var="nameLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.subjects.points" var="pointsLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.subjects.button.create" var="createBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.subjects.button.save" var="saveBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.subjects.button.delete" var="deleteBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.subjects.found" var="foundLabel"/>
 
 <html>
 <head>
@@ -32,7 +34,7 @@
 
             <div class="panel panel-default clear">
                 <div class="panel-heading">
-                    Create new subject
+                    ${divHeader}
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -40,28 +42,28 @@
                             <input type="hidden" name="command" value="create-subject">
                             <fieldset>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label" for="name">Subject Name</label>
+                                    <label class="col-md-3 control-label" for="name">${nameLabel}</label>
                                     <div class="col-md-8">
                                         <input type="text" name="subjectName" id="name" class="form-control"
-                                               placeholder="Name"
+                                               placeholder="${nameLabel}"
                                                required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="minPoints" class="col-md-5 control-label">
-                                        Minimal points
+                                       ${pointsLabel}
                                     </label>
 
                                     <div class="col-md-4">
                                         <input type="number" name="minPoint" min="1" max="80"
                                                class="form-control point"
                                                id="minPoints"
-                                               placeholder="Points" pattern="\d{1,3}">
+                                               placeholder="${pointsLabel}" pattern="\d{1,3}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12 col-md-offset-8">
-                                        <button class="btn btn-primary">Add</button>
+                                        <button class="btn btn-primary">${createBtn}</button>
                                     </div>
                                 </div>
                             </fieldset>
@@ -79,14 +81,14 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
 
-                        <p class="lead text-muted">Records found: ${fn:length(subjects)}</p>
+                        <p class="lead text-muted">${foundLabel} ${fn:length(subjects)}</p>
 
                         <div class="table-responsive">
                             <table class="table table-striped table-hover ">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Min point</th>
+                                    <th>${nameLabel}</th>
+                                    <th>${pointsLabel}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -114,7 +116,7 @@
                                         <td>
                                             <a href="javascript:void(0)" onclick="$('form#updateSub').submit();"
                                                class="btn btn-primary">
-                                                Save
+                                                ${saveBtn}
                                             </a>
                                         </td>
                                         <td>
@@ -124,7 +126,7 @@
                                             </form>
                                             <a href="javascript:void(0)" onclick="$('form#deleteSub').submit();"
                                                class="btn btn-danger">
-                                                Delete
+                                                ${deleteBtn}
                                             </a>
                                         </td>
                                     </tr>

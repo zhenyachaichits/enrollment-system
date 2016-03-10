@@ -7,17 +7,22 @@
 
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
-<fmt:message bundle="${loc}" key="locale.page.index.header" var="divHeader"/>
-<fmt:message bundle="${loc}" key="locale.page.index.description" var="description"/>
-<fmt:message bundle="${loc}" key="locale.page.index.button.statistics" var="statisticsBtn"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.name" var="nameLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.quota.free" var="freeQuotaLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.quota.paid" var="paidQuotaLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.quota" var="quotaLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.terms" var="termsLabel"/>
 
-<fmt:message bundle="${loc}" key="locale.modal.signin.message.error" var="errorMessage"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.points" var="pointsLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.button.save" var="saveBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.button.delete" var="deleteBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.button.updpoints" var="updPointsBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.button.apply" var="applyBtn"/>
 
 <html>
 <head>
-    <title>${title}</title>
+    <title>${faculty.name}</title>
 
     <%@include file="included/css_list.jsp" %>
 
@@ -39,12 +44,12 @@
                             <i style="font-size:36px" class="material-icons">location_city</i>
                         </div>
                         <div class="row-content">
-                            <h4 class="list-group-item-heading">Name</h4>
+                            <h4 class="list-group-item-heading">${nameLabel}</h4>
                             <p class="list-group-item-text">
                             <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
                                     <input type="text" name="facultyName" class="form-control" id="facultyName"
-                                           value="${faculty.name}" placeholder="Faculty Name" required>
+                                           value="${faculty.name}" placeholder="${nameLabel}" required>
                                 </div>
                             </div>
                             </p>
@@ -56,7 +61,7 @@
                             <i style="font-size:36px" class="material-icons">date_range</i>
                         </div>
                         <div class="row-content">
-                            <h4 class="list-group-item-heading">Terms</h4>
+                            <h4 class="list-group-item-heading">${termsLabel}</h4>
                             <p class="list-group-item-text">
                             <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
@@ -81,18 +86,19 @@
                             <i style="font-size:36px" class="material-icons">compare_arrows</i>
                         </div>
                         <div class="row-content">
-                            <h4 class="list-group-item-heading">Quota</h4>
+                            <h4 class="list-group-item-heading">${quotaLabel}</h4>
                             <p class="list-group-item-text">
                             <div class="row">
                                 <div class="col-md-10">
                                     <div class="form-group label-floating" style="margin: 7px 0 0 0">
-                                        <label class="control-label" for="freeQuota">Free Quota</label>
+                                        <label class="control-label" for="freeQuota">${freeQuotaLabel}</label>
 
                                         <input type="number" name="freeQuota" class="form-control" id="freeQuota"
                                                value="${faculty.freeQuota}" min="1" max="999" required>
                                     </div>
                                     <div class="form-group label-floating" style="margin: 7px 0 0 0">
-                                        <label class="control-label col-md-offset-6" for="paidQuota">Paid Quota</label>
+                                        <label class="control-label col-md-offset-6"
+                                               for="paidQuota">${paidQuotaLabel}</label>
                                         <input type="number" name="paidQuota" class="form-control" id="paidQuota"
                                                value="${faculty.paidQuota}" min="1" max="999" required>
                                     </div>
@@ -108,9 +114,15 @@
                             <input type="hidden" name="command" value="delete-faculty">
                             <input type="hidden" name="facultyID" value="${faculty.id}">
                         </form>
-                        <a href="javascript:deleteFaculty.submit()" class="btn btn-raised btn-primary"
-                           style="background-color: #bd5050;">Delete</a>
-                        <a href="javascript:updateFaculty.submit()" class="btn btn-raised btn-primary">Save</a>
+                        <c:if test="${deletable}">
+                            <a href="javascript:deleteFaculty.submit()" class="btn btn-raised btn-primary"
+                               style="background-color: #bd5050;">${deleteBtn}</a>
+                            <a href="javascript:updateFaculty.submit()" class="btn btn-raised btn-primary">${saveBtn}</a>
+                        </c:if>
+                        <c:if test="${not deletable}">
+                            <a href="javascript:updateFaculty.submit()" class="btn btn-raised btn-primary col-md-6">${saveBtn}</a>
+                        </c:if>
+
                     </div>
                 </div>
             </div>
@@ -123,16 +135,16 @@
     <div class="col-md-6 col-md-offset-3 clear">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Action</h3>
+                <h3 class="panel-title">${pointsLabel}</h3>
             </div>
             <div class="panel-body">
                 <div class="horizontal-center">
                     <div class="form-group" style="margin: 7px 0 0 0">
                         <div class="col-md-6 col-md-offset-3">
                             <input type="text" class="form-control"
-                                   value="${faculty.freePoint}" placeholder="Email" readonly>
+                                   value="${faculty.freePoint}" readonly>
                             <input type="text" class="form-control"
-                                   value="${faculty.paidPoint}" placeholder="Email" readonly>
+                                   value="${faculty.paidPoint}" readonly>
                         </div>
                     </div>
 
@@ -141,14 +153,14 @@
                         <input type="hidden" name="facultyID" value="${faculty.id}">
                         <input type="hidden" name="freeQuota" value="${faculty.freeQuota}">
                         <input type="hidden" name="paidQuota" value="${faculty.paidQuota}">
-                        <button class="btn btn-raised btn-default">Update points</button>
+                        <button class="btn btn-raised btn-default">${updPointsBtn}</button>
                     </form>
                     <form action="management" method="post">
                         <input type="hidden" name="command" value="confirm-faculty-applications">
                         <input type="hidden" name="facultyID" value="${faculty.id}">
                         <input type="hidden" name="freeQuota" value="${faculty.freeQuota}">
                         <input type="hidden" name="paidQuota" value="${faculty.paidQuota}">
-                        <button class="btn btn-raised btn-default">Apply</button>
+                        <button class="btn btn-raised btn-default">${applyBtn}</button>
                     </form>
                 </div>
             </div>

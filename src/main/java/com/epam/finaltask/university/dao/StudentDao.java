@@ -25,6 +25,8 @@ public interface StudentDao extends EntityDao<String, Student> {
      */
     boolean checkUpdateAvailability(Student student) throws DaoException;
 
+    boolean checkDeletionAvailability(long userId) throws DaoException;
+
     /**
      * Delete student by user ID.
      *

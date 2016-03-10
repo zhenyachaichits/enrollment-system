@@ -5,19 +5,24 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
-<fmt:message bundle="${loc}" key="locale.page.index.header" var="divHeader"/>
-<fmt:message bundle="${loc}" key="locale.page.index.description" var="description"/>
-<fmt:message bundle="${loc}" key="locale.page.index.button.statistics" var="statisticsBtn"/>
 
-<fmt:message bundle="${loc}" key="locale.modal.signin.message.error" var="errorMessage"/>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.users.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.users.role" var="roleLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.users.role.student" var="studentLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.users.role.admin" var="adminLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.users.role.support" var="supportLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.users.button.delete" var="deleteBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.users.button.save" var="saveBtn"/>
+
+<fmt:message bundle="${loc}" key="locale.data.personal.email" var="emailLabel"/>
+<fmt:message bundle="${loc}" key="locale.data.personal.password" var="passwordLabel"/>
 
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>${title}</title>
+    <title>${user.email}</title>
 
     <%@include file="included/css_list.jsp" %>
 
@@ -38,12 +43,12 @@
                             <i style="font-size:36px" class="material-icons">contact_mail</i>
                         </div>
                         <div class="row-content">
-                            <h4 class="list-group-item-heading">Email</h4>
+                            <h4 class="list-group-item-heading">${emailLabel}</h4>
                             <p class="list-group-item-text">
                             <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
                                     <input type="email" name="email" class="form-control" id="newEmail"
-                                           value="${user.email}" placeholder="Email">
+                                           value="${user.email}" placeholder="${emailLabel}">
                                 </div>
                             </div>
                             </p>
@@ -55,12 +60,12 @@
                             <i style="font-size:36px" class="material-icons">more_horiz</i>
                         </div>
                         <div class="row-content">
-                            <h4 class="list-group-item-heading">Password</h4>
+                            <h4 class="list-group-item-heading">${passwordLabel}</h4>
                             <p class="list-group-item-text">
                             <div class="form-group" style="margin: 7px 0 0 0">
                                 <div class="col-md-10">
                                     <input type="password" name="password" class="form-control" id="password"
-                                           placeholder="Password">
+                                           placeholder="${passwordLabel}">
                                 </div>
                             </div>
                             </p>
@@ -72,11 +77,11 @@
                             <i style="font-size:36px" class="material-icons">group</i>
                         </div>
                         <div class="row-content">
-                            <h4 class="list-group-item-heading">Role</h4>
+                            <h4 class="list-group-item-heading">${roleLabel}</h4>
                             <p class="list-group-item-text">
                                 <c:choose>
                                 <c:when test="${user.role eq 'STUDENT'}">
-                                Student
+                                ${studentLabel}
                                     <input type="hidden" name="role" value="STUDENT">
                                 </c:when>
                                 <c:otherwise>
@@ -87,7 +92,7 @@
                                             <input type="radio" name="role" id="supportRole"
                                                    value="SUPPORT"
                                             <c:if test="${user.role eq 'SUPPORT'}"> checked="" </c:if>>
-                                            Support
+                                            ${supportLabel}
                                         </label>
                                     </div>
                                     <div class="radio radio-primary">
@@ -95,7 +100,7 @@
                                             <input type="radio" name="role" id="adminRole"
                                                    value="ADMIN"
                                             <c:if test="${user.role eq 'ADMIN'}"> checked="" </c:if>>
-                                            Admin
+                                            ${adminLabel}
                                         </label>
                                     </div>
                                 </div>
@@ -116,8 +121,8 @@
                             <input type="hidden" name="role" value="${user.role}">
                         </form>
                         <a href="javascript:deleteUser.submit()" class="btn btn-raised btn-primary"
-                           style="background-color: #bd5050;">Delete</a>
-                        <a href="javascript:updateUser.submit()" class="btn btn-raised btn-primary">Save</a>
+                           style="background-color: #bd5050;">${deleteBtn}</a>
+                        <a href="javascript:updateUser.submit()" class="btn btn-raised btn-primary">${saveBtn}</a>
                     </div>
                 </div>
             </div>

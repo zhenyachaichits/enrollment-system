@@ -258,4 +258,21 @@ public class ProfileService {
             throw new ServiceException("Couldn't provide records counting service");
         }
     }
+
+    /**
+     * Gets profile terms id.
+     *
+     * @param profileId the profile id
+     * @return the profile terms id
+     * @throws ServiceException the service exception
+     */
+    public long getProfileTermsId(long profileId) throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.getProfileTermsId(profileId);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide terms finding service");
+        }
+    }
 }

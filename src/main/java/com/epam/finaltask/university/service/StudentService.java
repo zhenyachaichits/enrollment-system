@@ -74,4 +74,14 @@ public class StudentService {
         }
     }
 
+    public boolean checkDeletionAvailability(long userId) throws ServiceException {
+        try {
+            StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();
+
+            return dao.checkDeletionAvailability(userId);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide deletion availability checking service");
+        }
+    }
+
 }

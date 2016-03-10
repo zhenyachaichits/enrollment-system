@@ -21,6 +21,8 @@ public final class RequestParameterName {
     public static final String ROLE = "role";
 
     public static final String REMEMBERED = "remember";
+    public static final String DELETABLE = "deletable";
+    public static final String APPLICABLE = "applicable";
 
     public static final String PASSPORT_ID = "passportID";
     public static final String FIRST_NAME = "firstName";

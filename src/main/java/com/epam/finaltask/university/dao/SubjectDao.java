@@ -45,4 +45,6 @@ public interface SubjectDao extends EntityDao<String, Subject> {
      * @throws DaoException the dao exception
      */
     boolean checkUpdateAvailability(Subject subject) throws DaoException;
+
+    boolean checkDeletionAvailability(long subjectId) throws DaoException;
 }

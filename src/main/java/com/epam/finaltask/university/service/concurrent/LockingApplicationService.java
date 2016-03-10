@@ -50,7 +50,8 @@ public class LockingApplicationService {
         ApplicationService applicationService = ApplicationService.getInstance();
 
         if (ApplicationValidator.validateApplication(application) &&
-                !applicationService.checkProfileIdExistence(application.getProfileId())) {
+                !applicationService.checkProfileIdExistence(application.getProfileId())
+                && applicationService.checkApplicability(application.getProfileId())) {
             lock.lock();
             try {
                 ApplicationDao dao = DaoFactory.getDaoFactory().getApplicationDao();
@@ -77,15 +78,20 @@ public class LockingApplicationService {
      * @throws ServiceException the service exception
      */
     public boolean deleteApplicationByProfileId(long profileId) throws ServiceException {
-        lock.lock();
-        try {
-            ApplicationDao dao = DaoFactory.getDaoFactory().getApplicationDao();
+        ApplicationService service = ApplicationService.getInstance();
+        if (service.checkDeletionAvailability(profileId)) {
+            lock.lock();
+            try {
+                ApplicationDao dao = DaoFactory.getDaoFactory().getApplicationDao();
 
-            return dao.delete(profileId) != null;
-        } catch (DaoException | DaoFactoryException e) {
-            throw new ServiceException("Couldn't provide application deleting service", e);
-        } finally {
-            lock.unlock();
+                return dao.delete(profileId) != null;
+            } catch (DaoException | DaoFactoryException e) {
+                throw new ServiceException("Couldn't provide application deleting service", e);
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new InvalidServiceDataException("Deletion is not available. Operation Stopped");
         }
     }
 
@@ -135,7 +141,7 @@ public class LockingApplicationService {
                     int points = last.getPoints();
                     List<Profile> addition = profileService.getWithSamePoints(facultyId, isFreeForm, points, quota);
 
-                    // TODO: 02.03.2016 continue...
+                    // TODO: 02.03.2016 to be continued...
                 }
             }
 

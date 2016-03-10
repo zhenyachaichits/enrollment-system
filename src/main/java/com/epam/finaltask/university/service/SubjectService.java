@@ -90,4 +90,14 @@ public class SubjectService {
             throw new ServiceException("Couldn't provide subjects existence checking service", e);
         }
     }
+
+    public boolean checkDeletionAvailability(long subjectId) throws ServiceException {
+        try {
+            SubjectDao dao = DaoFactory.getDaoFactory().getSubjectDao();
+
+            return dao.checkDeletionAvailability(subjectId);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide subjects existence checking service", e);
+        }
+    }
 }

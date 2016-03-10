@@ -7,13 +7,17 @@
 
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.locale" var="loc"/>
-<fmt:message bundle="${loc}" key="locale.page.index.title" var="title"/>
-<fmt:message bundle="${loc}" key="locale.page.index.header" var="divHeader"/>
-<fmt:message bundle="${loc}" key="locale.page.index.description" var="description"/>
-<fmt:message bundle="${loc}" key="locale.page.index.button.statistics" var="statisticsBtn"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.terms.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.terms.header" var="divHeader"/>
+<fmt:message bundle="${loc}" key="locale.page.terms.start" var="startLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.terms.end" var="endLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.terms.start" var="startLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.terms.found" var="foundLabel"/>
 
-<fmt:message bundle="${loc}" key="locale.modal.signin.message.error" var="errorMessage"/>
+<fmt:message bundle="${loc}" key="locale.page.terms.button.create" var="createBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.terms.button.save" var="saveBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.terms.button.delete" var="deleteBtn"/>
 
 <html>
 <head>
@@ -32,7 +36,7 @@
 
             <div class="panel panel-default clear">
                 <div class="panel-heading">
-                    Create new subject
+                    ${divHeader}
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -41,27 +45,27 @@
                             <fieldset>
 
                                 <div class="form-group">
-                                    <label for="startDate" class="col-md-3 control-label">Start Date</label>
+                                    <label for="startDate" class="col-md-3 control-label">${startLabel}</label>
 
                                     <div class="col-md-8">
                                         <input name="startDate" type="text" class="form-control date-start"
-                                               id="startDate" placeholder="Start Date"
+                                               id="startDate" placeholder="${startLabel}"
                                                required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="endDate" class="col-md-3 control-label">End Date</label>
+                                    <label for="endDate" class="col-md-3 control-label">${endLabel}</label>
 
                                     <div class="col-md-8">
                                         <input name="endDate" type="text" class="form-control date-end"
-                                               id="endDate" placeholder="End Date"
+                                               id="endDate" placeholder="${endLabel}"
                                                required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12 col-md-offset-8">
-                                        <button class="btn btn-primary">Add</button>
+                                        <button class="btn btn-primary">${createBtn}</button>
                                     </div>
                                 </div>
                             </fieldset>
@@ -79,14 +83,14 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
 
-                        <p class="lead text-muted">Records found: ${fn:length(termsList)}</p>
+                        <p class="lead text-muted">${foundLabel} ${fn:length(termsList)}</p>
 
                         <div class="table-responsive">
                             <table class="table table-striped table-hover ">
                                 <thead>
                                 <tr>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
+                                    <th>${startLabel}</th>
+                                    <th>${endLabel}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -118,7 +122,7 @@
                                         <td>
                                             <a href="javascript:void(0)" onclick="$('form#updateTerms').submit();"
                                                class="btn btn-primary">
-                                                Save
+                                                ${saveBtn}
                                             </a>
                                         </td>
                                         <td>
@@ -128,7 +132,7 @@
                                             </form>
                                             <a href="javascript:void(0)" onclick="$('form#deleteTerms').submit();"
                                                class="btn btn-danger">
-                                                Delete
+                                                ${deleteBtn}
                                             </a>
                                         </td>
                                     </tr>

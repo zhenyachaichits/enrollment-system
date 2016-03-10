@@ -74,4 +74,14 @@ public class TermsService {
             throw new ServiceException("Couldn't provide terms checking service", e);
         }
     }
+
+    public boolean isCurrentDateInTerms(long termsId) throws ServiceException {
+        try {
+            TermsDao dao = DaoFactory.getDaoFactory().getTermsDao();
+
+            return dao.isCurrentDateInTerms(termsId);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide current date checking service", e);
+        }
+    }
 }

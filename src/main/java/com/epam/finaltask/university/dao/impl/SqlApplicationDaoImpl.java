@@ -26,7 +26,6 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
     private SqlApplicationDaoImpl() {
         connectionPool = ConnectionPool.getInstance();
     }
-
     public static class ApplicationDaoHolder {
         public static final SqlApplicationDaoImpl INSTANCE = new SqlApplicationDaoImpl();
     }
@@ -51,6 +50,8 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
             "WHERE application.profile_faculty_faculty_id = ? AND application.out_of_competition = ? " +
             "AND profile.free_form = ? AND application.status = 'ACTIVE' " +
             "AND profile.status = 'ACTIVE' ORDER BY points DESC LIMIT ?";
+    private static final String CHECK_DELETE_ABILITY = "SELECT * FROM application WHERE status = 'ACTIVE' AND " +
+            "profile_profile_id = ? AND confirmed = TRUE";
     private static final String CONFIRM_APPLICATION_QUERY = "UPDATE application SET confirmed = TRUE WHERE " +
             "profile_profile_id = ? AND status = 'ACTIVE'";
 
@@ -295,11 +296,26 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
                 PreparedStatement statement = connection.prepareStatement(CONFIRM_APPLICATION_QUERY);
         ) {
             statement.setLong(1, profileId);
-            ;
 
             int result = statement.executeUpdate();
 
             return result != 0;
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean checkDeletionAvailability(long profileId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_DELETE_ABILITY);
+        ) {
+            statement.setLong(1, profileId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return !resultSet.next();
         } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }

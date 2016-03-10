@@ -43,6 +43,7 @@ public class CommandHelper {
         commandMap.put(CommandName.SIGN_UP, new SignUpCommand());
 
         commandMap.put(CommandName.GO_HOME, new GoHomeCommand());
+        commandMap.put(CommandName.GO_BACK, new GoBackCommand());
         commandMap.put(CommandName.GO_SIGNUP, new GoSignUpCommand());
         commandMap.put(CommandName.GO_STATISTICS, new GoStatisticsCommand());
         commandMap.put(CommandName.GO_PROFILE, new GoProfileCommand());

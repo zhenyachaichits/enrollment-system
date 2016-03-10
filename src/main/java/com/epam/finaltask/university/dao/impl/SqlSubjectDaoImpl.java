@@ -46,6 +46,8 @@ public class SqlSubjectDaoImpl implements SubjectDao {
             "WHERE name = ? ";
     private static final String DELETE_SUBJECT_BY_ID_QUERY = "UPDATE subject SET status = 'DELETED' " +
             "WHERE subject_id = ? ";
+    private static final String CHECK_DELETE_AVAILABILITY = "SELECT * FROM faculty_has_subject WHERE subject_id = ? AND " +
+            "status = 'ACTIVE'";
     private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT * FROM subject WHERE subject_id <> ? AND " +
             "name = ? AND status = 'ACTIVE'";
 
@@ -151,6 +153,37 @@ public class SqlSubjectDaoImpl implements SubjectDao {
         ) {
             statement.setLong(1, subject.getId());
             statement.setString(2, subject.getName());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return !resultSet.next();
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean checkDeletionAvailability(long subjectId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_DELETE_AVAILABILITY);
+        ) {
+            statement.setLong(1, subjectId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return !resultSet.next();
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    public boolean checkUpdateAvailability(long subjectId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVAILABILITY_QUERY);
+        ) {
+            statement.setLong(1, subjectId);
 
             ResultSet resultSet = statement.executeQuery();
 

@@ -1,18 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Zheny Chaichits
-  Date: 22.02.2016
-  Time: 11:54
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
 
+<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="locale" var="loc"/>
+<fmt:message bundle="${loc}" key="locale.page.error.access.title" var="title"/>
+<fmt:message bundle="${loc}" key="locale.page.error.access.header" var="headMessage"/>
+<fmt:message bundle="${loc}" key="locale.page.error.access.message" var="message"/>
+<fmt:message bundle="${loc}" key="locale.page.error.access.back" var="back"/>
 
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Error</title>
+    <title>${title}</title>
 
     <%@include file="../included/css_list.jsp" %>
 
@@ -22,14 +22,14 @@
 
 <div class="container">
     <div class="jumbotron">
-        <h1>Hey! Don't try to deceive me.</h1>
+        <h1>${headMessage}</h1>
 
-        <p>This account can not see this page.</p>
+        <p>${message}</p>
 
         <form action="home" method="post">
-            <input type="hidden" name="command" value="go-home">
+            <input type="hidden" name="command" value="go-back">
             <p>
-                <button type="submit" class="btn btn-primary btn-lg">Back to Home Page</button>
+                <button type="submit" class="btn btn-primary btn-lg">${back}</button>
             </p>
         </form>
     </div>

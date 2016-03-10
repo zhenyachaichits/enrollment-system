@@ -92,4 +92,14 @@ public class FacultyService {
             throw new ServiceException("Couldn't provide faculties searching service", e);
         }
     }
+
+    public boolean checkDeletionAvailability(long facultyId) throws ServiceException {
+        try {
+            FacultyDao dao = DaoFactory.getDaoFactory().getFacultyDao();
+
+            return dao.checkDeletionAvailability(facultyId);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide deletion availability checking service", e);
+        }
+    }
 }

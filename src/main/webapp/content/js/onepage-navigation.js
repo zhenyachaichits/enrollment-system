@@ -18,6 +18,7 @@ $('#toPersonal').click(function () {
     }
     else {
         $('.scroll').moveDown();
+        $('.progress-bar').width('20%');
     }
 });
 
@@ -32,6 +33,7 @@ $('#toEducation').click(function () {
     }
     else {
         $('.scroll').moveDown();
+        $('.progress-bar').width('40%');
     }
 });
 
@@ -46,6 +48,7 @@ $('#toPrivileges').click(function () {
     }
     else {
         $('.scroll').moveDown();
+        $('.progress-bar').width('60%');
     }
 });
 
@@ -56,6 +59,7 @@ $('#toContact').click(function () {
     }
     else {
         $('.scroll').moveDown();
+        $('.progress-bar').width('80%');
     }
 });
 
@@ -76,4 +80,5 @@ $('#confirm').click(function () {
 
         $('#errorMessage').snackbar('show');
     }
+    $('.progress-bar').width('100%');
 });

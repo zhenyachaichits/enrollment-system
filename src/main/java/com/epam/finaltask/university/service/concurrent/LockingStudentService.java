@@ -99,16 +99,22 @@ public class LockingStudentService {
      * @throws ServiceException the service exception
      */
     public boolean deleteAccount(long userId) throws ServiceException {
-        lock.lock();
-        try {
-            StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();
+        StudentService studentService = StudentService.getInstance();
 
-            return dao.delete(userId);
+        if (studentService.checkDeletionAvailability(userId)) {
+            lock.lock();
+            try {
+                StudentDao dao = DaoFactory.getDaoFactory().getStudentDao();
 
-        } catch (DaoFactoryException | DaoException e) {
-            throw new ServiceException("Couldn't provide account deletion service");
-        } finally {
-            lock.unlock();
+                return dao.delete(userId);
+
+            } catch (DaoFactoryException | DaoException e) {
+                throw new ServiceException("Couldn't provide account deletion service");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            throw new InvalidServiceDataException("Deletion is not available. Operation Stopped");
         }
     }
 }

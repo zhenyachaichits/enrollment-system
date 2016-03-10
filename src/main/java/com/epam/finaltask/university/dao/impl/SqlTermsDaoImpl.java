@@ -43,6 +43,8 @@ public class SqlTermsDaoImpl implements TermsDao {
             "end_date = ? AND status = 'ACTIVE'";
     private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT * FROM terms WHERE terms_id <> ? AND " +
             "start_date = ? AND end_date = ? AND status = 'ACTIVE'";
+    private static final String CHECK_IS_NOW_IN_RANGE = "SELECT * FROM terms WHERE terms_id = ? AND " +
+            "NOW() BETWEEN start_date AND end_date";
 
     /**
      * Creates new terms
@@ -235,6 +237,22 @@ public class SqlTermsDaoImpl implements TermsDao {
             ResultSet resultSet = statement.executeQuery();
 
             return !resultSet.next();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean isCurrentDateInTerms(long termsId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(CHECK_IS_NOW_IN_RANGE);
+        ) {
+            statement.setLong(1, termsId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet.next();
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }
