@@ -63,10 +63,14 @@ public class SqlProfileDaoImpl implements ProfileDao {
             "ON profile.profile_id = application.profile_profile_id WHERE profile.free_form = ? AND " +
             "application.out_of_competition = FALSE AND profile.points = ? AND profile.faculty_faculty_id = ? " +
             "AND profile.status = 'ACTIVE' AND application.status = 'ACTIVE' " +
-            "ORDER BY application.date LIMIT ?";
+            "ORDER BY application.date";
     private static final String GET_TERMS_ID_QUERY = "SELECT faculty.terms_terms_id FROM profile INNER JOIN faculty " +
             "ON profile.faculty_faculty_id = faculty.faculty_id WHERE profile.profile_id = ? " +
             "AND profile.status = 'ACTIVE' AND faculty.status = 'ACTIVE' ";
+    private static final String GET_CONFIRMED_QUERY = "SELECT SQL_CALC_FOUND_ROWS profile.* FROM application INNER JOIN profile " +
+            "ON profile.profile_id = application.profile_profile_id WHERE  profile.faculty_faculty_id = ? " +
+            "AND profile.status = 'ACTIVE' AND application.confirmed = TRUE AND application.status = 'ACTIVE' " +
+            "ORDER BY profile.points LIMIT ?, ?";
 
     /**
      * Add new profile
@@ -198,6 +202,8 @@ public class SqlProfileDaoImpl implements ProfileDao {
         }
     }
 
+
+
     /**
      * Checks update availability
      *
@@ -271,6 +277,37 @@ public class SqlProfileDaoImpl implements ProfileDao {
     @Override
     public List<Profile> findAllProfiles(int offset, int recordsCount) throws DaoException {
         return findAll(offset, recordsCount, false);
+    }
+
+    @Override
+    public List<Profile> findAllEnrolled(long facultyId, int offset, int recordsCount) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(GET_CONFIRMED_QUERY);
+        ) {
+            List<Profile> profiles = new ArrayList<>();
+
+            statement.setLong(1, facultyId);
+            statement.setInt(2, offset);
+            statement.setInt(3, recordsCount);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                DaoBeanFactory<Profile> constructor = ProfileDaoBeanFactory.getInstance();
+
+                profiles.add(constructor.construct(resultSet));
+            }
+
+            resultSet = statement.executeQuery(GET_COUNT_QUERY);
+            if (resultSet.next()) {
+                this.recordsCount = resultSet.getInt(1);
+            }
+
+            return profiles;
+
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
     }
 
     /**
@@ -476,7 +513,7 @@ public class SqlProfileDaoImpl implements ProfileDao {
      * @throws DaoException
      */
     @Override
-    public List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points, int quota) throws DaoException {
+    public List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points) throws DaoException {
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(GET_WITH_SAME_POINT);
@@ -484,7 +521,6 @@ public class SqlProfileDaoImpl implements ProfileDao {
             statement.setBoolean(1, isFreeForm);
             statement.setInt(2, points);
             statement.setLong(3, facultyId);
-            statement.setInt(4, quota);
 
             List<Profile> profiles = new ArrayList<>();
 
@@ -501,5 +537,6 @@ public class SqlProfileDaoImpl implements ProfileDao {
             throw new DaoException("Couldn't process operation", e);
         }
     }
+
 
 }

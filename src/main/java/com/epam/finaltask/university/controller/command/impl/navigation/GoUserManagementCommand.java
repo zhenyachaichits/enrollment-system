@@ -30,7 +30,7 @@ public class GoUserManagementCommand implements Command {
 
         HttpSession session = request.getSession(false);
 
-        AccessManager.manageAccess(session, UserType.ADMIN);
+        AccessManager.provideAccess(session, UserType.ADMIN);
 
         session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 

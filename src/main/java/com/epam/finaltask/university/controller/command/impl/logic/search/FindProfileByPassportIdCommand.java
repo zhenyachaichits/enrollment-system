@@ -4,9 +4,11 @@ import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.RequestParameterName;
+import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.util.AccessManager;
+import com.epam.finaltask.university.controller.util.UrlBuilder;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.ProfileService;
 
@@ -38,7 +40,7 @@ public class FindProfileByPassportIdCommand implements Command {
             String passportId = request.getParameter(RequestParameterName.PASSPORT_ID);
             HttpSession session = request.getSession(false);
 
-            AccessManager.manageAccess(session, UserType.SUPPORT);
+            AccessManager.provideAccess(session, UserType.SUPPORT);
 
             ProfileService service = ProfileService.getInstance();
             Profile profile = service.findProfileByPassportId(passportId);
@@ -48,6 +50,7 @@ public class FindProfileByPassportIdCommand implements Command {
                 profileList.add(profile);
             }
             request.setAttribute(RequestParameterName.PROFILES, profileList);
+            session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 
             return JspPageName.SUPPORT_SEARCH_PAGE;
 

@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -18,7 +17,8 @@
 
 </head>
 <body>
-<br/>
+
+<jsp:include page="../included/navbar.jsp"/>
 
 <div class="container">
     <div class="jumbotron">

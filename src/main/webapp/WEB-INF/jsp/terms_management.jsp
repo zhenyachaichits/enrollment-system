@@ -96,17 +96,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="termsLabel" items="${termsList}">
+                                <c:forEach var="terms" items="${termsList}">
                                     <tr>
-                                        <form action="management" id="updateTerms" name="updateSubject" method="post">
+                                        <form action="management" id="updateTerms${terms.id}" method="post">
                                             <input type="hidden" name="command" value="update-terms">
-                                            <input type="hidden" name="termsID" value="${termsLabel.id}">
+                                            <input type="hidden" name="termsID" value="${terms.id}">
                                             <td>
                                                 <div class="form-group" style="margin: 7px 0 0 0">
                                                     <input name="startDate" type="text" class="form-control date-start"
                                                            placeholder="Birth Date"
                                                            value=" <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                    value="${termsLabel.startDate.time}"/>" required>
+                                                                    value="${terms.startDate.time}"/>" required>
                                                 </div>
                                             </td>
                                             <td>
@@ -114,23 +114,23 @@
                                                     <input name="endDate" type="text" class="form-control date-end"
                                                            placeholder="Birth Date"
                                                            value=" <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                    value="${termsLabel.endDate.time}"/>" required>
+                                                                    value="${terms.endDate.time}"/>" required>
                                                 </div>
                                             </td>
 
                                         </form>
                                         <td>
-                                            <a href="javascript:void(0)" onclick="$('form#updateTerms').submit();"
+                                            <a href="javascript:void(0)" onclick="$('form#updateTerms${terms.id}').submit();"
                                                class="btn btn-primary">
                                                 ${saveBtn}
                                             </a>
                                         </td>
                                         <td>
-                                            <form action="management" id="deleteTerms" name="deleteSubject" method="post">
+                                            <form action="management" id="deleteTerms${terms.id}" method="post">
                                                 <input type="hidden" name="command" value="delete-terms">
-                                                <input type="hidden" name="termsID" value="${termsLabel.id}">
+                                                <input type="hidden" name="termsID" value="${terms.id}">
                                             </form>
-                                            <a href="javascript:void(0)" onclick="$('form#deleteTerms').submit();"
+                                            <a href="javascript:void(0)" onclick="$('form#deleteTerms${terms.id}').submit();"
                                                class="btn btn-danger">
                                                 ${deleteBtn}
                                             </a>

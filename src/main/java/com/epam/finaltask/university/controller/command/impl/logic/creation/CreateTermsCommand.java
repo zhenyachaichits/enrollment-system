@@ -34,7 +34,7 @@ public class CreateTermsCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             CommandBeanFactory<Terms> factory = TermsCommandBeanFactory.getInstance();
             Terms terms = factory.constructBean(request);

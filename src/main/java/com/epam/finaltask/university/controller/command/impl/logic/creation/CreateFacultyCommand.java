@@ -34,7 +34,7 @@ public class CreateFacultyCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             CommandBeanFactory<Faculty> factory = FacultyCommandBeanFactory.getInstance();
             Faculty faculty = factory.constructBean(request);

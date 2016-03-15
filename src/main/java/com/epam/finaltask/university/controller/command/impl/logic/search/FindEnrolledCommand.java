@@ -19,34 +19,24 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
-/**
- * Find applied by last name command.
- */
-public class FindAppliedByLastNameCommand implements Command {
-    /**
-     * Execute searching applied profiles by last name.
-     * Access is allowed for users with status: SUPPORT
-     * @param request
-     * @param response
-     * @return support search page name
-     * @throws CommandException
-     */
+public class FindEnrolledCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
-            String lastName = request.getParameter(RequestParameterName.LAST_NAME);
+            String idStr = request.getParameter(RequestParameterName.FACULTY_ID);
+            long facultyId = Long.parseLong(idStr);
             HttpSession session = request.getSession(false);
 
-            AccessManager.provideAccess(session, UserType.SUPPORT);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             int currentPage = Paginator.DEFAULT_PAGE;
-            if(request.getParameter(RequestParameterName.CURRENT_PAGE) != null) {
+            if (request.getParameter(RequestParameterName.CURRENT_PAGE) != null) {
                 currentPage = Integer.parseInt(request.getParameter(RequestParameterName.CURRENT_PAGE));
             }
 
             int offset = Paginator.calculateOffset(currentPage);
             ProfileService service = ProfileService.getInstance();
-            List<Profile> profileList = service.findAppliedProfilesByLastName(lastName, offset,
+            List<Profile> profileList = service.findEnrolledToFaculty(facultyId, offset,
                     Paginator.RECORDS_ON_PAGE);
 
             int recordsNumber = service.getCurrentRecordsCount();
@@ -58,9 +48,8 @@ public class FindAppliedByLastNameCommand implements Command {
 
             String currentQuery = UrlBuilder.build(request);
             request.setAttribute(RequestParameterName.COMMAND_NAME, currentQuery);
-            session.setAttribute(SessionParameterName.CURRENT_PAGE, currentQuery);
 
-            return JspPageName.SUPPORT_SEARCH_PAGE;
+            return JspPageName.FACULTY_ENROLLED_PROFILES;
 
         } catch (NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't execute profile searching command", e);

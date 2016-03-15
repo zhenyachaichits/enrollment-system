@@ -79,6 +79,8 @@ public interface ProfileDao extends EntityDao<String, Profile> {
      */
     List<Profile> findAllProfiles(int offset, int recordsCount) throws DaoException;
 
+    List<Profile> findAllEnrolled(long facultyId, int offset, int recordsCount) throws DaoException;
+
     /**
      * Gets records count.
      *
@@ -111,5 +113,5 @@ public interface ProfileDao extends EntityDao<String, Profile> {
      * @return the with same points
      * @throws DaoException the dao exception
      */
-    List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points, int quota) throws DaoException;
+    List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points) throws DaoException;
 }

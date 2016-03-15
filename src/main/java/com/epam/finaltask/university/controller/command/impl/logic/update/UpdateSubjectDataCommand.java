@@ -36,7 +36,7 @@ public class UpdateSubjectDataCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             CommandBeanFactory<Subject> factory = SubjectCommandBeanFactory.getInstance();
             Subject subject = factory.constructBean(request);

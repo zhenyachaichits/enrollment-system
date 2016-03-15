@@ -36,7 +36,7 @@ public class UpdateStudentDataCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.SUPPORT);
+            AccessManager.provideAccess(session, UserType.SUPPORT);
 
             LockingProfileService service = LockingProfileService.getInstance();
             CommandBeanFactory<Profile> compiler = ProfileCommandBeanFactory.getInstance();

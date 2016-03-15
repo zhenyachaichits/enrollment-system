@@ -92,7 +92,7 @@
     </filter-mapping>
 
     <listener>
-        <listener-class>com.epam.finaltask.university.listener.ServletListener</listener-class>
+        <listener-class>com.epam.finaltask.university.listener.StartUpListener</listener-class>
     </listener>
 
 </web-app>

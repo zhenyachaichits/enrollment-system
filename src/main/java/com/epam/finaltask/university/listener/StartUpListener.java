@@ -10,7 +10,7 @@ import javax.servlet.ServletContextListener;
 /**
  * Servlet listener.
  */
-public class ServletListener implements ServletContextListener {
+public class StartUpListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {

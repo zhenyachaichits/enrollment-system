@@ -36,7 +36,7 @@ public class GoUserDataCommand implements Command {
         try {
             HttpSession session = request.getSession(false);
 
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
             String idStr = request.getParameter(RequestParameterName.USER_ID);

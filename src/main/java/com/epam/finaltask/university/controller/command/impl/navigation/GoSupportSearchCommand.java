@@ -29,7 +29,7 @@ public class GoSupportSearchCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession(false);
 
-        AccessManager.manageAccess(session, UserType.SUPPORT);
+        AccessManager.provideAccess(session, UserType.SUPPORT);
 
         session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 

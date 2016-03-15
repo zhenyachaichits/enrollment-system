@@ -132,6 +132,16 @@ public class ProfileService {
         }
     }
 
+    public List<Profile> findEnrolledToFaculty(long facultyId, int offset, int recordsCount) throws ServiceException {
+        try {
+            ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
+
+            return dao.findAllEnrolled(facultyId, offset, recordsCount);
+        } catch (DaoFactoryException | DaoException e) {
+            throw new ServiceException("Couldn't provide profile finding service", e);
+        }
+    }
+
     /**
      * Gets all profiles.
      *
@@ -248,12 +258,12 @@ public class ProfileService {
      * @return the list of profiles with same points
      * @throws ServiceException the service exception
      */
-    public List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points, int quota)
+    public List<Profile> getWithSamePoints(long facultyId, boolean isFreeForm, int points)
             throws ServiceException {
         try {
             ProfileDao dao = DaoFactory.getDaoFactory().getProfileDao();
 
-            return dao.getWithSamePoints(facultyId, isFreeForm, points, quota);
+            return dao.getWithSamePoints(facultyId, isFreeForm, points);
         } catch (DaoException | DaoFactoryException e) {
             throw new ServiceException("Couldn't provide records counting service");
         }

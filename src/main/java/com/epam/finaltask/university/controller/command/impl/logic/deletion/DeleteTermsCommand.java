@@ -30,7 +30,7 @@ public class DeleteTermsCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             String idStr = request.getParameter(RequestParameterName.TERMS_ID);
             long subjectId = Long.parseLong(idStr);

@@ -18,7 +18,8 @@
 
 </head>
 <body>
-<br/>
+
+<jsp:include page="../included/navbar.jsp"/>
 
 <div class="container">
     <div class="jumbotron">

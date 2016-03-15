@@ -40,9 +40,7 @@ public class GoApplicationCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.SUPPORT);
-
-            session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
+            AccessManager.denyAccess(session, UserType.STUDENT);
 
             String profileStr = request.getParameter(RequestParameterName.PROFILE_ID);
             long profileId = Long.parseLong(profileStr);
@@ -64,6 +62,8 @@ public class GoApplicationCommand implements Command {
             } else {
                 throw new InvalidDataException("Couldn't find profile or application session");
             }
+
+            session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 
             return JspPageName.APPLICATION_PAGE;
         } catch (NumberFormatException | ServiceException e) {

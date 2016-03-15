@@ -65,6 +65,7 @@ public class CommandHelper {
         commandMap.put(CommandName.SEARCH_ALL_PROFILES, new FindAllProfilesCommand());
         commandMap.put(CommandName.SEARCH_ALL_APPLIED, new FindAllAppliedCommand());
         commandMap.put(CommandName.SEARCH_USERS_BY_ROLE, new FindUsersByRoleCommand());
+        commandMap.put(CommandName.SEARCH_ENROLLED_PROFILES, new FindEnrolledCommand());
 
         commandMap.put(CommandName.UPDATE_PROFILE, new UpdateProfileCommand());
         commandMap.put(CommandName.UPDATE_STUDENT_DATA, new UpdateStudentDataCommand());

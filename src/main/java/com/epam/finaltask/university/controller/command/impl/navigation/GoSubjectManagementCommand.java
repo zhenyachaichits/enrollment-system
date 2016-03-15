@@ -34,7 +34,7 @@ public class GoSubjectManagementCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             SubjectService service = SubjectService.getInstance();
             List<Subject> subjects = service.getAllSubjects();

@@ -38,7 +38,7 @@ public class GoFacultyManagementCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             FacultyService facultyService = FacultyService.getInstance();
             List<Faculty> faculties = facultyService.getAllFaculties();

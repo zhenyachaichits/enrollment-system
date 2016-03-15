@@ -4,6 +4,7 @@ import com.epam.finaltask.university.bean.Profile;
 import com.epam.finaltask.university.bean.type.UserType;
 import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.RequestParameterName;
+import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.util.AccessManager;
@@ -35,7 +36,7 @@ public class FindAllAppliedCommand implements Command {
         try {
             HttpSession session = request.getSession(false);
 
-            AccessManager.manageAccess(session, UserType.SUPPORT);
+            AccessManager.provideAccess(session, UserType.SUPPORT);
 
             int currentPage = Paginator.DEFAULT_PAGE;
             if(request.getParameter(RequestParameterName.CURRENT_PAGE) != null) {
@@ -52,7 +53,10 @@ public class FindAllAppliedCommand implements Command {
             request.setAttribute(RequestParameterName.PROFILES, profileList);
             request.setAttribute(RequestParameterName.CURRENT_PAGE, currentPage);
             request.setAttribute(RequestParameterName.PAGES_NUMBER, pagesNumber);
-            request.setAttribute(RequestParameterName.COMMAND_NAME, UrlBuilder.build(request));
+
+            String currentQuery = UrlBuilder.build(request);
+            request.setAttribute(RequestParameterName.COMMAND_NAME, currentQuery);
+            session.setAttribute(SessionParameterName.CURRENT_PAGE, currentQuery);
 
             return JspPageName.SUPPORT_SEARCH_PAGE;
 

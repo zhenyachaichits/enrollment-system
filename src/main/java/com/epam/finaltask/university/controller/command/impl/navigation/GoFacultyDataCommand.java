@@ -37,7 +37,7 @@ public class GoFacultyDataCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             String idStr = request.getParameter(RequestParameterName.FACULTY_ID);
             long facultyId = Long.parseLong(idStr);

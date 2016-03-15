@@ -30,7 +30,7 @@ public class DeleteProfileCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.STUDENT);
+            AccessManager.provideAccess(session, UserType.STUDENT);
 
             long userId = (Long) session.getAttribute(SessionParameterName.UID);
 

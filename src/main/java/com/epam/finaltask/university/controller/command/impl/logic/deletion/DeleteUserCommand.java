@@ -35,7 +35,7 @@ public class DeleteUserCommand implements Command {
         try {
             HttpSession session = request.getSession(false);
             long currentUserId = (long) session.getAttribute(SessionParameterName.UID);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             String idStr = request.getParameter(RequestParameterName.USER_ID);
             long userId = Long.parseLong(idStr);

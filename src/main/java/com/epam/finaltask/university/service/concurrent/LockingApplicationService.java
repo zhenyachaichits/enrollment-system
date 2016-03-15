@@ -133,15 +133,25 @@ public class LockingApplicationService {
                     OUT_COMPETITION, quota);
             if (profilesToApply.size() < quota) {
                 List<Profile> profiles = profileService.getProfilesToApply(facultyId, isFreeForm,
-                        !OUT_COMPETITION, quota);
+                        !OUT_COMPETITION, quota - profilesToApply.size());
                 profilesToApply.addAll(profiles);
 
                 if (profilesToApply.size() != 0) {
-                    Profile last = profilesToApply.get(profiles.size());
-                    int points = last.getPoints();
-                    List<Profile> addition = profileService.getWithSamePoints(facultyId, isFreeForm, points, quota);
+                    Profile last = profilesToApply.get(profilesToApply.size() - 1);
+                    final int passingPoints = last.getPoints();
 
-                    // TODO: 02.03.2016 to be continued...
+                    for (int i = 0; i < profilesToApply.size(); i++) {
+                        if (profilesToApply.get(i).getPoints() == passingPoints) {
+                            profilesToApply.remove(i);
+                            i--;
+                        }
+                    }
+
+                    List<Profile> addition = profileService.getWithSamePoints(facultyId, isFreeForm, passingPoints);
+
+                    addWithMedal(addition, profilesToApply, MedalType.GOLDEN, quota);
+                    addWithMedal(addition, profilesToApply, MedalType.SILVER, quota);
+                    addWithMedal(addition, profilesToApply, MedalType.NONE, quota);
                 }
             }
 
@@ -155,6 +165,19 @@ public class LockingApplicationService {
             return true;
         } finally {
             lock.unlock();
+        }
+    }
+
+    private void addWithMedal(List<Profile> addition, List<Profile> profilesToApply, MedalType medal, int quota) {
+        int placesLeft = quota - profilesToApply.size();
+
+        for (int i = 0; i < addition.size() && placesLeft != 0; i++) {
+            if (addition.get(i).getMedalType() == medal) {
+                Profile deleted = addition.remove(i);
+                profilesToApply.add(deleted);
+                placesLeft = quota - profilesToApply.size();
+                i--;
+            }
         }
     }
 }

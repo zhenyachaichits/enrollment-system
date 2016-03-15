@@ -35,7 +35,7 @@ public class GoTermsManagementCommand implements Command {
         try {
             HttpSession session = request.getSession(false);
 
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             TermsService service = TermsService.getInstance();
             List<Terms> termsList = service.getAllTerms();

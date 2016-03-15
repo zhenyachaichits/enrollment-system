@@ -22,16 +22,29 @@ public class AccessManager {
      * @throws AccessDeniedException   the access denied exception
      * @throws InvalidSessionException the invalid session exception
      */
-    public static void manageAccess(HttpSession session, UserType accessLevel)
+    public static void provideAccess(HttpSession session, UserType accessLevel)
             throws AccessDeniedException, InvalidSessionException {
 
-        if (session == null) {
-            throw new InvalidSessionException("User session doesn't exist");
-        }
-
+        checkSession(session);
         UserType currentType = (UserType) session.getAttribute(SessionParameterName.ROLE);
         if (!accessLevel.equals(currentType)) {
             throw new AccessDeniedException("Access to resource denied. User role doesn't match needed.");
+        }
+    }
+
+    public static void denyAccess(HttpSession session, UserType accessLevel)
+            throws AccessDeniedException, InvalidSessionException {
+
+        checkSession(session);
+        UserType currentType = (UserType) session.getAttribute(SessionParameterName.ROLE);
+        if (accessLevel.equals(currentType)) {
+            throw new AccessDeniedException("Access to resource denied. User role doesn't match needed.");
+        }
+    }
+
+    private static void checkSession(HttpSession session) throws InvalidSessionException {
+        if (session == null) {
+            throw new InvalidSessionException("User session doesn't exist");
         }
     }
 }

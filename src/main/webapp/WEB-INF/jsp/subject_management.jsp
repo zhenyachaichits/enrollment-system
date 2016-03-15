@@ -96,7 +96,7 @@
                                 <tbody>
                                 <c:forEach var="subject" items="${subjects}">
                                     <tr>
-                                        <form action="management" id="updateSub" name="updateSubject" method="post">
+                                        <form action="management" id="updateSub${subject.id}" method="post">
                                             <input type="hidden" name="command" value="update-subject">
                                             <input type="hidden" name="subjectID" value="${subject.id}">
                                             <td>
@@ -114,17 +114,17 @@
 
                                         </form>
                                         <td>
-                                            <a href="javascript:void(0)" onclick="$('form#updateSub').submit();"
+                                            <a href="javascript:void(0)" onclick="$('form#updateSub${subject.id}').submit();"
                                                class="btn btn-primary">
                                                 ${saveBtn}
                                             </a>
                                         </td>
                                         <td>
-                                            <form action="management" id="deleteSub" name="deleteSubject" method="post">
+                                            <form action="management" id="deleteSub${subject.id}" method="post">
                                                 <input type="hidden" name="command" value="delete-subject">
                                                 <input type="hidden" name="subjectID" value="${subject.id}">
                                             </form>
-                                            <a href="javascript:void(0)" onclick="$('form#deleteSub').submit();"
+                                            <a href="javascript:void(0)" onclick="$('form#deleteSub${subject.id}').submit();"
                                                class="btn btn-danger">
                                                 ${deleteBtn}
                                             </a>

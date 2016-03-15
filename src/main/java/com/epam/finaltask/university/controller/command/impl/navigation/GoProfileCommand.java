@@ -39,7 +39,7 @@ public class GoProfileCommand implements Command {
         try {
             HttpSession session = request.getSession(false);
 
-            AccessManager.manageAccess(session, UserType.STUDENT);
+            AccessManager.provideAccess(session, UserType.STUDENT);
 
             session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
             String email = (String) session.getAttribute(SessionParameterName.EMAIL);

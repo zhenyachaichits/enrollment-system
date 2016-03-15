@@ -1,6 +1,7 @@
 package com.epam.finaltask.university.controller.command.impl.logic.update;
 
 import com.epam.finaltask.university.bean.type.UserType;
+import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
@@ -36,7 +37,7 @@ public class UpdateFacultyPointsCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             String idStr = request.getParameter(RequestParameterName.FACULTY_ID);
             String freeQuotaStr = request.getParameter(RequestParameterName.FREE_QUOTA);
@@ -59,7 +60,7 @@ public class UpdateFacultyPointsCommand implements Command {
             }
 
             String currentQuery = (String) session.getAttribute(SessionParameterName.CURRENT_PAGE);
-            return currentQuery == null ? CommandName.GO_HOME.getQueryString() : currentQuery;
+            return currentQuery == null ? CommandName.GO_FACULTY_DATA.getQueryString() : currentQuery;
 
         } catch (NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't process faculty update command");

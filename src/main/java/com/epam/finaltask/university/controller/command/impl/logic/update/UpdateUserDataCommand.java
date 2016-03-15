@@ -37,7 +37,7 @@ public class UpdateUserDataCommand implements Command {
         try {
             HttpSession session = request.getSession(false);
             long currentUserId = (long) session.getAttribute(SessionParameterName.UID);
-            AccessManager.manageAccess(session, UserType.ADMIN);
+            AccessManager.provideAccess(session, UserType.ADMIN);
 
             LockingUserService service = LockingUserService.getInstance();
 

@@ -39,7 +39,7 @@ public class GoApplyFormCommand implements Command {
         try {
             HttpSession session = request.getSession(false);
 
-            AccessManager.manageAccess(session, UserType.SUPPORT);
+            AccessManager.provideAccess(session, UserType.SUPPORT);
 
             session.setAttribute(SessionParameterName.CURRENT_PAGE, UrlBuilder.build(request));
 

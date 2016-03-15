@@ -34,7 +34,7 @@ public class CreateApplicationCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-            AccessManager.manageAccess(session, UserType.SUPPORT);
+            AccessManager.provideAccess(session, UserType.SUPPORT);
 
             CommandBeanFactory<Application> compiler = ApplicationCommandBeanFactory.getInstance();
             Application application = compiler.constructBean(request);

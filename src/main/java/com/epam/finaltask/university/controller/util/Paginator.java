@@ -6,6 +6,7 @@ package com.epam.finaltask.university.controller.util;
  */
 public class Paginator {
 
+    public static final int DEFAULT_OFFSET = 0;
     public static final int DEFAULT_PAGE = 1;
     public static final int RECORDS_ON_PAGE = 5;
 
