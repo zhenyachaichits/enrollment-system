@@ -36,107 +36,27 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-
-            <div class="panel panel-default clear">
-                <div class="panel-heading">
-                    <ul class="nav nav-tabs searchtab">
-                        <li><a href="#findByRole" data-toggle="tab">
-                            <div class="text-muted">${searchTab}</div>
-                        </a></li>
-                        <li><a href="#addUser" data-toggle="tab">
-                            <div class="text-muted">${createTab}</div>
-                        </a></li>
-                    </ul>
-                </div>
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
                 <div class="panel-body">
-
-
-                    <div id="myTabContent" class="tab-content">
-                        <div class="tab-pane fade active in" id="findByRole">
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-3">
-                                    <div class="form-group horizontal-center">
-                                        <form action="search" id="searchUsers" name="searchUsers" method="post"
-                                              accept-charset="utf-8">
-                                            <input id="findCommand" type="hidden" name="command"
-                                                   value="search-users-by-role">
-                                            <input id="findRole" type="hidden" name="role" value="">
-                                            <button id="findStudent" class="btn btn-raised">${studentLabel}</button>
-                                            <button id="findAdmin" class="btn btn-raised">${adminLabel}</button>
-                                            <button id="findSupport" class="btn btn-raised">${supportLabel}</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-4">
+                            <select id="selRole" class="form-control select-dropdown">
+                                <option selected>${roleLabel}</option>
+                                <option id="findStudent">${studentLabel}</option>
+                                <option id="findAdmin">${adminLabel}</option>
+                                <option id="findSupport">${supportLabel}</option>
+                            </select>
+                            <form action="search" id="searchUsers" name="searchUsers" method="post"
+                                  accept-charset="utf-8" hidden>
+                                <input id="findCommand" type="hidden" name="command"
+                                       value="search-users-by-role">
+                                <input id="findRole" type="hidden" name="role" value="">
+                            </form>
                         </div>
-
-                        <div class="tab-pane fade" id="addUser">
-
-                            <div class="row">
-                                <form action="management" name="addUser" method="post">
-                                    <input type="hidden" name="command" value="create-user">
-                                    <fieldset>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="newEmail">${emailLabel}</label>
-                                            <div class="col-md-8">
-                                                <input type="email" name="email" id="newEmail" class="form-control"
-                                                       placeholder="${emailLabel}"
-                                                       required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label" for="newPassword">${passwordLabel}</label>
-                                            <div class="col-md-8">
-                                                <input type="password" name="password" id="newPassword" class="form-control"
-                                                       placeholder="${passwordLabel}"
-                                                       required>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">${roleLabel}</label>
-
-                                            <div class="col-md-8">
-                                                <div class="radio radio-primary">
-                                                    <label>
-                                                        <input type="radio" name="role" id="supportRole" value="SUPPORT" checked="">
-                                                        ${supportLabel}
-                                                    </label>
-                                                </div>
-                                                <div class="radio radio-primary">
-                                                    <label>
-                                                        <input type="radio" name="role" id="adminRole" value="ADMIN">
-                                                        ${adminLabel}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="col-md-12 col-md-offset-8">
-                                                <button class="btn btn-primary">${createBtn}</button>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
-
                     </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <c:if test="${fn:length(users) gt 0}">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-
-                        <p class="lead text-muted">${foundLabel} ${fn:length(users)}</p>
+                    <p class="lead text-muted horizontal-center">${foundLabel} ${fn:length(users)}</p>
+                    <c:if test="${fn:length(users) gt 0}">
 
                         <div class="table-responsive">
                             <table class="table table-striped table-hover ">
@@ -161,7 +81,7 @@
                                             <td>
                                                 <button name="userID" value="${user.id}"
                                                         class="btn btn-primary">
-                                                    ${moreBtn}
+                                                        ${moreBtn}
                                                 </button>
                                             </td>
                                         </tr>
@@ -170,54 +90,132 @@
                                 </tbody>
                             </table>
                         </div>
-                        <c:if test="${pagesNumber gt 1}">
+                    </c:if>
+                    <c:if test="${pagesNumber gt 1}">
 
-                            <div class="col-md-12 horizontal-center">
-                                <ul class="pagination">
-                                    <c:if test="${currentPage ne 1}">
-                                        <form action="${command}" method="post" name="previousPage" hidden>
-                                            <input type="hidden" name="currentPage" value="${currentPage - 1}">
-                                        </form>
-                                        <li><a href="javascript:previousPage.submit()">«</a></li>
-                                    </c:if>
+                        <div class="col-md-12 horizontal-center">
+                            <ul class="pagination">
+                                <c:if test="${currentPage ne 1}">
+                                    <form action="${command}" method="post" name="previousPage" hidden>
+                                        <input type="hidden" name="currentPage" value="${currentPage - 1}">
+                                    </form>
+                                    <li><a href="javascript:previousPage.submit()">«</a></li>
+                                </c:if>
 
-                                    <c:forEach begin="1" end="${pagesNumber}" var="i">
-                                        <c:choose>
-                                            <c:when test="${currentPage eq i}">
-                                                <li class="active"><a
-                                                        style=" background-color: #1DA195;
+                                <c:forEach begin="1" end="${pagesNumber}" var="i">
+                                    <c:choose>
+                                        <c:when test="${currentPage eq i}">
+                                            <li class="active"><a
+                                                    style=" background-color: #1DA195;
                                                             border-color: #1DA195;"
-                                                        href="javascript:void(0)">${i}</a></li>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <form action="${command}" method="post" name="change" hidden>
-                                                    <input type="hidden" name="currentPage" value="${i}">
-                                                </form>
-                                                <li><a href="javascript:change.submit()">${i}</a></li>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
+                                                    href="javascript:void(0)">${i}</a></li>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <form action="${command}" method="post" id="change${i}" name="change"
+                                                  hidden>
+                                                <input type="hidden" name="currentPage" value="${i}">
+                                            </form>
+                                            <li><a href="javascript:void(0)"
+                                                   onclick="('form:#change${i}').submit()">${i}</a></li>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
 
-                                    <c:if test="${currentPage lt pagesNumber}">
-                                        <form action="${command}" method="post" name="nextPage" hidden>
-                                            <input type="hidden" name="currentPage" value="${currentPage + 1}">
-                                        </form>
-                                        <li><a href="javascript:nextPage.submit()">»</a></li>
-                                    </c:if>
+                                <c:if test="${currentPage lt pagesNumber}">
+                                    <form action="${command}" method="post" name="nextPage" hidden>
+                                        <input type="hidden" name="currentPage" value="${currentPage + 1}">
+                                    </form>
+                                    <li><a href="javascript:nextPage.submit()">»</a></li>
+                                </c:if>
 
-                                </ul>
-                            </div>
-                        </c:if>
-                    </div>
+                            </ul>
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </div>
-    </c:if>
+    </div>
+
+    <div id="addFaculty" class="modal fade" tabindex="-1" style="display: none;">
+        <div class="modal-dialog modal-md" style=" margin-top: 10%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h2 class="modal-title">${createTab}</h2>
+                </div>
+                <div class="modal-body">
+                    <form action="management" name="addUser" method="post">
+                        <input type="hidden" name="command" value="create-user">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="newEmail">${emailLabel}</label>
+                                <div class="col-md-8">
+                                    <input type="email" name="email" id="newEmail" class="form-control"
+                                           placeholder="${emailLabel}"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"
+                                       for="newPassword">${passwordLabel}</label>
+                                <div class="col-md-8">
+                                    <input type="password" name="password" id="newPassword"
+                                           class="form-control"
+                                           placeholder="${passwordLabel}"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">${roleLabel}</label>
+
+                                <div class="col-md-8">
+                                    <div class="radio radio-primary">
+                                        <label>
+                                            <input type="radio" name="role" id="supportRole" value="SUPPORT"
+                                                   checked="">
+                                            ${supportLabel}
+                                        </label>
+                                    </div>
+                                    <div class="radio radio-primary">
+                                        <label>
+                                            <input type="radio" name="role" id="adminRole" value="ADMIN">
+                                            ${adminLabel}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12 col-md-offset-7">
+                                    <button class="btn btn-primary">${createBtn}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <button data-toggle="modal" data-target="#addFaculty" href="javascript:void(0)"
+            style="position: fixed;
+                        box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+                        z-index: 25;
+                        bottom: 25px;
+                        right: 25px;
+                        background-color: #d23f31;
+                        height: 56px;
+                        width: 56px;"
+            class="btn btn-danger btn-fab rounded-btn"><i class="material-icons">add</i></button>
+
+
 </div>
 
     <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-       data-content="One or more records are incorrect" data-timeout="4000"
-       data-snackbar-id="snackbar1454251274095"></span>
+          data-content="One or more records are incorrect" data-timeout="4000"
+          data-snackbar-id="snackbar1454251274095"></span>
     <span id="emailErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
           data-content="Account with such Email already exists" data-timeout="4000"
           data-snackbar-id="snackbar1454251274096"></span>

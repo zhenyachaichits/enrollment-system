@@ -276,7 +276,8 @@
                                 <div class="col-md-8">
                                     <label for="faculty" class="col-md-3 control-label">${facultyLabel}</label>
                                     <div class="col-md-8">
-                                        <select name="facultyID" id="faculty" class="form-control select-dropdown" readonly="">
+                                        <select name="facultyID" id="faculty" class="form-control select-dropdown"
+                                                readonly="">
                                             <option disabled selected>${chooseFacultyLabel}</option>
                                             <c:forEach var="faculty" items="${faculties}">
                                                 <option value="${faculty.id}"
@@ -292,7 +293,7 @@
                                     <div class="togglebutton">
                                         <label>
                                             <input name="freeForm" type="checkbox"
-                                                   <c:if test="${student.profile.freeForm}"> checked</c:if>> ${formLabel}
+                                            <c:if test="${student.profile.freeForm}"> checked</c:if>> ${formLabel}
                                         </label>
                                     </div>
                                 </div>
@@ -345,7 +346,8 @@
 
                                 <div class="col-md-4">
                                     <input type="number" min="30" max="100" class="form-control point" id="gpa"
-                                           placeholder="${gpaLabel}" onkeyup="refreshTotal();" onchange="refreshTotal();"
+                                           placeholder="${gpaLabel}" onkeyup="refreshTotal();"
+                                           onchange="refreshTotal();"
                                            pattern="\d{1,3}">
                                 </div>
                             </div>
@@ -377,12 +379,19 @@
         </div>
     </form>
     <c:if test="${not student.profile.applied}">
-        <form action="home" method="post">
+        <form action="home" name="deleteForm" method="post">
             <input type="hidden" name="command" value="delete-profile">
-            <button type="submit"
-                    class="btn btn-raised btn-block btn-danger" style="background-color: #bd5050;">${deleteBtn}
-            </button>
 
+            <a href="javascript:deleteForm.submit()"
+               style="position: fixed;
+                        box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+                        z-index: 25;
+                        bottom: 25px;
+                        right: 25px;
+                        background-color: #d23f31;
+                        height: 56px;
+                        width: 56px;"
+               class="btn btn-danger btn-fab rounded-btn"><i class="material-icons">delete</i></a>
         </form>
     </c:if>
 </div>

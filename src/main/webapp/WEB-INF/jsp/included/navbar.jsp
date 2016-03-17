@@ -40,7 +40,8 @@
 <c:set var="url">${req.requestURL}</c:set>
 <c:set var="uri" value="${req.requestURI}"/>
 
-<div class="navbar navbar-default">
+<div class="navbar navbar-default"  style="box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+ position: fixed; z-index: 1000; width: 100%;">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -161,6 +162,8 @@
         </div>
     </div>
 </div>
+
+<div class="filler"></div>
 
 <c:if test="${sessionScope.userEmail == null}">
     <div id="signIn" class="modal fade" tabindex="-1" style="display: none;">

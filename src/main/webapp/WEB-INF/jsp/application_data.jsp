@@ -31,11 +31,12 @@
 <div class="container">
     <c:if test="${empty(application)}">
         <div class="col-md-6 col-md-offset-3">
-            <div class="well">
-                <div class="horizontal-center">
-                    <i class="material-icons" style="font-size: 18em">mood_bad</i>
-                    <h1>${errorLabel}</h1>
-                </div>
+            <div class="horizontal-center centred">
+                <a href="javascript:void(0)" class="btn btn-default btn-fab" style="background-color: #f4f4ee;
+                height: 250px; width: 250px;">
+                    <i class="material-icons" style=" color: #7e7e79; top: 50%;left: 15%; font-size: 200px">content_paste</i>
+                </a>
+                <h1 style="color: #7e7e79 ">${errorLabel}</h1>
             </div>
         </div>
     </c:if>

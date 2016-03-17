@@ -30,59 +30,13 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
 
-            <div class="panel panel-default clear">
-                <div class="panel-heading">
-                    ${divHeader}
-                </div>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="row">
-                        <form action="management" name="addUser" method="post">
-                            <input type="hidden" name="command" value="create-subject">
-                            <fieldset>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label" for="name">${nameLabel}</label>
-                                    <div class="col-md-8">
-                                        <input type="text" name="subjectName" id="name" class="form-control"
-                                               placeholder="${nameLabel}"
-                                               required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="minPoints" class="col-md-5 control-label">
-                                       ${pointsLabel}
-                                    </label>
+                    <p class="lead text-muted">${foundLabel} ${fn:length(subjects)}</p>
 
-                                    <div class="col-md-4">
-                                        <input type="number" name="minPoint" min="1" max="80"
-                                               class="form-control point"
-                                               id="minPoints"
-                                               placeholder="${pointsLabel}" pattern="\d{1,3}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12 col-md-offset-8">
-                                        <button class="btn btn-primary">${createBtn}</button>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <c:if test="${fn:length(subjects) gt 0}">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-
-                        <p class="lead text-muted">${foundLabel} ${fn:length(subjects)}</p>
-
+                    <c:if test="${fn:length(subjects) gt 0}">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover ">
                                 <thead>
@@ -114,9 +68,10 @@
 
                                         </form>
                                         <td>
-                                            <a href="javascript:void(0)" onclick="$('form#updateSub${subject.id}').submit();"
+                                            <a href="javascript:void(0)"
+                                               onclick="$('form#updateSub${subject.id}').submit();"
                                                class="btn btn-primary">
-                                                ${saveBtn}
+                                                    ${saveBtn}
                                             </a>
                                         </td>
                                         <td>
@@ -124,9 +79,10 @@
                                                 <input type="hidden" name="command" value="delete-subject">
                                                 <input type="hidden" name="subjectID" value="${subject.id}">
                                             </form>
-                                            <a href="javascript:void(0)" onclick="$('form#deleteSub${subject.id}').submit();"
-                                               class="btn btn-danger">
-                                                ${deleteBtn}
+                                            <a href="javascript:void(0)"
+                                               onclick="$('form#deleteSub${subject.id}').submit();"
+                                               class="btn btn-danger" style="color: #d23f31;">
+                                                    ${deleteBtn}
                                             </a>
                                         </td>
                                     </tr>
@@ -134,11 +90,69 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </c:if>
                 </div>
             </div>
         </div>
-    </c:if>
+    </div>
+
+
+    <div id="addFaculty" class="modal fade" tabindex="-1" style="display: none;">
+        <div class="modal-dialog modal-md" style=" margin-top: 50px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h2 class="modal-title">${divHeader}</h2>
+                </div>
+                <div class="modal-body">
+                    <form action="management" name="addUser" method="post">
+                        <input type="hidden" name="command" value="create-subject">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="name">${nameLabel}</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="subjectName" id="name" class="form-control"
+                                           placeholder="${nameLabel}"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="minPoints" class="col-md-5 control-label">
+                                    ${pointsLabel}
+                                </label>
+
+                                <div class="col-md-4">
+                                    <input type="number" name="minPoint" min="1" max="80"
+                                           class="form-control point"
+                                           id="minPoints"
+                                           placeholder="${pointsLabel}" value="1" pattern="\d{1,3}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 col-md-offset-7">
+                                    <button class="btn btn-primary">${createBtn}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <button data-toggle="modal" data-target="#addFaculty" href="javascript:void(0)"
+            style="position: fixed;
+                        box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+                        z-index: 25;
+                        bottom: 25px;
+                        right: 25px;
+                        background-color: #d23f31;
+                        height: 56px;
+                        width: 56px;"
+            class="btn btn-danger btn-fab rounded-btn"><i class="material-icons">add</i></button>
+
+
 </div>
 
     <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"

@@ -34,94 +34,7 @@
 
 <div class="content">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-
-            <div class="panel panel-default clear">
-                <div class="panel-heading">
-                    <p>${divHeader}</p>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <form action="management" name="addFaculty" method="post">
-                            <input type="hidden" name="command" value="create-faculty">
-                            <fieldset>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label" for="facultyName">${nameLabel}</label>
-                                    <div class="col-md-8">
-                                        <input type="text" name="facultyName" id="facultyName" class="form-control"
-                                               placeholder="${nameLabel}"
-                                               required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="freeQuota" class="col-md-3 control-label">
-                                        ${freeQuotaLabel}
-                                    </label>
-
-                                    <div class="col-md-8">
-                                        <input type="number" name="freeQuota" min="1" max="999"
-                                               class="form-control point"
-                                               id="freeQuota" pattern="\d{1,3}">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="freeQuota" class="col-md-3 control-label">
-                                        ${paidQuotaLabel}
-                                    </label>
-
-                                    <div class="col-md-8">
-                                        <input type="number" name="paidQuota" min="1" max="999"
-                                               class="form-control point"
-                                               id="paidQuota" pattern="\d{1,3}">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="terms" class="col-md-3 control-label">${termsLabel}</label>
-
-                                    <div class="col-md-8">
-                                        <select id="terms" name="termsID" class="form-control select-dropdown">
-                                            <c:forEach var="termsLabel" items="${termsList}">
-                                                <option value="${termsLabel.id}">
-                                                    <fmt:formatDate pattern="dd.MM.yyyy"
-                                                                    value="${termsLabel.startDate.time}"/>-<fmt:formatDate
-                                                        pattern="dd.MM.yyyy" value="${termsLabel.endDate.time}"/>
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="subjects" class="col-md-3 control-label">${subjectsLabel}</label>
-                                    <div class="col-md-8">
-                                        <select id="subjects" name="subjects" class="form-control" multiple>
-                                            <c:forEach var="subject" items="${subjects}">
-                                                <option value="${subject.id}">
-                                                    <tr:transl>${subject.name}</tr:transl>
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-12 col-md-offset-8">
-                                        <button class="btn btn-primary">${createBtn}</button>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <c:if test="${fn:length(faculties) gt 0}">
-        <div class="row">
+        <c:if test="${fn:length(faculties) gt 0}">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -144,7 +57,7 @@
                                         <tr>
                                             <td>
                                                 <p class="centred">
-                                                <tr:transl>${faculty.name}</p></tr:transl>
+                                                    <tr:transl>${faculty.name}</p></tr:transl>
                                             </td>
                                             <td>
                                                 <c:forEach var="termsLabel" items="${termsList}">
@@ -162,7 +75,7 @@
                                             <td>
                                                 <button name="facultyID" value="${faculty.id}"
                                                         class="btn btn-primary">
-                                                    ${moreBtn}
+                                                        ${moreBtn}
                                                 </button>
                                             </td>
                                         </tr>
@@ -174,8 +87,114 @@
                     </div>
                 </div>
             </div>
+        </c:if>
+        <c:if test="${fn:length(faculties) eq 0}">
+            <div class="col-md-6 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p class="lead text-muted">${foundLabel} ${fn:length(faculties)}</p>
+                    </div>
+                </div>
+            </div>
+        </c:if>
+    </div>
+
+
+    <div id="addFaculty" class="modal fade" tabindex="-1" style="display: none;">
+        <div class="modal-dialog modal-md" style=" margin-top: 20px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h2 class="modal-title">${divHeader}</h2>
+                </div>
+                <div class="modal-body">
+                    <form action="management" name="addFaculty" method="post">
+                        <input type="hidden" name="command" value="create-faculty">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-12 control-label" for="facultyName">${nameLabel}</label>
+                                <div class="col-md-12">
+                                    <input type="text" name="facultyName" id="facultyName" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="freeQuota" class="col-md-12 control-label">
+                                    ${freeQuotaLabel}
+                                </label>
+
+                                <div class="col-md-12">
+                                    <input type="number" name="freeQuota" min="1" max="999"
+                                           class="form-control point"
+                                           id="freeQuota" pattern="\d{1,3}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="paidQuota" class="col-md-12 control-label">
+                                    ${paidQuotaLabel}
+                                </label>
+
+                                <div class="col-md-12">
+                                    <input type="number" name="paidQuota" min="1" max="999"
+                                           class="form-control point"
+                                           id="paidQuota" pattern="\d{1,3}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="terms" class="col-md-12 control-label">${termsLabel}</label>
+
+                                <div class="col-md-12">
+                                    <select id="terms" name="termsID" class="form-control select-dropdown"
+                                            style="font: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 200">
+                                        <c:forEach var="termsLabel" items="${termsList}">
+                                            <option value="${termsLabel.id}">
+                                                <fmt:formatDate pattern="dd.MM.yyyy"
+                                                                value="${termsLabel.startDate.time}"/>-<fmt:formatDate
+                                                    pattern="dd.MM.yyyy" value="${termsLabel.endDate.time}"/>
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subjects" class="col-md-12 control-label">${subjectsLabel}</label>
+                                <div class="col-md-12">
+                                    <select id="subjects" name="subjects" class="form-control" multiple>
+                                        <c:forEach var="subject" items="${subjects}">
+                                            <option value="${subject.id}">
+                                                <tr:transl>${subject.name}</tr:transl>
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12 col-md-offset-7">
+                                    <button class="btn btn-primary">${createBtn}</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
         </div>
-    </c:if>
+    </div>
+
+
+    <button data-toggle="modal" data-target="#addFaculty" href="javascript:void(0)"
+            style="position: fixed;
+                        box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+                        z-index: 25;
+                        bottom: 25px;
+                        right: 25px;
+                        background-color: #d23f31;
+                        height: 56px;
+                        width: 56px;"
+            class="btn btn-danger btn-fab rounded-btn"><i class="material-icons">add</i></button>
+
 </div>
 
 
