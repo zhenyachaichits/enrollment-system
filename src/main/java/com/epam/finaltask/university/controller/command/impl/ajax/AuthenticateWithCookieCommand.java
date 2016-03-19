@@ -3,6 +3,7 @@ package com.epam.finaltask.university.controller.command.impl.ajax;
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
+import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.impl.ajax.response.AjaxResponseValue;
 import com.epam.finaltask.university.service.UserService;
@@ -39,11 +40,11 @@ public class AuthenticateWithCookieCommand implements Command {
                 if (cookie.getName().equals(COOKIE_ID_NAME)) {
                     addFoundToSession(cookie, session);
 
-                    return AjaxResponseValue.POSITIVE;
+                    return CommandName.GO_HOME.getQueryString();
                 }
             }
         }
-        return AjaxResponseValue.NEGATIVE;
+        return AjaxResponseValue.NEGATIVE.toString();
     }
 
 

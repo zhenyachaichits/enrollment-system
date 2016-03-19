@@ -3,8 +3,7 @@ package com.epam.finaltask.university.controller.command;
 
 import com.epam.finaltask.university.controller.command.impl.ajax.*;
 import com.epam.finaltask.university.controller.command.impl.error.NoSuchCommand;
-import com.epam.finaltask.university.controller.command.impl.logic.AuthenticateCommand;
-import com.epam.finaltask.university.controller.command.impl.logic.ConfirmFacultyApplicationsCommand;
+import com.epam.finaltask.university.controller.command.impl.logic.update.ConfirmFacultyApplicationsCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.LogOutCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.SetLocaleCommand;
 import com.epam.finaltask.university.controller.command.impl.logic.creation.*;
@@ -31,13 +30,11 @@ public class CommandHelper {
     private CommandHelper() {
         commandMap.put(CommandName.NO_SUCH_COMMAND, new NoSuchCommand());
 
-        commandMap.put(CommandName.CHECK_ACCOUNT, new CheckAccountCommand());
         commandMap.put(CommandName.CHECK_EMAIL, new CheckEmailExistenceCommand());
         commandMap.put(CommandName.CHECK_PASSPORT_ID, new CheckPassportIdExistenceCommand());
         commandMap.put(CommandName.CHECK_FACULTY_NAME, new CheckFacultyNameExistenceCommand());
 
-
-        commandMap.put(CommandName.AUTHENTICATE, new AuthenticateCommand());
+        commandMap.put(CommandName.AUTHENTICATE, new AuthenticateUserCommand());
         commandMap.put(CommandName.COOKIE_AUTHENTICATE, new AuthenticateWithCookieCommand());
         commandMap.put(CommandName.LOG_OUT, new LogOutCommand());
         commandMap.put(CommandName.SIGN_UP, new SignUpCommand());

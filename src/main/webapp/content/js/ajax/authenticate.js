@@ -6,14 +6,14 @@
 function authenticateCookies() {
     $('#newEmail').val("");
     $.post(
-        '/action',
+        '/home',
         {
             command: 'cookie-authenticate'
         },
         function (resp) {
             status = $.trim(resp.toLowerCase());
-            if (status === "positive") {
-                location.reload();
+            if (status != "negative") {
+                window.location.href = resp;
             }
         })
         .fail(function () {
@@ -26,20 +26,23 @@ $('#submit').click(function () {
 
     var userEmail = $('#email').val();
     var userPassword = $('#password').val();
+    var isRemembered = $('#remember').val();
 
     $.post(
-        '/action',
+        '/home',
         {
-            command: 'check-account',
+            command: 'authenticate',
             email: userEmail,
-            password: userPassword
+            password: userPassword,
+            remember: isRemembered
         },
+        
         function (resp) {
             status = $.trim(resp.toLowerCase());
             if (status === "negative") {
                 $('#errorMessage').snackbar('show');
             } else {
-                $('form#signInForm').submit();
+                window.location.href = resp;
             }
         })
         .fail(function () {

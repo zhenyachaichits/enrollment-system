@@ -6,6 +6,7 @@ import com.epam.finaltask.university.controller.command.exception.AccessDeniedEx
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.command.exception.InvalidSessionException;
+import com.epam.finaltask.university.controller.command.impl.ajax.response.AjaxResponseValue;
 import com.epam.finaltask.university.controller.util.AjaxIdentifier;
 import com.epam.finaltask.university.controller.util.ExceptionHandler;
 
@@ -56,6 +57,8 @@ public final class Controller extends HttpServlet {
         }
 
         boolean isXml = AjaxIdentifier.isResponseContextXml(response);
+
+
         if (isAjax && !isXml) {
             writeToResponse(response, responseString);
         } else if (responseString.contains(COMMAND_QUERY)) {

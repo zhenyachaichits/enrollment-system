@@ -29,9 +29,9 @@ public class CheckFacultyNameExistenceCommand implements Command{
             FacultyService service = FacultyService.getInstance();
 
             if (service.checkFacultyExistence(facultyName)) {
-                return AjaxResponseValue.POSITIVE;
+                return AjaxResponseValue.POSITIVE.toString();
             } else {
-                return AjaxResponseValue.NEGATIVE;
+                return AjaxResponseValue.NEGATIVE.toString();
             }
 
         } catch (ServiceException e) {

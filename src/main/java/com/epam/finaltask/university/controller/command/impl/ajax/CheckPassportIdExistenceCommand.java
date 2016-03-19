@@ -30,9 +30,9 @@ public class CheckPassportIdExistenceCommand implements Command {
             ProfileService service = ProfileService.getInstance();
 
             if (service.checkPassportIdExistence(passportId)) {
-                return AjaxResponseValue.POSITIVE;
+                return AjaxResponseValue.POSITIVE.toString();
             } else {
-                return AjaxResponseValue.NEGATIVE;
+                return AjaxResponseValue.NEGATIVE.toString();
             }
 
         } catch (ServiceException e) {

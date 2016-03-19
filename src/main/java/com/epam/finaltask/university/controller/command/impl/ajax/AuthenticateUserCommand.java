@@ -1,12 +1,14 @@
-package com.epam.finaltask.university.controller.command.impl.logic;
+package com.epam.finaltask.university.controller.command.impl.ajax;
 
 import com.epam.finaltask.university.bean.User;
 import com.epam.finaltask.university.controller.JspPageName;
 import com.epam.finaltask.university.controller.RequestParameterName;
 import com.epam.finaltask.university.controller.SessionParameterName;
 import com.epam.finaltask.university.controller.command.Command;
+import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
+import com.epam.finaltask.university.controller.command.impl.ajax.response.AjaxResponseValue;
 import com.epam.finaltask.university.service.UserService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 
@@ -16,9 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Authenticate command.
+ * Command Check account.
  */
-public class AuthenticateCommand implements Command {
+public class AuthenticateUserCommand implements Command {
 
     private static final String ID_COOKIE = "university_user_id";
     /**
@@ -30,16 +32,16 @@ public class AuthenticateCommand implements Command {
     private static final String REMEMBERED_CHECKED = "on";
 
     /**
-     * Execute user authentication. If needed, current user data will be saved in cookies.
-     * By default, user data will be saved in current session.
+     * Execute checking user data validity befote authentication
      * @param request
      * @param response
-     * @return home page name
+     * @return constant from class AjaxResponseValue
      * @throws CommandException
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
+
             String email = request.getParameter(RequestParameterName.EMAIL);
             String password = request.getParameter(RequestParameterName.PASSWORD);
             String rememberedStr = request.getParameter(RequestParameterName.REMEMBERED);
@@ -58,14 +60,30 @@ public class AuthenticateCommand implements Command {
                     saveInCookies(user, response);
                 }
                 saveInSession(user, request);
+
+                return CommandName.GO_HOME.getQueryString();
             } else {
-                throw new InvalidDataException("Invalid user data. Couldn't sign in");
+                return AjaxResponseValue.NEGATIVE.toString();
             }
 
-            return JspPageName.INDEX;
+            /*
+            String email = request.getParameter(RequestParameterName.EMAIL);
+            String password = request.getParameter(RequestParameterName.PASSWORD);
 
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+
+            UserService service = UserService.getInstance();
+
+            if (service.checkAccountData(user)) {
+                return AjaxResponseValue.POSITIVE;
+            } else {
+                return AjaxResponseValue.NEGATIVE;
+            }
+            */
         } catch (ServiceException e) {
-            throw new CommandException("Couldn't execute authentication command", e);
+            throw new CommandException("Couldn't execute pre-authentication command", e);
         }
     }
 
@@ -85,11 +103,6 @@ public class AuthenticateCommand implements Command {
         response.addCookie(idCookie);
     }
 
-    /**
-     * Saves user data in session
-     * @param user
-     * @param request
-     */
     private void saveInSession(User user, HttpServletRequest request) {
         HttpSession session = request.getSession(true);
 

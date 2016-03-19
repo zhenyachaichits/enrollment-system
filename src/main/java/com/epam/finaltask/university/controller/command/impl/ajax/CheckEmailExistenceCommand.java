@@ -29,9 +29,9 @@ public class CheckEmailExistenceCommand implements Command {
             UserService service = UserService.getInstance();
 
             if (service.checkEmailExistence(email)) {
-                return AjaxResponseValue.POSITIVE;
+                return AjaxResponseValue.POSITIVE.toString();
             } else {
-                return AjaxResponseValue.NEGATIVE;
+                return AjaxResponseValue.NEGATIVE.toString();
             }
 
         } catch (ServiceException e) {
