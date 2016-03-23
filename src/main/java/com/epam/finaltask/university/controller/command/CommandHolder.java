@@ -11,6 +11,8 @@ import com.epam.finaltask.university.controller.command.impl.logic.deletion.*;
 import com.epam.finaltask.university.controller.command.impl.logic.search.*;
 import com.epam.finaltask.university.controller.command.impl.logic.update.*;
 import com.epam.finaltask.university.controller.command.impl.navigation.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,15 +21,17 @@ import java.util.Map;
 /**
  * The type Command helper.
  */
-public class CommandHelper {
+public class CommandHolder {
+
+    private static final Logger LOG = LogManager.getLogger(CommandHolder.class.getClass());
 
     private static final String EMPTY_COMMAND_NAME = "";
 
     private static Map<CommandName, Command> commandMap = new HashMap<>();
 
-    private final static CommandHelper instance = new CommandHelper();
+    private final static CommandHolder instance = new CommandHolder();
 
-    private CommandHelper() {
+    private CommandHolder() {
         commandMap.put(CommandName.NO_SUCH_COMMAND, new NoSuchCommand());
 
         commandMap.put(CommandName.CHECK_EMAIL, new CheckEmailExistenceCommand());
@@ -97,7 +101,7 @@ public class CommandHelper {
      *
      * @return the instance
      */
-    public static CommandHelper getInstance() {
+    public static CommandHolder getInstance() {
         return instance;
     }
 
@@ -116,7 +120,7 @@ public class CommandHelper {
             return commandMap.get(name);
 
         } catch (IllegalArgumentException e) {
-            //todo: add logger
+            LOG.error("Couldn't find command with such name. Default command was returned", e);
             return commandMap.get(CommandName.NO_SUCH_COMMAND);
         }
     }

@@ -8,6 +8,8 @@ import com.epam.finaltask.university.controller.command.exception.CommandExcepti
 import com.epam.finaltask.university.controller.command.impl.ajax.response.AjaxResponseValue;
 import com.epam.finaltask.university.service.UserService;
 import com.epam.finaltask.university.service.exception.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpSession;
  * Command Authenticate with cookie.
  */
 public class AuthenticateWithCookieCommand implements Command {
+
+    private static final Logger LOG = LogManager.getLogger(AuthenticateWithCookieCommand.class.getClass());
 
     private static final String COOKIE_ID_NAME = "university_user_id";
 
@@ -65,7 +69,7 @@ public class AuthenticateWithCookieCommand implements Command {
                 session.setAttribute(SessionParameterName.ROLE, user.getRole());
                 session.setAttribute(SessionParameterName.UID, user.getId());
             } else {
-                // TODO: 11.02.2016 maybe add logging
+                LOG.error("Invalid user ID was found in cookies. Couldn't authenticate user with cookies");
             }
 
         } catch (ServiceException | NumberFormatException e) {

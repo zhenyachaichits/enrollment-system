@@ -41,7 +41,7 @@ public class LockingUserService {
      * @throws ServiceException the service exception
      */
     public User createUser(User user) throws ServiceException {
-        UserService userService = UserService.getInstance(); // TODO: ask about it
+        UserService userService = UserService.getInstance();
 
         if (UserValidator.validateUser(user) && !userService.checkEmailExistence(user.getEmail())) {
             lock.lock();

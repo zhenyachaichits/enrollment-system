@@ -7,6 +7,8 @@ import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolExce
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.FacultyDaoBeanFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import java.util.List;
  * Sql faculty dao.
  */
 public class SqlFacultyDaoImpl implements FacultyDao {
+
+    private static final Logger LOG = LogManager.getLogger(SqlFacultyDaoImpl.class.getClass());
 
     private final ConnectionPool connectionPool;
 
@@ -113,7 +117,7 @@ public class SqlFacultyDaoImpl implements FacultyDao {
                     connection.rollback();
                 }
             } catch (SQLException e1) {
-                // TODO: 16.02.2016 logger?
+                LOG.error("Couldn't rollback operation after exception in add faculty operation", e1);
             }
             throw new DaoException("Couldn't process operation", e);
         } finally {
@@ -121,7 +125,7 @@ public class SqlFacultyDaoImpl implements FacultyDao {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    // TODO: 19.02.2016 logger
+                    LOG.error("Couldn't turn on autocommit in faculty adding operation", e);
                 }
                 connectionPool.closeConnection(connection);
             }
@@ -317,6 +321,7 @@ public class SqlFacultyDaoImpl implements FacultyDao {
 
     /**
      * Updates faculty points by faculty ID
+     *
      * @param facultyId faculty ID
      * @param freePoint free form points
      * @param paidPoint paid form points

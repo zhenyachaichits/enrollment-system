@@ -13,7 +13,6 @@
 
 <script src="//code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
 <script src="content/js/ripples.min.js"></script>
 <script src="content/js/dropdown.js"></script>
 <script src="content/js/material.min.js"></script>
@@ -21,7 +20,6 @@
 <script src="content/js/bootstrap-material-datetimepicker.js"></script>
 <script src="content/js/maskedinput.min.js"></script>
 <script src="content/js/snackbar.min.js"></script>
-
 
 <script src="content/js/ajax/authenticate.js"></script>
 <script src="content/js/locale.js"></script>

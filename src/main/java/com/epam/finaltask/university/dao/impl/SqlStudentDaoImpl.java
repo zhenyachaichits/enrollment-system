@@ -11,6 +11,8 @@ import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolExce
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.ProfileDaoBeanFactory;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.UserDaoBeanFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,6 +25,8 @@ import java.util.List;
  * Sql student dao.
  */
 public class SqlStudentDaoImpl implements StudentDao {
+
+    private static final Logger LOG = LogManager.getLogger(SqlStudentDaoImpl.class.getClass());
 
     private final ConnectionPool connectionPool;
 
@@ -156,7 +160,7 @@ public class SqlStudentDaoImpl implements StudentDao {
                     connection.rollback();
                 }
             } catch (SQLException e1) {
-                // TODO: 16.02.2016 logger?
+                LOG.error("Couldn't rollback student adding operation after fail", e1);
             }
             throw new DaoException("Couldn't process operation", e);
         } finally {
@@ -164,7 +168,7 @@ public class SqlStudentDaoImpl implements StudentDao {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    // TODO: 19.02.2016 logger
+                    LOG.error("Couldn't turn on autocommit after student adding operation", e);
                 }
                 connectionPool.closeConnection(connection);
             }
@@ -235,7 +239,7 @@ public class SqlStudentDaoImpl implements StudentDao {
 
                 student.setUser(user);
                 student.setProfile(profile);
-                ;
+
                 return student;
             } else {
                 connection.rollback();
@@ -248,7 +252,7 @@ public class SqlStudentDaoImpl implements StudentDao {
                     connection.rollback();
                 }
             } catch (SQLException e1) {
-                // TODO: 16.02.2016 logger?
+                LOG.error("Couldn't rollback student updating operation after fail", e1);
             }
             throw new DaoException("Couldn't process operation", e);
         } finally {
@@ -256,7 +260,7 @@ public class SqlStudentDaoImpl implements StudentDao {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    // TODO: 19.02.2016 logger
+                    LOG.error("Couldn't turn on autocommit after student updating operation", e);
                 }
                 connectionPool.closeConnection(connection);
             }
@@ -305,7 +309,7 @@ public class SqlStudentDaoImpl implements StudentDao {
                     connection.rollback();
                 }
             } catch (SQLException e1) {
-                // TODO: 16.02.2016 logger?
+                LOG.error("Couldn't rollback student deleting operation after fail", e1);
             }
             throw new DaoException("Couldn't process operation", e);
         } finally {
@@ -313,7 +317,7 @@ public class SqlStudentDaoImpl implements StudentDao {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    // TODO: 19.02.2016 logger
+                    LOG.error("Couldn't turn on autocommit after student deletion operation", e);
                 }
                 connectionPool.closeConnection(connection);
             }

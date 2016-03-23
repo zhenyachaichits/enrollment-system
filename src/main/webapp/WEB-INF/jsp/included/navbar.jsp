@@ -141,7 +141,7 @@
 
                 <c:if test="${sessionScope.userEmail == null}">
                     <li><a href="javascript:void(0)" onclick="authenticateCookies()" id="signInLink" data-toggle="modal"
-                           data-target="#signIn">${signInLabel}</a></li>
+                           data-target="#signIn" style="outline: none;">${signInLabel}</a></li>
                 </c:if>
 
                 <li class="dropdown">

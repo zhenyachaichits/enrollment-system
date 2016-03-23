@@ -1,12 +1,11 @@
 package com.epam.finaltask.university.controller;
 
 import com.epam.finaltask.university.controller.command.Command;
-import com.epam.finaltask.university.controller.command.CommandHelper;
+import com.epam.finaltask.university.controller.command.CommandHolder;
 import com.epam.finaltask.university.controller.command.exception.AccessDeniedException;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.command.exception.InvalidSessionException;
-import com.epam.finaltask.university.controller.command.impl.ajax.response.AjaxResponseValue;
 import com.epam.finaltask.university.controller.util.AjaxIdentifier;
 import com.epam.finaltask.university.controller.util.ExceptionHandler;
 
@@ -50,7 +49,7 @@ public final class Controller extends HttpServlet {
         String commandName = request.getParameter(RequestParameterName.COMMAND_NAME);
 
         if (commandName != null) {
-            Command command = CommandHelper.getInstance().getCommand(commandName);
+            Command command = CommandHolder.getInstance().getCommand(commandName);
             responseString = getResponseString(request, response, command, isAjax);
         } else {
             responseString = JspPageName.ERROR_PAGE;

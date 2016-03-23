@@ -203,6 +203,7 @@
             style="position: fixed;
                         box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
                         z-index: 25;
+                        outline: none;
                         bottom: 25px;
                         right: 25px;
                         background-color: #d23f31;

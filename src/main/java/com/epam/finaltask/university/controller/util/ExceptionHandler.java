@@ -5,6 +5,7 @@ import com.epam.finaltask.university.controller.command.exception.AccessDeniedEx
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.command.exception.InvalidSessionException;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +26,9 @@ public class ExceptionHandler {
      * @return the access error page name
      */
     public static String handleAccessException(AccessDeniedException e) {
-        LOG.error("User access level is not enough", e);
+        if (LOG.isEnabled(Level.INFO)) {
+            LOG.info("User access level is not enough", e);
+        }
         return JspPageName.ACCESS_ERROR_PAGE;
     }
 
@@ -36,7 +39,9 @@ public class ExceptionHandler {
      * @return the session error page name
      */
     public static String handleSessionException(InvalidSessionException e) {
-        LOG.error("Session invalidated", e);
+        if (LOG.isEnabled(Level.INFO)) {
+            LOG.info("User session invalidated", e);
+        }
         return JspPageName.SESSION_ERROR_PAGE;
     }
 
@@ -47,7 +52,9 @@ public class ExceptionHandler {
      * @return the data error page name
      */
     public static String handleDataException(InvalidDataException e) {
-        LOG.error("User data is invalid", e);
+        if (LOG.isEnabled(Level.INFO)) {
+            LOG.info("Operation canceled. User data is invalid", e);
+        }
         return JspPageName.DATA_ERROR_PAGE;
     }
 

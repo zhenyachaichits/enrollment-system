@@ -98,7 +98,7 @@
 
 
     <div id="addFaculty" class="modal fade" tabindex="-1" style="display: none;">
-        <div class="modal-dialog modal-md" style=" margin-top: 50px">
+        <div class="modal-dialog modal-md" style=" margin-top: 140px">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -149,7 +149,8 @@
                         right: 25px;
                         background-color: #d23f31;
                         height: 56px;
-                        width: 56px;"
+                        width: 56px;
+                        outline: none;"
             class="btn btn-danger btn-fab rounded-btn"><i class="material-icons">add</i></button>
 
 

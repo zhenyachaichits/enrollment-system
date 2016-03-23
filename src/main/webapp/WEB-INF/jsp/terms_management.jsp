@@ -153,7 +153,8 @@
                         right: 25px;
                         background-color: #d23f31;
                         height: 56px;
-                        width: 56px;"
+                        width: 56px;
+                        outline: none;"
             class="btn btn-danger btn-fab rounded-btn"><i class="material-icons">add</i></button>
 
 </div>

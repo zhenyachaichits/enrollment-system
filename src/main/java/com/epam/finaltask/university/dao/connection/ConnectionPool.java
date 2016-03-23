@@ -2,6 +2,8 @@ package com.epam.finaltask.university.dao.connection;
 
 import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolException;
 import com.epam.finaltask.university.dao.connection.resource.ConnectionParameter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.Map;
@@ -15,6 +17,9 @@ import java.util.concurrent.Executor;
  * Connection pool.
  */
 public class ConnectionPool {
+
+    private static final Logger LOG = LogManager.getLogger(ConnectionPool.class.getClass());
+
     private BlockingQueue<Connection> freeConnectionQueue;
     private BlockingQueue<Connection> busyConnectionQueue;
 
@@ -45,12 +50,12 @@ public class ConnectionPool {
         try {
             Class.forName(parameter.getDriver());
 
-            int poolsize = parameter.getPoolsize();
+            int poolsize = parameter.getPoolSize();
 
             freeConnectionQueue = new ArrayBlockingQueue<>(poolsize);
             busyConnectionQueue = new ArrayBlockingQueue<>(poolsize);
 
-            for (int i = 0; i < parameter.getPoolsize(); i++) {
+            for (int i = 0; i < parameter.getPoolSize(); i++) {
                 Connection connection = DriverManager.getConnection(parameter.getUrl(),
                         parameter.getUsername(), parameter.getPassword());
 
@@ -90,7 +95,7 @@ public class ConnectionPool {
         try {
             connection.close();
         } catch (SQLException e) {
-            //TODO: add logging
+            LOG.error("Couldn't close connection", e);
         }
     }
 
@@ -104,11 +109,12 @@ public class ConnectionPool {
         try {
             connection.close();
         } catch (SQLException e) {
-            //TODO: add logging
+            LOG.error("Couldn't close connection", e);
         }
         try {
             statement.close();
         } catch (SQLException e) {
+            LOG.error("Couldn't close statement", e);
         }
     }
 
@@ -123,29 +129,29 @@ public class ConnectionPool {
         try {
             connection.close();
         } catch (SQLException e) {
-            //TODO: add logging
+            LOG.error("Couldn't close connection", e);
         }
         try {
             statement.close();
         } catch (SQLException e) {
-
+            LOG.error("Couldn't close statement", e);
         }
         try {
             resultSet.close();
         } catch (SQLException e) {
-
+            LOG.error("Couldn't close result set", e);
         }
     }
 
     /**
      * Destroy connection pool.
      */
-    public void destroy() {
+    public void destroy() throws ConnectionPoolException {
         try {
             closeConnectionQueue(freeConnectionQueue);
             closeConnectionQueue(busyConnectionQueue);
         } catch (SQLException e) {
-            //TODO: add logging
+            throw new ConnectionPoolException("Couldn't destroy connection pool", e);
         }
     }
 

@@ -10,6 +10,8 @@ import com.epam.finaltask.university.dao.connection.exception.ConnectionPoolExce
 import com.epam.finaltask.university.dao.exception.DaoException;
 import com.epam.finaltask.university.dao.util.bean.factory.DaoBeanFactory;
 import com.epam.finaltask.university.dao.util.bean.factory.impl.ApplicationDaoBeanFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ import java.util.List;
  * Sql application dao.
  */
 public class SqlApplicationDaoImpl implements ApplicationDao {
+
+    private static final Logger LOG = LogManager.getLogger(SqlApplicationDaoImpl.class.getClass());
 
     private final ConnectionPool connectionPool;
 
@@ -93,7 +97,7 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
                     connection.rollback();
                 }
             } catch (SQLException e1) {
-                // TODO: 16.02.2016 logger?
+                LOG.error("Adding application operation rollback failed", e1);
             }
             throw new DaoException("Couldn't process operation", e);
         } finally {
@@ -101,7 +105,7 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    // TODO: 19.02.2016 logger
+                    LOG.error("Couldn't turn on autocommit after application adding", e);
                 }
                 connectionPool.closeConnection(connection);
             }
@@ -181,7 +185,7 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
                     connection.rollback();
                 }
             } catch (SQLException e1) {
-                // TODO: 16.02.2016 logger?
+                LOG.error("Deleting application operation rollback failed", e);
             }
             throw new DaoException("Couldn't process operation", e);
         } finally {
@@ -189,7 +193,7 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    // TODO: 19.02.2016 logger
+                    LOG.error("Couldn't turn on autocommit after application deletion", e);
                 }
                 connectionPool.closeConnection(connection);
             }

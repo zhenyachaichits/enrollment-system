@@ -1,10 +1,15 @@
 package com.epam.finaltask.university.dao.connection.resource;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Connection parameter.
  */
 public class ConnectionParameter {
+
+    private static final Logger LOG = LogManager.getLogger(ConnectionParameter.class.getClass());
 
     private static final String DRIVER = "db.driver";
     private static final String URL = "db.url";
@@ -18,7 +23,7 @@ public class ConnectionParameter {
     private String url;
     private String username;
     private String password;
-    private String poolsize;
+    private String poolSize;
 
     public ConnectionParameter() {
         DBResourceManager rm = DBResourceManager.getInstance();
@@ -26,7 +31,7 @@ public class ConnectionParameter {
         url = rm.getParameter(URL);
         username = rm.getParameter(USERNAME);
         password = rm.getParameter(PASSWORD);
-        poolsize = rm.getParameter(POOL_SIZE);
+        poolSize = rm.getParameter(POOL_SIZE);
     }
 
 
@@ -46,11 +51,11 @@ public class ConnectionParameter {
         return password;
     }
 
-    public int getPoolsize() {
+    public int getPoolSize() {
         try{
-            return Integer.parseInt(poolsize);
+            return Integer.parseInt(poolSize);
         } catch (NumberFormatException e) {
-         //TODO: add logger
+            LOG.error("Invalid pool size. Default pool size was returned", e);
             return DEFAULT_POOL_SIZE;
         }
     }

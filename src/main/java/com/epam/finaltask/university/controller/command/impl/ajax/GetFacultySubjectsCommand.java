@@ -10,7 +10,9 @@ import com.epam.finaltask.university.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import static java.lang.Math.*;
 
 
 /**
@@ -22,6 +24,7 @@ public class GetFacultySubjectsCommand implements Command {
 
     /**
      * Execute getting matching subjects for selected faculty with AJAX
+     *
      * @param request
      * @param response
      * @return JSP page generating XML name
@@ -30,6 +33,7 @@ public class GetFacultySubjectsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
+
             String facultyId = request.getParameter(RequestParameterName.FACULTY_ID);
             long id = Long.parseLong(facultyId);
 
