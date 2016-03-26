@@ -15,23 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 /**
- * Confirm faculty applications command.
+ * Created by Zheny Chaichits on 27.03.2016.
  */
-public class ConfirmFacultyApplicationsCommand implements Command {
-
-    private static final boolean FREE_FORM = true;
-
-    /**
-     * Execute faculty applications confirmation.
-     * Access is allowed for users with status: ADMIN
-     *
-     * @param request  the request
-     * @param response the response
-     * @return current page or home page redirect query
-     * @throws CommandException
-     */
+public class ResetFacultyApplicationsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
@@ -39,21 +26,10 @@ public class ConfirmFacultyApplicationsCommand implements Command {
             AccessManager.provideAccess(session, UserType.ADMIN);
 
             String idStr = request.getParameter(RequestParameterName.FACULTY_ID);
-            String freeQuotaStr = request.getParameter(RequestParameterName.FREE_QUOTA);
-            String paidQuotaStr = request.getParameter(RequestParameterName.PAID_QUOTA);
-
             long facultyId = Long.parseLong(idStr);
-            int freeQuota = Integer.parseInt(freeQuotaStr);
-            int paidQuota = Integer.parseInt(paidQuotaStr);
 
             LockingApplicationService appService = LockingApplicationService.getInstance();
             appService.resetFacultyApplications(facultyId);
-            boolean isFreeConfirmed = appService.confirmFacultyApplications(facultyId, FREE_FORM, freeQuota);
-            boolean isPaidConfirmed = appService.confirmFacultyApplications(facultyId, !FREE_FORM, paidQuota);
-
-            if (!isFreeConfirmed || !isPaidConfirmed) {
-                throw new InvalidDataException("Invalid user data. Couldn't sign up");
-            }
 
             String currentQuery = (String) session.getAttribute(SessionParameterName.CURRENT_PAGE);
             return currentQuery == null ? CommandName.GO_FACULTY_DATA.getQueryString() : currentQuery;

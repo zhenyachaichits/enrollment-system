@@ -180,4 +180,18 @@ public class LockingApplicationService {
             }
         }
     }
+
+    public boolean resetFacultyApplications(long facultyId) throws ServiceException {
+        lock.lock();
+        try {
+            ApplicationDao dao = DaoFactory.getDaoFactory().getApplicationDao();
+
+            return dao.resetFacultyApplications(facultyId);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide application finding service", e);
+        } finally {
+            lock.unlock();
+        }
+    }
+
 }

@@ -11,6 +11,7 @@ public final class RequestParameterName {
     public static final String FACULTIES = "faculties";
     public static final String SUBJECTS = "subjects";
     public static final String TERMS_LIST = "termsList";
+    public static final String TERMS = "terms";
 
     public static final String COMMAND_NAME = "command";
 

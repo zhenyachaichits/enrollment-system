@@ -166,14 +166,15 @@
 <div class="filler"></div>
 
 <c:if test="${sessionScope.userEmail == null}">
-    <div id="signIn" class="modal fade" tabindex="-1" style="display: none;">
+    <div id="signIn" class="modal fade in" tabindex="-1" style="display: none;">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h2 class="modal-title">${legend}</h2>
+                    <button type="button" class="close btn btn-primary btn-fab small"
+                            data-dismiss="modal" aria-hidden="true"><i class="material-icons">close</i></button>
+                    <h4>${legend}</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body centred">
                     <form id="signInForm" action="home" class="form-horizontal" method="post">
                         <input type="hidden" name="command" value="authenticate">
                         <fieldset>

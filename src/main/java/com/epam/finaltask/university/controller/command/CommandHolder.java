@@ -77,6 +77,7 @@ public class CommandHolder {
         commandMap.put(CommandName.UPDATE_FACULTY_POINTS, new UpdateFacultyPointsCommand());
 
         commandMap.put(CommandName.CONFIRM_FACULTY_APPLICATIONS, new ConfirmFacultyApplicationsCommand());
+        commandMap.put(CommandName.RESET_FACULTY_APPLICATIONS, new ResetFacultyApplicationsCommand());
 
         commandMap.put(CommandName.DELETE_APPLICATION, new DeleteApplicationCommand());
         commandMap.put(CommandName.DELETE_PROFILE, new DeleteProfileCommand());

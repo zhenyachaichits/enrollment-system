@@ -7,6 +7,12 @@
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale" var="loc"/>
+
+<fmt:message bundle="${loc}" key="locale.modal.sure.title" var="sureTitle"/>
+<fmt:message bundle="${loc}" key="locale.modal.sure.description" var="sureDescription"/>
+<fmt:message bundle="${loc}" key="locale.modal.sure.confirm" var="sureConfirm"/>
+<fmt:message bundle="${loc}" key="locale.modal.sure.cancel" var="sureCancel"/>
+
 <fmt:message bundle="${loc}" key="locale.page.profile.title" var="title"/>
 <fmt:message bundle="${loc}" key="locale.page.profile.button.save" var="saveBtn"/>
 <fmt:message bundle="${loc}" key="locale.page.profile.button.cancel" var="cancelBtn"/>
@@ -379,10 +385,8 @@
         </div>
     </form>
     <c:if test="${not student.profile.applied}">
-        <form action="home" name="deleteForm" method="post">
-            <input type="hidden" name="command" value="delete-profile">
 
-            <a href="javascript:deleteForm.submit()"
+            <a href="javascript:void(0)"
                style="position: fixed;
                         box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
                         z-index: 25;
@@ -392,9 +396,37 @@
                         height: 56px;
                         width: 56px;
                         outline: none;"
-               class="btn btn-danger btn-fab rounded-btn"><i class="material-icons">delete</i></a>
-        </form>
+               class="btn btn-danger btn-fab rounded-btn"
+               data-toggle="modal" data-target="#sureDelete"><i class="material-icons">delete</i></a>
     </c:if>
+
+    <div id="sureDelete" class="modal fade in" tabindex="-1" style="display: none;">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" style=" margin-top: 140px">
+                <div class="modal-header">
+                    <button type="button" class="close btn btn-primary btn-fab small"
+                            data-dismiss="modal" aria-hidden="true"><i class="material-icons">close</i></button>
+                    <h4>${sureTitle}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>${sureDescription}</p>
+                    <div class="row">
+                        <div class="content">
+                            <div class="col-md-12">
+                                <div class="col-md-3 col-md-offset-7">
+                                    <form action="home" name="deleteForm" method="post">
+                                        <input type="hidden" name="command" value="delete-profile">
+                                        <button type="submit"
+                                       class="btn btn-raised btn-primary">${sureConfirm}</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"

@@ -60,7 +60,7 @@ public class FacultyDaoTest {
     }
 
     @AfterClass
-    public static void destroy() {
+    public static void destroy() throws ConnectionPoolException {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         connectionPool.destroy();
     }

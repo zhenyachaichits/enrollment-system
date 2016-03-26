@@ -104,7 +104,7 @@
                                 <label class="col-md-3 control-label" for="passportID">${passportLabel}</label>
                                 <div class="col-md-8">
                                     <input name="passportID" type="text" id="passportID" class="form-control"
-                                           placeholder="Passport ID"
+                                           placeholder="${passportLabel}"
                                            required>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@
                                     <div class="col-md-4">
                                         <input type="number" min="0" max="100" class="form-control point"
                                                id="subject1"
-                                               placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
+                                               onkeyup="refreshTotal();" onchange="refreshTotal();"
                                                pattern="\d{1,3}">
                                         <p class="help-block" id="help1"> </p>
                                     </div>
@@ -214,7 +214,7 @@
                                     <div class="col-md-4">
                                         <input type="number" min="0" max="100" class="form-control point"
                                                id="subject2"
-                                               placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
+                                                onkeyup="refreshTotal();" onchange="refreshTotal();"
                                                pattern="\d{1,3}">
                                         <p class="help-block" id="help2"> </p>
                                     </div>
@@ -226,7 +226,7 @@
                                     <div class="col-md-4">
                                         <input type="number" min="0" max="100" class="form-control point"
                                                id="subject3"
-                                               placeholder="Points" onkeyup="refreshTotal();" onchange="refreshTotal();"
+                                                onkeyup="refreshTotal();" onchange="refreshTotal();"
                                                pattern="\d{1,3}">
                                         <p class="help-block" id="help3"> </p>
                                     </div>
@@ -369,7 +369,7 @@
           data-snackbar-id="snackbar1454251274097"></span>
 </div>
 
-<div class="progress progress-striped active" style="position: relative; bottom: 13%">
+<div class="progress progress-striped active mobile-hidden" style="position: relative; bottom: 13%">
     <div class="progress-bar" style="width: 1%"></div>
 </div>
 

@@ -18,12 +18,19 @@
 
 
 <fmt:message bundle="${loc}" key="locale.page.faculties.points" var="pointsLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.points.free" var="freePointsLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.points.paid" var="paidPointsLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.faculties.button.save" var="saveBtn"/>
 <fmt:message bundle="${loc}" key="locale.page.faculties.button.delete" var="deleteBtn"/>
 <fmt:message bundle="${loc}" key="locale.page.faculties.button.updpoints" var="updPointsBtn"/>
 <fmt:message bundle="${loc}" key="locale.page.faculties.button.apply" var="applyBtn"/>
+<fmt:message bundle="${loc}" key="locale.page.faculties.button.reset" var="resetBtn"/>
 <fmt:message bundle="${loc}" key="locale.page.faculties.button.enrolled" var="enrolledBtn"/>
 
+<fmt:message bundle="${loc}" key="locale.modal.sure.title" var="sureTitle"/>
+<fmt:message bundle="${loc}" key="locale.modal.sure.description" var="sureDescription"/>
+<fmt:message bundle="${loc}" key="locale.modal.sure.confirm" var="sureConfirm"/>
+<fmt:message bundle="${loc}" key="locale.modal.sure.cancel" var="sureCancel"/>
 
 <fmt:message bundle="${loc}" key="locale.page.search.records" var="recordsLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.search.button.view" var="viewBtn"/>
@@ -119,28 +126,15 @@
                     </form>
                     <div class="form-group">
                         <div class="col-md-12 col-md-offset-6">
-                            <form name="deleteFaculty" action="management" method="post" hidden>
-                                <input type="hidden" name="command" value="delete-faculty">
-                                <input type="hidden" name="facultyID" value="${faculty.id}">
-                            </form>
-                            <c:if test="${deletable}">
-                                <a href="javascript:deleteFaculty.submit()" class="btn btn-raised btn-primary"
-                                   style="background-color: #bd5050;">${deleteBtn}</a>
-                                <a href="javascript:updateFaculty.submit()"
-                                   class="btn btn-raised btn-primary">${saveBtn}</a>
-                            </c:if>
-                            <c:if test="${not deletable}">
-                                <a href="javascript:updateFaculty.submit()"
-                                   class="btn btn-raised btn-primary col-md-6">${saveBtn}</a>
-                            </c:if>
-
+                            <a href="javascript:updateFaculty.submit()"
+                               class="btn btn-raised btn-primary col-md-6">${saveBtn}</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6 clear">
+        <div class="col-md-6 clear" style="padding-top: 0.5%">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">${actionLabel}</h3>
@@ -149,10 +143,14 @@
                     <div class="horizontal-center">
                         <div class="form-group" style="margin: 7px 0 0 0">
                             <div class="col-md-6 col-md-offset-3">
+                                <label class="control-label"
+                                       for="freePoints">${freePointsLabel}</label>
                                 <input type="text" class="form-control"
-                                       value="${faculty.freePoint}" readonly>
+                                       value="${faculty.freePoint}" id="freePoints" readonly>
+                                <label class="control-label"
+                                       for="paidPoints">${paidPointsLabel}</label>
                                 <input type="text" class="form-control"
-                                       value="${faculty.paidPoint}" readonly>
+                                       value="${faculty.paidPoint}" id="paidPoints" readonly>
                             </div>
                         </div>
 
@@ -171,6 +169,11 @@
                             <button class="btn btn-raised btn-default">${applyBtn}</button>
                         </form>
                         <form action="management" method="post">
+                            <input type="hidden" name="command" value="reset-faculty-applications">
+                            <input type="hidden" name="facultyID" value="${faculty.id}">
+                            <button class="btn btn-raised btn-default">${resetBtn}</button>
+                        </form>
+                        <form action="management" method="post">
                             <input type="hidden" name="command" value="search-enrolled-profiles">
                             <input type="hidden" name="facultyID" value="${faculty.id}">
                             <button class="btn btn-raised btn-default">${enrolledBtn}</button>
@@ -179,7 +182,53 @@
                 </div>
             </div>
         </div>
+
+        <c:if test="${deletable}">
+
+            <a href="javascript:void(0)"
+               style="position: fixed;
+                        box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+                        z-index: 25;
+                        bottom: 25px;
+                        right: 25px;
+                        background-color: #d23f31;
+                        height: 56px;
+                        width: 56px;
+                        outline: none;"
+               class="btn btn-danger btn-fab rounded-btn"
+               data-toggle="modal" data-target="#sureDelete"><i class="material-icons">delete</i></a>
+
+            <div id="sureDelete" class="modal fade in" tabindex="-1" style="display: none;">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content" style=" margin-top: 140px">
+                        <div class="modal-header">
+                            <button type="button" class="close btn btn-primary btn-fab small"
+                                    data-dismiss="modal" aria-hidden="true"><i class="material-icons">close</i></button>
+                            <h4>${sureTitle}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="deleteFaculty" id="deleteFaculty" action="management" method="post" hidden>
+                                <input type="hidden" name="command" value="delete-faculty">
+                                <input type="hidden" name="facultyID" value="${faculty.id}">
+                            </form>
+                            <p>${sureDescription}</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3 col-md-offset-7">
+                                        <a href="javascript:void(0)" onclick="$('form#deleteFaculty').submit()"
+                                           class="btn btn-raised btn-primary">${sureConfirm}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:if>
+
     </div>
+
+
 
 </div>
 

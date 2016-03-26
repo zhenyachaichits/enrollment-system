@@ -29,8 +29,6 @@ public class AuthenticateUserCommand implements Command {
     private static final int COOKIE_AGE = 2_592_000;
     private static final String COOKIE_PATH = "/";
 
-    private static final String REMEMBERED_CHECKED = "on";
-
     /**
      * Execute checking user data validity befote authentication
      * @param request
@@ -41,12 +39,11 @@ public class AuthenticateUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
-
             String email = request.getParameter(RequestParameterName.EMAIL);
             String password = request.getParameter(RequestParameterName.PASSWORD);
             String rememberedStr = request.getParameter(RequestParameterName.REMEMBERED);
 
-            boolean isRemembered = REMEMBERED_CHECKED.equals(rememberedStr);
+            boolean isRemembered = Boolean.parseBoolean(rememberedStr);
 
             User user = new User();
             user.setEmail(email);
@@ -66,22 +63,6 @@ public class AuthenticateUserCommand implements Command {
                 return AjaxResponseValue.NEGATIVE.toString();
             }
 
-            /*
-            String email = request.getParameter(RequestParameterName.EMAIL);
-            String password = request.getParameter(RequestParameterName.PASSWORD);
-
-            User user = new User();
-            user.setEmail(email);
-            user.setPassword(password);
-
-            UserService service = UserService.getInstance();
-
-            if (service.checkAccountData(user)) {
-                return AjaxResponseValue.POSITIVE;
-            } else {
-                return AjaxResponseValue.NEGATIVE;
-            }
-            */
         } catch (ServiceException e) {
             throw new CommandException("Couldn't execute pre-authentication command", e);
         }

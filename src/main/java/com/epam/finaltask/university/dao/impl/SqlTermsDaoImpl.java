@@ -34,6 +34,8 @@ public class SqlTermsDaoImpl implements TermsDao {
 
     private static final String ADD_TERMS_QUERY = "INSERT INTO terms (start_date, end_date) VALUES (?, ?)";
     private static final String GET_ALL_TERMS_QUERY = "SELECT * FROM terms WHERE status = 'ACTIVE'";
+    private static final String GET_BY_FACULTY_ID_QUERY = "SELECT terms.* FROM terms INNER JOIN faculty " +
+            "ON terms.terms_id = faculty.terms_terms_id WHERE faculty.faculty_id = ? AND terms.status = 'ACTIVE'";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM terms WHERE terms_id = ? AND " +
             "status = 'ACTIVE'";
     private static final String UPDATE_TERMS_QUERY = "UPDATE terms SET start_date = ?, end_date = ? " +
@@ -253,6 +255,28 @@ public class SqlTermsDaoImpl implements TermsDao {
             ResultSet resultSet = statement.executeQuery();
 
             return resultSet.next();
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public Terms getByFacultyId(long facultyId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(GET_BY_FACULTY_ID_QUERY);
+        ) {
+            statement.setLong(1, facultyId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                DaoBeanFactory<Terms> factory = TermsDaoBeanFactory.getInstance();
+
+                return factory.construct(resultSet);
+            } else {
+                return null;
+            }
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }

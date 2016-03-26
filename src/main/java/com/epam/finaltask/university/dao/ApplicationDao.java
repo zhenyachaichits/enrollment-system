@@ -43,4 +43,6 @@ public interface ApplicationDao extends EntityDao<Long, Application> {
     boolean confirmApplication(long profileId) throws DaoException;
 
     boolean checkDeletionAvailability(long profileId) throws DaoException;
+
+    boolean resetFacultyApplications(long facultyId) throws DaoException;
 }

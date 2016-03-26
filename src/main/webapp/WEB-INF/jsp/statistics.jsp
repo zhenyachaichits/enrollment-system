@@ -11,6 +11,7 @@
 <fmt:message bundle="${loc}" key="locale.page.statistics.title" var="title"/>
 <fmt:message bundle="${loc}" key="locale.page.statistics.header" var="headerLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.statistics.table.name" var="nameLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.statistics.table.terms" var="termsLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.statistics.table.quota.free" var="freeQuotaLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.statistics.table.quota.paid" var="paidQuotaLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.statistics.table.points.free" var="freePointsLabel"/>
@@ -40,6 +41,7 @@
                     <thead>
                     <tr>
                         <th>${nameLabel}</th>
+                        <th>${termsLabel}</th>
                         <th>${freeQuotaLabel}</th>
                         <th>${paidQuotaLabel}</th>
                         <th>${freePointsLabel}</th>
@@ -47,9 +49,18 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     <c:forEach var="faculty" items="${faculties}">
                         <tr>
                             <td><tr:transl>${faculty.name}</tr:transl></td>
+                            <td>
+                                <c:forEach var="terms" items="${termsList}">
+                                    <c:if test="${terms.id eq faculty.termsId}">
+                                        <fmt:formatDate pattern=" dd.MM.yyyy" value="${terms.startDate.time}"/>
+                                        - <fmt:formatDate pattern=" dd.MM.yyyy" value="${terms.endDate.time}"/>
+                                    </c:if>
+                                </c:forEach>
+                            </td>
                             <td>${faculty.freeQuota}</td>
                             <td>${faculty.paidQuota}</td>
                             <td>${faculty.freePoint}</td>

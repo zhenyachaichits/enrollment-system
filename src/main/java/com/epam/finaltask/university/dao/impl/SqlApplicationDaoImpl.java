@@ -58,6 +58,8 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
             "profile_profile_id = ? AND confirmed = TRUE";
     private static final String CONFIRM_APPLICATION_QUERY = "UPDATE application SET confirmed = TRUE WHERE " +
             "profile_profile_id = ? AND status = 'ACTIVE'";
+    private static final String RESET_APPLICATIONS_QUERY = "UPDATE application SET confirmed = FALSE WHERE " +
+            "profile_faculty_faculty_id = ? AND status = 'ACTIVE'";
 
     /**
      * Add new application and set profile applied status
@@ -320,6 +322,22 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
             ResultSet resultSet = statement.executeQuery();
 
             return !resultSet.next();
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    @Override
+    public boolean resetFacultyApplications(long facultyId) throws DaoException {
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(RESET_APPLICATIONS_QUERY);
+        ) {
+            statement.setLong(1, facultyId);
+
+            int result = statement.executeUpdate();
+
+            return result != 0;
         } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }

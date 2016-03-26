@@ -102,11 +102,12 @@
 
 
     <div id="addFaculty" class="modal fade" tabindex="-1" style="display: none;">
-        <div class="modal-dialog modal-md" style=" margin-top: 50px">
+        <div class="modal-dialog modal-md" style=" margin-top: 120px">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h2 class="modal-title">${divHeader}</h2>
+                    <button type="button" class="close btn btn-primary btn-fab small"
+                            data-dismiss="modal" aria-hidden="true"><i class="material-icons">close</i></button>
+                    <h4>${divHeader}</h4>
                 </div>
                 <div class="modal-body">
                     <form action="management" name="addUser" method="post">

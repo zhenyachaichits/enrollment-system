@@ -84,4 +84,24 @@ public class TermsService {
             throw new ServiceException("Couldn't provide current date checking service", e);
         }
     }
+
+    public Terms getTermsById(long termsId) throws ServiceException {
+        try {
+            TermsDao dao = DaoFactory.getDaoFactory().getTermsDao();
+
+            return dao.find(termsId);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide terms getting service", e);
+        }
+    }
+
+    public Terms getTermsByFacultyId(long facultyId) throws ServiceException {
+        try {
+            TermsDao dao = DaoFactory.getDaoFactory().getTermsDao();
+
+            return dao.getByFacultyId(facultyId);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide terms getting service", e);
+        }
+    }
 }

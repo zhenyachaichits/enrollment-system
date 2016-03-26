@@ -26,8 +26,8 @@ $('#submit').click(function () {
 
     var userEmail = $('#email').val();
     var userPassword = $('#password').val();
-    var isRemembered = $('#remember').val();
-
+    var isRemembered = $('#remember').is(':checked');
+    
     $.post(
         '/home',
         {

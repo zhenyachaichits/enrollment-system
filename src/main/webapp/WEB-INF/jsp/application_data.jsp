@@ -16,6 +16,7 @@
 <fmt:message bundle="${loc}" key="locale.page.application.status.no" var="noLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.application.competition" var="compeititonLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.application.error" var="errorLabel"/>
+<fmt:message bundle="${loc}" key="locale.page.application.terms" var="termsLabel"/>
 
 <html>
 <head>
@@ -37,6 +38,9 @@
                     <i class="material-icons" style=" color: #7e7e79; top: 50%;left: 15%; font-size: 200px">content_paste</i>
                 </a>
                 <h1 style="color: #7e7e79 ">${errorLabel}</h1>
+                <h3 style="color: #7e7e79 ">${termsLabel}</h3>
+                <h3 style="color: #7e7e79 "><fmt:formatDate pattern=" dd.MM.yyyy" value="${terms.startDate.time}"/>
+                - <fmt:formatDate pattern=" dd.MM.yyyy" value="${terms.endDate.time}"/></h3>
             </div>
         </div>
     </c:if>
@@ -67,11 +71,7 @@
                             <div class="row-content">
                                 <h4 class="list-group-item-heading">${facultyLabel}</h4>
                                 <p class="list-group-item-text">
-                                    <c:forEach var="faculty" items="${faculties}">
-                                        <c:if test="${faculty.id eq student.profile.facultyId}">
-                                            <tr:transl>${faculty.name}</tr:transl>
-                                        </c:if>
-                                    </c:forEach>
+                                    <tr:transl>${faculty.name}</tr:transl>
                                 </p>
                             </div>
                         </div>

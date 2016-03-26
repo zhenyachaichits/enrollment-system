@@ -17,6 +17,7 @@
 <fmt:message bundle="${loc}" key="locale.data.personal.form" var="formLabel"/>
 <fmt:message bundle="${loc}" key="locale.data.personal.free" var="freeLabel"/>
 <fmt:message bundle="${loc}" key="locale.data.personal.paid" var="paidLabel"/>
+<fmt:message bundle="${loc}" key="locale.data.personal.no" var="notFoundLabel"/>
 
 <fmt:message bundle="${loc}" key="locale.page.search.records" var="recordsLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.search.button.view" var="viewBtn"/>
@@ -34,6 +35,17 @@
 <jsp:include page="included/navbar.jsp"/>
 
 <div class="container">
+    <c:if test="${empty(profiles)}">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="horizontal-center centred">
+                <a href="javascript:void(0)" class="btn btn-default btn-fab" style="background-color: #f4f4ee;
+                height: 250px; width: 250px;">
+                    <i class="material-icons" style=" color: #7e7e79; top: 50%;left: 15%; font-size: 200px">content_paste</i>
+                </a>
+                <h1 style="color: #7e7e79 ">${notFoundLabel}</h1>
+            </div>
+        </div>
+    </c:if>
     <c:if test="${not empty(profiles)}">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
