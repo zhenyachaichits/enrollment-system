@@ -51,6 +51,7 @@
 <fmt:message bundle="${loc}" key="locale.data.personal.free" var="formLabel"/>
 <fmt:message bundle="${loc}" key="locale.data.personal.subject.message" var="subjectMessageLabel"/>
 
+
 <html>
 <head>
     <title>${title}</title>

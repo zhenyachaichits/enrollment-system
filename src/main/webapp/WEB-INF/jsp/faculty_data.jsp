@@ -47,9 +47,9 @@
 <jsp:include page="included/navbar.jsp"/>
 
 
-<div class="container">
+<main class="container">
     <div class="row">
-        <div class="well col-md-6" id="confirmForm">
+        <div class="well col-md-6 col-md-offset-3" id="confirmForm">
             <div class="col-md-10 col-md-offset-1">
                 <div class="list-group">
                     <form action="management" name="updateFaculty" method="post">
@@ -123,6 +123,33 @@
                                 </p>
                             </div>
                         </div>
+                        <div class="list-group-separator"></div>
+                        <div class="list-group-item">
+                            <div class="row-action-primary">
+                                <i style="font-size:36px" class="material-icons">timeline</i>
+                            </div>
+                            <div class="row-content">
+                                <h4 class="list-group-item-heading">${pointsLabel}</h4>
+                                <p class="list-group-item-text">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group label-floating" style="margin: 7px 0 0 0">
+                                            <label class="control-label" for="freePoints">${freePointsLabel}</label>
+
+                                            <input type="number" class="form-control" id="freePoints"
+                                                   value="${faculty.freePoint}" min="1" max="999" required readonly>
+                                        </div>
+                                        <div class="form-group label-floating" style="margin: 7px 0 0 0">
+                                            <label class="control-label col-md-offset-6"
+                                                   for="paidPoints">${paidPointsLabel}</label>
+                                            <input type="number"class="form-control" id="paidPoints"
+                                                   value="${faculty.paidPoint}" min="1" max="999" required readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                </p>
+                            </div>
+                        </div>
                     </form>
                     <div class="form-group">
                         <div class="col-md-12 col-md-offset-6">
@@ -133,60 +160,13 @@
                 </div>
             </div>
         </div>
+    </div>
+</main>
 
-        <div class="col-md-6 clear" style="padding-top: 0.5%">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">${actionLabel}</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="horizontal-center">
-                        <div class="form-group" style="margin: 7px 0 0 0">
-                            <div class="col-md-6 col-md-offset-3">
-                                <label class="control-label"
-                                       for="freePoints">${freePointsLabel}</label>
-                                <input type="text" class="form-control"
-                                       value="${faculty.freePoint}" id="freePoints" readonly>
-                                <label class="control-label"
-                                       for="paidPoints">${paidPointsLabel}</label>
-                                <input type="text" class="form-control"
-                                       value="${faculty.paidPoint}" id="paidPoints" readonly>
-                            </div>
-                        </div>
+<c:if test="${deletable}">
 
-                        <form action="management" method="post">
-                            <input type="hidden" name="command" value="update-faculty-points">
-                            <input type="hidden" name="facultyID" value="${faculty.id}">
-                            <input type="hidden" name="freeQuota" value="${faculty.freeQuota}">
-                            <input type="hidden" name="paidQuota" value="${faculty.paidQuota}">
-                            <button class="btn btn-raised btn-default">${updPointsBtn}</button>
-                        </form>
-                        <form action="management" method="post">
-                            <input type="hidden" name="command" value="confirm-faculty-applications">
-                            <input type="hidden" name="facultyID" value="${faculty.id}">
-                            <input type="hidden" name="freeQuota" value="${faculty.freeQuota}">
-                            <input type="hidden" name="paidQuota" value="${faculty.paidQuota}">
-                            <button class="btn btn-raised btn-default">${applyBtn}</button>
-                        </form>
-                        <form action="management" method="post">
-                            <input type="hidden" name="command" value="reset-faculty-applications">
-                            <input type="hidden" name="facultyID" value="${faculty.id}">
-                            <button class="btn btn-raised btn-default">${resetBtn}</button>
-                        </form>
-                        <form action="management" method="post">
-                            <input type="hidden" name="command" value="search-enrolled-profiles">
-                            <input type="hidden" name="facultyID" value="${faculty.id}">
-                            <button class="btn btn-raised btn-default">${enrolledBtn}</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <c:if test="${deletable}">
-
-            <a href="javascript:void(0)"
-               style="position: fixed;
+    <a href="javascript:void(0)"
+       style="position: fixed;
                         box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
                         z-index: 25;
                         bottom: 25px;
@@ -195,42 +175,94 @@
                         height: 56px;
                         width: 56px;
                         outline: none;"
-               class="btn btn-danger btn-fab rounded-btn"
-               data-toggle="modal" data-target="#sureDelete"><i class="material-icons">delete</i></a>
+       class="btn btn-danger btn-fab rounded-btn"
+       data-toggle="modal" data-target="#sureDelete"><i class="material-icons">delete</i></a>
 
-            <div id="sureDelete" class="modal fade in" tabindex="-1" style="display: none;">
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content" style=" margin-top: 140px">
-                        <div class="modal-header">
-                            <button type="button" class="close btn btn-primary btn-fab small"
-                                    data-dismiss="modal" aria-hidden="true"><i class="material-icons">close</i></button>
-                            <h4>${sureTitle}</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form name="deleteFaculty" id="deleteFaculty" action="management" method="post" hidden>
-                                <input type="hidden" name="command" value="delete-faculty">
-                                <input type="hidden" name="facultyID" value="${faculty.id}">
-                            </form>
-                            <p>${sureDescription}</p>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-3 col-md-offset-7">
-                                        <a href="javascript:void(0)" onclick="$('form#deleteFaculty').submit()"
-                                           class="btn btn-raised btn-primary">${sureConfirm}</a>
-                                    </div>
-                                </div>
+    <div id="sureDelete" class="modal fade in" tabindex="-1" style="display: none;">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" style=" margin-top: 140px">
+                <div class="modal-header">
+                    <button type="button" class="close btn btn-primary btn-fab small"
+                            data-dismiss="modal" aria-hidden="true"><i class="material-icons">close</i></button>
+                    <h4>${sureTitle}</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="deleteFaculty" id="deleteFaculty" action="management" method="post" hidden>
+                        <input type="hidden" name="command" value="delete-faculty">
+                        <input type="hidden" name="facultyID" value="${faculty.id}">
+                    </form>
+                    <p>${sureDescription}</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-3 col-md-offset-7">
+                                <a href="javascript:void(0)" onclick="$('form#deleteFaculty').submit()"
+                                   class="btn btn-raised btn-primary">${sureConfirm}</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </c:if>
+        </div>
+    </div>
+</c:if>
 
+<c:if test="${not deletable}">
+    <div class="material-menu-wrapper">
+        <div class="material-menu">
+            <div class="material-btn">
+                <div class="material-hamburger">
+                    <div class="material-patty"></div>
+                    <div class="material-patty"></div>
+                    <div class="material-patty"></div>
+                </div>
+            </div>
+            <div class="material-content">
+                <nav>
+                    <ul>
+                        <li>
+                            <div class="filler"></div>
+                        </li>
+                        <li><h2 class="centred text-muted horizontal-center">${actionLabel}</h2></li>
+                        <li>
+                            <form action="management" method="post">
+                                <input type="hidden" name="command" value="update-faculty-points">
+                                <input type="hidden" name="facultyID" value="${faculty.id}">
+                                <input type="hidden" name="freeQuota" value="${faculty.freeQuota}">
+                                <input type="hidden" name="paidQuota" value="${faculty.paidQuota}">
+                                <button class="btn btn-primary horizontal-center col-md-12">${updPointsBtn}</button>
+                            </form>
+                        </li>
+                        <li>
+                            <form action="management" method="post">
+                                <input type="hidden" name="command" value="confirm-faculty-applications">
+                                <input type="hidden" name="facultyID" value="${faculty.id}">
+                                <input type="hidden" name="freeQuota" value="${faculty.freeQuota}">
+                                <input type="hidden" name="paidQuota" value="${faculty.paidQuota}">
+                                <button class="btn btn-primary horizontal-center col-md-12">${applyBtn}</button>
+                            </form>
+                        </li>
+                        <li>
+                            <form action="management" method="post">
+                                <input type="hidden" name="command" value="reset-faculty-applications">
+                                <input type="hidden" name="facultyID" value="${faculty.id}">
+                                <button class="btn btn-primary horizontal-center col-md-12">${resetBtn}</button>
+                            </form>
+                        </li>
+                        <li>
+                            <form action="management" method="post">
+                                <input type="hidden" name="command" value="search-enrolled-profiles">
+                                <input type="hidden" name="facultyID" value="${faculty.id}">
+                                <button class="btn btn-primary horizontal-center col-md-12">${enrolledBtn}</button>
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
 
-
-
-</div>
+    <script src="content/js/material-hamburger.js"></script>
+</c:if>
 
 
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
@@ -245,8 +277,6 @@
 
 <%@include file="included/js_list.jsp" %>
 <script src="content/js/support-search.js"></script>
-<script src="content\js\ajax\faculty-management.js"></script>
-
-
+<script src="content/js/ajax/faculty-management.js"></script>
 </body>
 </html>

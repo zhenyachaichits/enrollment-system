@@ -40,8 +40,10 @@
 <c:set var="url">${req.requestURL}</c:set>
 <c:set var="uri" value="${req.requestURI}"/>
 
+<header>  <div class="loader" aria-busy="true" aria-label="Loading, please wait." role="progressbar"></div></header>
+
 <div class="navbar navbar-default"  style="box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
- position: fixed; z-index: 1000; width: 100%;">
+ position: fixed; top: 0; z-index: 1000; width: 100%;">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"

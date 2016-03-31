@@ -25,7 +25,9 @@
 <script src="content/js/locale.js"></script>
 
 <script>
-    $.material.init();
+    $(document).ready(function () {
+        $(".loader").attr("aria-busy", "false");
+    });
 
     $('.date').bootstrapMaterialDatePicker({format: 'DD.MM.YYYY', lang: '${lang}', weekStart: 1, time: false});
     $(".select-dropdown").dropdown({"autoinit": "select"});
@@ -52,5 +54,9 @@
     for(var i = 0; i < li.length; i++) {
         li[i].innerHTML = $.trim(li[i].innerHTML);
     }
+
+
+    $.material.init();
+
 
 </script>

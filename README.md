@@ -1,8 +1,8 @@
-# UNIVERSITY #
+# FINAL TASK #
 
-Final task from EPAM's Java Web Development training. 
+Web application on Java using JSP and Servlet technologies.
 
 ### Project info: ###
 
-* Theme: automated system of enrollment
-* Version: 1.0
+* Theme: automated enrollment system
+* Version: 0.9

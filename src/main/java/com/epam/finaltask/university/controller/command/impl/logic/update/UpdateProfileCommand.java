@@ -15,6 +15,8 @@ import com.epam.finaltask.university.controller.util.bean.factory.CommandBeanFac
 import com.epam.finaltask.university.controller.util.bean.factory.exception.CommandBeanFactoryException;
 import com.epam.finaltask.university.controller.util.bean.factory.impl.ProfileCommandBeanFactory;
 import com.epam.finaltask.university.controller.util.bean.factory.impl.UserCommandBeanFactory;
+import com.epam.finaltask.university.service.ProfileService;
+import com.epam.finaltask.university.service.concurrent.LockingUserService;
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.service.concurrent.LockingStudentService;
 
@@ -39,12 +41,8 @@ public class UpdateProfileCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
             HttpSession session = request.getSession(false);
-
             AccessManager.provideAccess(session, UserType.STUDENT);
-
             long userId = (Long) session.getAttribute(SessionParameterName.UID);
-
-            LockingStudentService service = LockingStudentService.getInstance();
 
             CommandBeanFactory<User> userCompiler = UserCommandBeanFactory.getInstance();
             CommandBeanFactory<Profile> profileCompiler = ProfileCommandBeanFactory.getInstance();
@@ -54,18 +52,25 @@ public class UpdateProfileCommand implements Command {
             Profile profile = profileCompiler.constructBean(request);
             Student student = new Student(user, profile);
 
-            student = service.updateStudentProfile(student);
-
-            if (student != null) {
-                request.setAttribute(RequestParameterName.STUDENT, student);
+            ProfileService profileService = ProfileService.getInstance();
+            if (profileService.checkUpdateAvailability(profile)) {
+                LockingStudentService service = LockingStudentService.getInstance();
+                student = service.updateStudentProfile(student);
+                if (student == null) {
+                    throw new InvalidDataException("Couldn't find student from session");
+                }
             } else {
-                throw new InvalidDataException("Couldn't find student from session");
+                LockingUserService userService = LockingUserService.getInstance();
+                user = userService.updateUser(user);
+                if (user == null) {
+                    throw new InvalidDataException("Couldn't update user data");
+                }
             }
 
+            request.setAttribute(RequestParameterName.STUDENT, student);
             String currentQuery = (String) session.getAttribute(SessionParameterName.CURRENT_PAGE);
-
             return currentQuery == null ? CommandName.GO_HOME.getQueryString() : currentQuery;
-
+            
         } catch (CommandBeanFactoryException | NumberFormatException | ServiceException e) {
             throw new CommandException("Couldn't process profile update command");
         }

@@ -26,6 +26,7 @@ function refreshTotal() {
 
 $("#faculty").change(function () {
 
+    $(".loader").attr("aria-busy", "true");
     $("#subject1Group").hide("fast");
     $("#subject2Group").hide("fast");
     $("#subject3Group").hide("fast");
@@ -47,9 +48,11 @@ $("#faculty").change(function () {
                 $("#subject" + i + "Group").show("fast");
                 i++;
             });
+            $(".loader").attr("aria-busy", "false");
         })
         .fail(function () {
             alert("Request failed.");
+            $(".loader").attr("aria-busy", "false");
         });
 });
 
@@ -61,6 +64,7 @@ $('#newEmail').focusout(function () {
     var res = patt.test(userEmail);
 
     if (res && userEmail !== currentEmail) {
+        $(".loader").attr("aria-busy", "true");
         $.post(
             '/action',
             {
@@ -76,9 +80,11 @@ $('#newEmail').focusout(function () {
                 } else {
                     isEmailOk = true;
                 }
+                $(".loader").attr("aria-busy", "false");
             })
             .fail(function () {
                 alert("Request failed.");
+                $(".loader").attr("aria-busy", "false");
             });
     }
 });
@@ -86,11 +92,13 @@ $('#newEmail').focusout(function () {
 var isPassportOk = true;
 
 $('#passportID').focusout(function () {
+
     var passportID = $('#passportID').val();
     var re = /[a-zA-Zа-яА-Я]{2}\d{7}/;
     var m;
 
     if ((m = re.exec(passportID)) !== null && passportID !== currentPassportId) {
+        $(".loader").attr("aria-busy", "true");
         $.post(
             '/action',
             {
@@ -106,10 +114,13 @@ $('#passportID').focusout(function () {
                 } else {
                     isPassportOk = true;
                 }
+                $(".loader").attr("aria-busy", "false");
             })
             .fail(function () {
                 alert("Request failed.");
+                $(".loader").attr("aria-busy", "false");
             });
     }
+    
 });
 

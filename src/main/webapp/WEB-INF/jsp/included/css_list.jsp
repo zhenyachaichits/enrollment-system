@@ -23,3 +23,5 @@
 <link href="../../content/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
 <link href="../../content/css/style.css" rel="stylesheet">
 <link href="../../content/css/snackbar.min.css" rel="stylesheet">
+
+<link href="../../content/css/material-loader.css" rel="stylesheet">

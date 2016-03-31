@@ -10,7 +10,7 @@ public class UserValidator {
 
     private static final int MIN_PASSWORD_LENGTH = 5;
 
-    private static final String EMAIL_PATTERN = "[a-zA-Z0-9_\\.]+@[a-zA-Z]+(\\..*)?";
+    private static final String EMAIL_PATTERN = "[a-zA-Z0-9_\\.-]+@[a-zA-Z0-9_-]+(\\..*)?";
 
     /**
      * Validate user.

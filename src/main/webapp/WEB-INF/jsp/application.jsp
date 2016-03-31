@@ -51,6 +51,11 @@
 <fmt:message bundle="${loc}" key="locale.data.personal.free" var="formLabel"/>
 <fmt:message bundle="${loc}" key="locale.data.personal.subject.message" var="subjectMessageLabel"/>
 
+<fmt:message bundle="${loc}" key="locale.modal.sure.title" var="sureTitle"/>
+<fmt:message bundle="${loc}" key="locale.modal.sure.description" var="sureDescription"/>
+<fmt:message bundle="${loc}" key="locale.modal.sure.confirm" var="sureConfirm"/>
+<fmt:message bundle="${loc}" key="locale.modal.sure.cancel" var="sureCancel"/>
+
 <html>
 <head>
     <title>${title}</title>
@@ -123,12 +128,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-md-offset-8">
-                <c:if test="${not application.confirmed}">
-                    <a href="javascript:deleteApplication.submit();"
-                       class="btn btn-raised btn-danger" style="background-color: #bd5050;">${deleteAppButton}</a>
-                </c:if>
             </div>
         </div>
 
@@ -424,6 +423,50 @@
             </div>
         </div>
     </form>
+
+    <c:if test="${not application.confirmed}">
+
+        <a href="javascript:void(0)"
+           style="position: fixed;
+                        box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+                        z-index: 25;
+                        bottom: 25px;
+                        right: 25px;
+                        background-color: #d23f31;
+                        height: 56px;
+                        width: 56px;
+                        outline: none;"
+           class="btn btn-danger btn-fab rounded-btn"
+           data-toggle="modal" data-target="#sureDelete"><i class="material-icons">delete</i></a>
+
+        <div id="sureDelete" class="modal fade in" tabindex="-1" style="display: none;">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content" style=" margin-top: 140px">
+                    <div class="modal-header">
+                        <button type="button" class="close btn btn-primary btn-fab small"
+                                data-dismiss="modal" aria-hidden="true"><i class="material-icons">close</i></button>
+                        <h4>${sureTitle}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="deleteFaculty" id="deleteFaculty" action="management" method="post" hidden>
+                            <input type="hidden" name="command" value="delete-faculty">
+                            <input type="hidden" name="facultyID" value="${faculty.id}">
+                        </form>
+                        <p>${sureDescription}</p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3 col-md-offset-7">
+                                    <a href="javascript:deleteApplication.submit();"
+                                       class="btn btn-raised btn-primary">${sureConfirm}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:if>
+
 </div>
 
 

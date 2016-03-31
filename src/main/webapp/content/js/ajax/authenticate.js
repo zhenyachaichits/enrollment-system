@@ -4,6 +4,7 @@
 
 
 function authenticateCookies() {
+    $(".loader").attr("aria-busy", "true");
     $('#newEmail').val("");
     $.post(
         '/home',
@@ -15,15 +16,18 @@ function authenticateCookies() {
             if (status != "negative") {
                 window.location.href = resp;
             }
+            $(".loader").attr("aria-busy", "false");
         })
         .fail(function () {
             alert("Request failed.");
+            $(".loader").attr("aria-busy", "false");
         });
 }
 
 
 $('#submit').click(function () {
 
+    $(".loader").attr("aria-busy", "true");
     var userEmail = $('#email').val();
     var userPassword = $('#password').val();
     var isRemembered = $('#remember').is(':checked');
@@ -44,8 +48,10 @@ $('#submit').click(function () {
             } else {
                 window.location.href = resp;
             }
+            $(".loader").attr("aria-busy", "false");
         })
         .fail(function () {
             alert("Request failed.");
+            $(".loader").attr("aria-busy", "false");
         });
 });

@@ -3,19 +3,21 @@
  */
 
 $("#subjects").focusout(function () {
-    if($("select option:selected").length != 4) {
+    if ($("select option:selected").length != 4) {
         $('#subjectsErrorMessage').snackbar('show');
         $("#subjects").focus();
-    } 
+    }
 });
 
 var currentFacultyName = $('#facultyName').val();
 $('#facultyName').focusout(function () {
+
     var facultyName = $('#facultyName').val();
     var re = /.{2,}/;
     var m;
 
     if ((m = re.exec(facultyName)) !== null && facultyName !== currentFacultyName) {
+        $(".loader").attr("aria-busy", "true");
         $.post(
             '/action',
             {
@@ -31,9 +33,11 @@ $('#facultyName').focusout(function () {
                 } else {
                     isPassportOk = true;
                 }
+                $(".loader").attr("aria-busy", "false");
             })
             .fail(function () {
                 alert("Request failed.");
+                $(".loader").attr("aria-busy", "false");
             });
     }
 });
