@@ -17,6 +17,7 @@
 <fmt:message bundle="${loc}" key="locale.page.statistics.table.points.free" var="freePointsLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.statistics.table.points.paid" var="paidPointsLabel"/>
 
+<fmt:message bundle="${loc}" key="locale.modal.signin.message.error" var="errorMessage"/>
 
 
 <html>
@@ -73,6 +74,11 @@
             </div>
         </div>
     </div>
+
+    <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+          data-content="${errorMessage}" data-timeout="4000"
+          data-snackbar-id="snackbar1454251274095"></span>
+
 </div>
 
 <%@include file="included/js_list.jsp" %>

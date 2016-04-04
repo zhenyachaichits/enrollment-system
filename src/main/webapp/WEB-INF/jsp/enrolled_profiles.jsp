@@ -22,6 +22,7 @@
 <fmt:message bundle="${loc}" key="locale.page.search.records" var="recordsLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.search.button.view" var="viewBtn"/>
 
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -109,7 +110,7 @@
                                             <form action="${command}" method="post" name="previousPage" hidden>
                                                 <input type="hidden" name="currentPage" value="${currentPage - 1}">
                                             </form>
-                                            <li><a href="javascript:previousPage.submit()">«</a></li>
+                                            <li><a class="pag-first" href="javascript:previousPage.submit()">«</a></li>
                                         </c:if>
 
                                         <c:forEach begin="1" end="${pagesNumber}" var="i">

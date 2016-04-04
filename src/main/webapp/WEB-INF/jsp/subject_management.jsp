@@ -17,6 +17,9 @@
 <fmt:message bundle="${loc}" key="locale.page.subjects.button.delete" var="deleteBtn"/>
 <fmt:message bundle="${loc}" key="locale.page.subjects.found" var="foundLabel"/>
 
+<fmt:message bundle="${loc}" key="locale.message.subjectexist" var="nameMessage"/>
+<fmt:message bundle="${loc}" key="locale.message.wrongfield" var="fieldMessage"/>
+
 <html>
 <head>
     <title>${title}</title>
@@ -55,7 +58,7 @@
                                             <input type="hidden" name="subjectID" value="${subject.id}">
                                             <td>
                                                 <div class="form-group" style="margin: 7px 0 0 0">
-                                                    <input class="form-control point" name="subjectName"
+                                                    <input class="form-control point subject-name saved" name="subjectName"
                                                            value="${subject.name}"/>
                                                 </div>
                                             </td>
@@ -106,13 +109,13 @@
                     <h4>${divHeader}</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="management" name="addUser" method="post">
+                    <form action="management" name="addUser" id="addUser" method="post">
                         <input type="hidden" name="command" value="create-subject">
                         <fieldset>
                             <div class="form-group">
-                                <label class="col-md-3 control-label" for="name">${nameLabel}</label>
+                                <label class="col-md-3 control-label" for="subjectName">${nameLabel}</label>
                                 <div class="col-md-8">
-                                    <input type="text" name="subjectName" id="name" class="form-control"
+                                    <input type="text" name="subjectName" id="subjectName" class="form-control subject-name"
                                            placeholder="${nameLabel}"
                                            required>
                                 </div>
@@ -131,7 +134,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12 col-md-offset-7">
-                                    <button class="btn btn-primary">${createBtn}</button>
+                                    <a class="btn btn-primary" id="addSubject">${createBtn}</a>
                                 </div>
                             </div>
                         </fieldset>
@@ -158,14 +161,14 @@
 </div>
 
     <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-          data-content="One or more records are incorrect" data-timeout="4000"
+          data-content="${fieldMessage}" data-timeout="4000"
           data-snackbar-id="snackbar1454251274095"></span>
-    <span id="emailErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-          data-content="Account with such Email already exists" data-timeout="4000"
+    <span id="nameErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
+          data-content="${nameMessage}" data-timeout="4000"
           data-snackbar-id="snackbar1454251274096"></span>
 
 <%@include file="included/js_list.jsp" %>
-<script src="content/js/user-management.js"></script>
+<script src="content/js/ajax/subject-management.js"></script>
 <script src="content/js/ajax/singup.js"></script>
 
 

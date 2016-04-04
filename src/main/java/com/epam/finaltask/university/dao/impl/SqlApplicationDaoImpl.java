@@ -30,6 +30,7 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
     private SqlApplicationDaoImpl() {
         connectionPool = ConnectionPool.getInstance();
     }
+
     public static class ApplicationDaoHolder {
         public static final SqlApplicationDaoImpl INSTANCE = new SqlApplicationDaoImpl();
     }
@@ -60,6 +61,9 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
             "profile_profile_id = ? AND status = 'ACTIVE'";
     private static final String RESET_APPLICATIONS_QUERY = "UPDATE application SET confirmed = FALSE WHERE " +
             "profile_faculty_faculty_id = ? AND status = 'ACTIVE'";
+    private static final String DELETE_BY_USER_ID = "UPDATE application INNER JOIN profile " +
+            "ON application.profile_profile_id = profile.profile_id SET application.status = 'DELETED' " +
+            "WHERE profile.user_user_id = ?";
 
     /**
      * Add new application and set profile applied status
@@ -342,5 +346,39 @@ public class SqlApplicationDaoImpl implements ApplicationDao {
             throw new DaoException("Couldn't process operation", e);
         }
     }
+
+    @Override
+    public boolean deleteUserProfile(long userId) throws DaoException {
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
+
+            PreparedStatement statement = connection.prepareStatement(DELETE_BY_USER_ID);
+            statement.setLong(1, userId);
+            int result = statement.executeUpdate();
+
+            return result != 0;
+        } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                LOG.error("Deleting application operation rollback failed", e);
+            }
+            throw new DaoException("Couldn't process operation", e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    LOG.error("Couldn't turn on autocommit after application deletion", e);
+                }
+                connectionPool.closeConnection(connection);
+            }
+        }
+    }
+
 
 }

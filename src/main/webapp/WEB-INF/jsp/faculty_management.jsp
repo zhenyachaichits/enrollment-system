@@ -19,6 +19,9 @@
 <fmt:message bundle="${loc}" key="locale.page.faculties.button.create" var="createBtn"/>
 <fmt:message bundle="${loc}" key="locale.page.faculties.found" var="foundLabel"/>
 
+<fmt:message bundle="${loc}" key="locale.message.facultyname" var="facultyMessage"/>
+<fmt:message bundle="${loc}" key="locale.message.wrongfield" var="errorMessage"/>
+<fmt:message bundle="${loc}" key="locale.message.subjects" var="subjectsMessage"/>
 
 <html>
 <head>
@@ -109,7 +112,7 @@
                     <h4>${divHeader}</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="management" name="addFaculty" method="post">
+                    <form action="management" name="addFaculty" id="createFacultyForm" method="post">
                         <input type="hidden" name="command" value="create-faculty">
                         <fieldset>
                             <div class="form-group">
@@ -126,7 +129,7 @@
                                 <div class="col-md-12">
                                     <input type="number" name="freeQuota" min="1" max="999"
                                            class="form-control point"
-                                           id="freeQuota" pattern="\d{1,3}">
+                                           id="freeQuota" value="1" pattern="\d{1,3}">
                                 </div>
                             </div>
 
@@ -138,7 +141,7 @@
                                 <div class="col-md-12">
                                     <input type="number" name="paidQuota" min="1" max="999"
                                            class="form-control point"
-                                           id="paidQuota" pattern="\d{1,3}">
+                                           id="paidQuota" value="1" pattern="\d{1,3}">
                                 </div>
                             </div>
 
@@ -174,7 +177,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-12 col-md-offset-7">
-                                    <button class="btn btn-primary">${createBtn}</button>
+                                    <a class="btn btn-primary" id="createFaculty">${createBtn}</a>
                                 </div>
                             </div>
                         </fieldset>
@@ -199,19 +202,18 @@
 
 </div>
 
-
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-      data-content="One or more records are incorrect" data-timeout="4000"
+      data-content="${errorMessage}" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
 <span id="nameErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-      data-content="This faculty name already user" data-timeout="4000"
+      data-content="${facultyMessage}" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
 <span id="subjectsErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-      data-content="You should choose 3 subjects" data-timeout="4000"
+      data-content="${subjectsMessage}" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
 
 <%@include file="included/js_list.jsp" %>
-<script src="content\js\ajax\faculty-management.js"></script>
+<script src="content/js/ajax/faculty-management.js"></script>
 
 
 </body>

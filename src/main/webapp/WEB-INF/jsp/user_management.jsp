@@ -22,6 +22,8 @@
 <fmt:message bundle="${loc}" key="locale.data.personal.email" var="emailLabel"/>
 <fmt:message bundle="${loc}" key="locale.data.personal.password" var="passwordLabel"/>
 
+<fmt:message bundle="${loc}" key="locale.message.emailexist" var="emailMessage"/>
+<fmt:message bundle="${loc}" key="locale.message.wrongfield" var="fieldMessage"/>
 
 <html>
 <head>
@@ -99,7 +101,7 @@
                                     <form action="${command}" method="post" name="previousPage" hidden>
                                         <input type="hidden" name="currentPage" value="${currentPage - 1}">
                                     </form>
-                                    <li><a href="javascript:previousPage.submit()">«</a></li>
+                                    <li><a class="pag-first" href="javascript:previousPage.submit()">«</a></li>
                                 </c:if>
 
                                 <c:forEach begin="1" end="${pagesNumber}" var="i">
@@ -111,12 +113,11 @@
                                                     href="javascript:void(0)">${i}</a></li>
                                         </c:when>
                                         <c:otherwise>
-                                            <form action="${command}" method="post" id="change${i}" name="change"
+                                            <form action="${command}" method="post" id="change${i}" name="change${i}"
                                                   hidden>
                                                 <input type="hidden" name="currentPage" value="${i}">
                                             </form>
-                                            <li><a href="javascript:void(0)"
-                                                   onclick="('form:#change${i}').submit()">${i}</a></li>
+                                            <li><a href="javascript:change${i}.submit()">${i}</a></li>
                                         </c:otherwise>
                                     </c:choose>
                                 </c:forEach>
@@ -216,10 +217,10 @@
 </div>
 
     <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-          data-content="One or more records are incorrect" data-timeout="4000"
+          data-content="${fieldMessage}" data-timeout="4000"
           data-snackbar-id="snackbar1454251274095"></span>
     <span id="emailErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-          data-content="Account with such Email already exists" data-timeout="4000"
+          data-content="${emailMessage}" data-timeout="4000"
           data-snackbar-id="snackbar1454251274096"></span>
 
 <%@include file="included/js_list.jsp" %>

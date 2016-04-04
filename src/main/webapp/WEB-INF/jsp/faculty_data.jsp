@@ -35,6 +35,10 @@
 <fmt:message bundle="${loc}" key="locale.page.search.records" var="recordsLabel"/>
 <fmt:message bundle="${loc}" key="locale.page.search.button.view" var="viewBtn"/>
 
+<fmt:message bundle="${loc}" key="locale.message.facultyname" var="facultyMessage"/>
+<fmt:message bundle="${loc}" key="locale.message.wrongfield" var="errorMessage"/>
+<fmt:message bundle="${loc}" key="locale.message.subjects" var="subjectsMessage"/>
+
 <html>
 <head>
     <title>${faculty.name}</title>
@@ -266,13 +270,13 @@
 
 
 <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-      data-content="One or more records are incorrect" data-timeout="4000"
+      data-content="${errorMessage}" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
 <span id="nameErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-      data-content="This faculty name already user" data-timeout="4000"
+      data-content="${facultyMessage}" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
 <span id="subjectsErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-      data-content="You should choose 3 subjects" data-timeout="4000"
+      data-content="${subjectsMessage}" data-timeout="4000"
       data-snackbar-id="snackbar1454251274095"></span>
 
 <%@include file="included/js_list.jsp" %>

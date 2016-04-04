@@ -8,6 +8,7 @@ import com.epam.finaltask.university.controller.command.CommandName;
 import com.epam.finaltask.university.controller.command.exception.CommandException;
 import com.epam.finaltask.university.controller.command.exception.InvalidDataException;
 import com.epam.finaltask.university.controller.util.AccessManager;
+import com.epam.finaltask.university.service.concurrent.LockingApplicationService;
 import com.epam.finaltask.university.service.concurrent.LockingStudentService;
 import com.epam.finaltask.university.service.concurrent.LockingUserService;
 import com.epam.finaltask.university.service.exception.ServiceException;
@@ -44,8 +45,11 @@ public class DeleteUserCommand implements Command {
 
             boolean isDeleted;
             if (userType == UserType.STUDENT) {
-                LockingStudentService service = LockingStudentService.getInstance();
-                isDeleted = service.deleteAccount(userId);
+                LockingStudentService studentService = LockingStudentService.getInstance();
+                isDeleted = studentService.deleteAccount(userId);
+
+                LockingApplicationService applicationService = LockingApplicationService.getInstance();
+                applicationService.deleteApplicationByUserId(userId);
             } else {
                 LockingUserService service = LockingUserService.getInstance();
                 isDeleted = service.deleteUser(userId);

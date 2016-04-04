@@ -16,7 +16,7 @@ import java.util.concurrent.Executor;
 /**
  * Connection pool.
  */
-public class ConnectionPool {
+public final class ConnectionPool {
 
     private static final Logger LOG = LogManager.getLogger(ConnectionPool.class.getClass());
 

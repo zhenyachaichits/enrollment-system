@@ -42,6 +42,9 @@
 <fmt:message bundle="${loc}" key="locale.data.personal.free" var="formLabel"/>
 <fmt:message bundle="${loc}" key="locale.data.personal.subject.message" var="subjectMessageLabel"/>
 
+<fmt:message bundle="${loc}" key="locale.message.wrongfield" var="errorMessage"/>
+<fmt:message bundle="${loc}" key="locale.message.emailexist" var="emailMessage"/>
+<fmt:message bundle="${loc}" key="locale.message.passportexist" var="passportMessage"/>
 
 <html>
 <head>
@@ -359,13 +362,13 @@
     </form>
 
     <span id="errorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-          data-content="One or more records are incorrect" data-timeout="4000"
+          data-content="${errorMessage}" data-timeout="4000"
           data-snackbar-id="snackbar1454251274095"></span>
     <span id="emailErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-          data-content="Account with such Email already exists" data-timeout="4000"
+          data-content="${emailMessage}" data-timeout="4000"
           data-snackbar-id="snackbar1454251274096"></span>
     <span id="passportErrorMessage" class="btn btn-material-deeppurple" data-toggle="snackbar"
-          data-content="Account with such Passport ID already exists" data-timeout="4000"
+          data-content="${passportMessage}" data-timeout="4000"
           data-snackbar-id="snackbar1454251274097"></span>
 </div>
 

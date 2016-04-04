@@ -37,6 +37,7 @@ public class CommandHolder {
         commandMap.put(CommandName.CHECK_EMAIL, new CheckEmailExistenceCommand());
         commandMap.put(CommandName.CHECK_PASSPORT_ID, new CheckPassportIdExistenceCommand());
         commandMap.put(CommandName.CHECK_FACULTY_NAME, new CheckFacultyNameExistenceCommand());
+        commandMap.put(CommandName.CHECK_SUBJECT_NAME, new CheckSubjectNameExistenceCommand());
 
         commandMap.put(CommandName.AUTHENTICATE, new AuthenticateUserCommand());
         commandMap.put(CommandName.COOKIE_AUTHENTICATE, new AuthenticateWithCookieCommand());

@@ -31,8 +31,11 @@ public class LogOutCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession();
 
+        //session.invalidate();
+
         session.removeAttribute(SessionParameterName.EMAIL);
         session.removeAttribute(SessionParameterName.ROLE);
+        session.removeAttribute(SessionParameterName.CURRENT_PAGE);
 
         Cookie[] cookies = request.getCookies();
         for (int i = 0; i < cookies.length; i++) {

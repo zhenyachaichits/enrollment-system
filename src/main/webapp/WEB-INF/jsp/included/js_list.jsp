@@ -11,8 +11,8 @@
 <fmt:setBundle basename="locale" var="loc"/>
 <fmt:message bundle="${loc}" key="locale.data.current" var="lang"/>
 
-<script src="//code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="content/js/jquery-latest.min.js" type="text/javascript"></script>
+<script src="content/js/bootstrap.min.js"></script>
 <script src="content/js/ripples.min.js"></script>
 <script src="content/js/dropdown.js"></script>
 <script src="content/js/material.min.js"></script>

@@ -13,7 +13,6 @@ import com.epam.finaltask.university.service.exception.InvalidServiceDataExcepti
 import com.epam.finaltask.university.service.exception.ServiceException;
 import com.epam.finaltask.university.validator.ApplicationValidator;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -92,6 +91,20 @@ public class LockingApplicationService {
             }
         } else {
             throw new InvalidServiceDataException("Deletion is not available. Operation Stopped");
+        }
+    }
+
+    public boolean deleteApplicationByUserId(long userId) throws ServiceException {
+        ApplicationService service = ApplicationService.getInstance();
+        lock.lock();
+        try {
+            ApplicationDao dao = DaoFactory.getDaoFactory().getApplicationDao();
+
+            return dao.deleteUserProfile(userId);
+        } catch (DaoException | DaoFactoryException e) {
+            throw new ServiceException("Couldn't provide application deleting service", e);
+        } finally {
+            lock.unlock();
         }
     }
 

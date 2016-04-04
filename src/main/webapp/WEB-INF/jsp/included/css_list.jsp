@@ -10,11 +10,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Material Design fonts -->
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="../../content/css/icon-style.css" type="text/css">
+<link href="../../content/css/icon.css" rel="stylesheet">
 
 <!-- Bootstrap -->
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<link href="../../content/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Bootstrap Material Design -->
 <link href="../../content/css/dropdown.css" rel="stylesheet">
