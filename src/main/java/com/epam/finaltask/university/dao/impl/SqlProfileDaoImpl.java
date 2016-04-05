@@ -53,6 +53,8 @@ public class SqlProfileDaoImpl implements ProfileDao {
             "WHERE status = 'ACTIVE' AND applied = TRUE LIMIT ?, ?";
     private static final String CHECK_UPDATE_AVAILABILITY_QUERY = "SELECT profile_id FROM profile " +
             "WHERE user_user_id <> ? AND passport_id = ? AND status = 'ACTIVE'";
+    private static final String CHECK_IF_APPLIED = "SELECT * from profile WHERE user_user_id = ? AND " +
+            "status = 'ACTIVE' AND applied = TRUE";
     private static final String GET_COUNT_QUERY = "SELECT FOUND_ROWS()";
     private static final String GET_FOR_APPLY_QUERY = "SELECT profile.* FROM application INNER JOIN profile " +
             "ON profile.profile_id = application.profile_profile_id WHERE profile.free_form = ? AND " +
@@ -217,12 +219,30 @@ public class SqlProfileDaoImpl implements ProfileDao {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(CHECK_UPDATE_AVAILABILITY_QUERY);
         ) {
-            statement.setLong(1, profile.getUserId());
-            statement.setString(2, profile.getPassportId());
+            long userId = profile.getUserId();
+
+            if (!checkApplied(connection, userId)) {
+                statement.setLong(1, userId);
+                statement.setString(2, profile.getPassportId());
+
+                ResultSet resultSet = statement.executeQuery();
+                return !resultSet.next();
+            }
+            return false;
+        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            throw new DaoException("Couldn't process operation", e);
+        }
+    }
+
+    private boolean checkApplied(Connection connection, long userId) throws DaoException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(CHECK_IF_APPLIED);
+        ) {
+            statement.setLong(1, userId);
 
             ResultSet resultSet = statement.executeQuery();
-            return !resultSet.next();
-        } catch (IllegalArgumentException | ConnectionPoolException | SQLException e) {
+            return resultSet.next();
+        } catch (SQLException e) {
             throw new DaoException("Couldn't process operation", e);
         }
     }
