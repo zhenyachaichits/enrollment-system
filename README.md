@@ -1,8 +1,3 @@
-# FINAL TASK #
+# University enrollment system #
 
-Web application on Java using JSP and Servlet technologies.
-
-### Project info: ###
-
-* Theme: automated enrollment system
-* Version: 0.9
+Final task from EPAM Java Web training.
